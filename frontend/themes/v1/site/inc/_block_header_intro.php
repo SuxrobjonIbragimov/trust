@@ -1,17 +1,18 @@
 <?php
 
 use backend\models\sliders\SliderItems;
+use backend\models\sliders\Sliders;
+use backend\modules\policy\models\CheckPolicy;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $model \backend\modules\policy\models\CheckPolicy */
+/* @var $model CheckPolicy */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $slider \backend\models\sliders\Sliders */
-/* @var $sliderItems \backend\models\sliders\SliderItems */
-/* @var $sliderItem \backend\models\sliders\SliderItems */
+/* @var $slider Sliders */
+/* @var $sliderItems SliderItems */
+/* @var $sliderItem SliderItems */
 
 ?>
-
 <!--========================================================================-->
 <!-- |HEADER INTRO | SLIDER| -->
 <!--========================================================================-->
@@ -40,7 +41,7 @@ use yii\helpers\Url;
                                     </p>
                                     <a href="<?= $sliderItem->link ?>"
                                        target="_blank"
-                                       class="media-btn-class btn btn-outline-secondary rounded-2 d-inline-block rounded-0 text-uppercase fs-5 fw-bold px-4 py-2 mt-2">
+                                       class="btn btn-outline-primary rounded-2 d-inline-block rounded-0 text-uppercase fs-5 fw-bold px-4 py-2 mt-2">
                                         <?= Yii::t('frontend', 'Подробнее') ?>
                                     </a>
                                 </div>

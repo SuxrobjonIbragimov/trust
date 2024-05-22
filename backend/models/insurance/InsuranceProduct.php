@@ -107,7 +107,7 @@ class InsuranceProduct extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'summary', 'icon', 'description', ], 'required'],
+            [['title', 'summary','description', ], 'required'],
             [['subtitle', 'summary', 'description', 'slug', 'meta_description'], 'string'],
             [['parent_id', 'created_at', 'updated_at'], 'default', 'value' => null],
             [['parent_id', 'views', 'weight', 'status', 'created_at', 'updated_at'], 'integer'],

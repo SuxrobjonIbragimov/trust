@@ -1,6 +1,6 @@
 // Header Intro | Swiper ************************************ */
 if ($(".headerIntro").length) {
-    var swiper = new Swiper(".headerIntro", {
+    let swiper = new Swiper(".headerIntro", {
         autoplay: {
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
@@ -19,7 +19,7 @@ if ($(".headerIntro").length) {
 /* ########################################################## */
 // Insurance type | Swiper ********************************** */
 if ($(".insuranceType").length) {
-    var swiper = new Swiper(".insuranceType", {
+    let swiper = new Swiper(".insuranceType", {
         autoplay: {
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
@@ -33,37 +33,22 @@ if ($(".insuranceType").length) {
             // when window width is >= 320px
             320: {
                 slidesPerView: 1,
-                // spaceBetween: 20
-            },
-            // when window width is >= 480px
-            480: {
-                slidesPerView: 1,
-                spaceBetween: 5
+                spaceBetween: 25
             },
             // when window width is >= 640px
-            640: {
+            576: {
                 slidesPerView: 1,
-                spaceBetween: 5
+                spaceBetween: 25
             },
             // when window width is >= 768px
             768: {
-                slidesPerView: 1,
-                spaceBetween: 5
+                slidesPerView: 2,
+                spaceBetween: 25
             },
-            // when window width is >= 768px
+            // when window width is >= 1024px
             992: {
-                slidesPerView: 2,
-                spaceBetween: 5
-            },
-            // when window width is >= 1024px
-            1024: {
-                slidesPerView: 2,
-                spaceBetween: 10
-            },
-            // when window width is >= 1024px
-            1200: {
                 slidesPerView: 3,
-                spaceBetween: 10
+                spaceBetween: 30
             },
         },
         navigation: {
@@ -76,13 +61,13 @@ if ($(".insuranceType").length) {
 /* ########################################################## */
 // Partners | Swiper ********************************** */
 if ($(".partnersSlider").length) {
-    var swiper = new Swiper(".partnersSlider", {
+    let swiper = new Swiper(".partnersSlider", {
         autoplay: {
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
             delay: 3000,
         },
-        speed: 2000,
+        speed: 900,
         slidesPerView: 6,
         grabCursor: true,
         loop: true,
@@ -98,13 +83,17 @@ if ($(".partnersSlider").length) {
                 spaceBetween: 5
             },
             // when window width is >= 640px
-            640: {
-                slidesPerView: 2,
+            575: {
+                slidesPerView: 3,
                 spaceBetween: 5
             },
             // when window width is >= 768px
             768: {
                 slidesPerView: 4,
+                spaceBetween: 5
+            },
+            992: {
+                slidesPerView: 5,
                 spaceBetween: 5
             },
             // when window width is >= 1024px
@@ -122,11 +111,9 @@ if ($(".partnersSlider").length) {
 
 /* ********************************************************** */
 /* ########################################################## */
-
-/* ########################################################## */
 // Latest News | Swiper ********************************** */
 if ($(".latestNew").length) {
-    var swiper = new Swiper(".latestNew", {
+    let swiper = new Swiper(".latestNew", {
         autoplay: {
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
@@ -140,74 +127,22 @@ if ($(".latestNew").length) {
             // when window width is >= 320px
             320: {
                 slidesPerView: 1,
-                // spaceBetween: 20
-            },
-            // when window width is >= 480px
-            480: {
-                slidesPerView: 1,
-                spaceBetween: 5
+                spaceBetween: 25
             },
             // when window width is >= 640px
-            640: {
+            576: {
                 slidesPerView: 1,
-                spaceBetween: 5
+                spaceBetween: 25
             },
             // when window width is >= 768px
             768: {
                 slidesPerView: 2,
-                spaceBetween: 5
+                spaceBetween: 25
             },
             // when window width is >= 1024px
-            1024: {
+            992: {
                 slidesPerView: 3,
-                spaceBetween: 10
-            },
-        },
-        navigation: {
-            nextEl: ".swiper-new-btn-next",
-            prevEl: ".swiper-new-btn-prev",
-        },
-    });
-}
-/* ********************************************************** */
-// commentUsers  | Swiper ********************************** */
-if ($(".commentsUsers").length) {
-    var swiper = new Swiper(".commentsUsers" +
-        "", {
-        autoplay: {
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-            delay: 2600,
-        },
-        speed: 2000,
-        slidesPerView: 1,
-        grabCursor: true,
-        loop: true,
-        breakpoints: {
-            // when window width is >= 320px
-            320: {
-                slidesPerView: 1,
-                // spaceBetween: 20
-            },
-            // when window width is >= 480px
-            480: {
-                slidesPerView: 1,
-                spaceBetween: 5
-            },
-            // when window width is >= 640px
-            640: {
-                slidesPerView: 1,
-                spaceBetween: 5
-            },
-            // when window width is >= 768px
-            768: {
-                slidesPerView: 1,
-                spaceBetween: 5
-            },
-            // when window width is >= 1024px
-            1024: {
-                slidesPerView: 2,
-                spaceBetween: 10
+                spaceBetween: 30
             },
         },
         navigation: {
@@ -218,27 +153,24 @@ if ($(".commentsUsers").length) {
 }
 /* ********************************************************** */
 /* ########################################################## */
-// HEADER TOP | SEARCH INPUT AUTOFOCUS ********************** */
-
+// Header top | search input autofocus ********************** */
 if ($(".search-action").length) {
     $(".search-action").click(function () {
         // $(".search-action-input").attr("autofocus", "autofocus");
         // $(".search-action-input").autocomplete({
         //     autoFocus: true
         // });
-        var interval = 500;
+        let interval = 500;
         setTimeout(() => {
             $('.search-action-input').focus();
             console.log('work');
         }, interval);
     });
 }
-
 /* ********************************************************** */
 /* ########################################################## */
-/* !!! BU FUNKSIYA HOZIRCHGA OCHIRILIB TURILIBDI ************ */
-/* KLAVITURA ORQALI(SHORTCUT) SEARCH MODALINI OCHISH ******** */
-
+/* !!! Bu funksiya hozirchga ochirilib turilibdi************* */
+/* Klavitura orqali(shortcut) search modalini ochish ******** */
 if ($(".modal-shortcut").length === false) {
     $(document).keydown(function (evt) {
         if (evt.keyCode == 108 && (evt.ctrlKey)) {
@@ -267,12 +199,12 @@ if ($(".modal-shortcut").length === false) {
                 $('.modal-shortcut').attr("role", "dialog");
                 $('.modal-shortcut').attr("style", "display: block;");
                 // create a paragraph element
-                var modalBottom = $("<div class='modal-backdrop fade show'></div>");
+                let modalBottom = $("<div class='modal-backdrop fade show'></div>");
 
                 // append the paragraph to the parent
                 $("body").append(modalBottom);
                 // <div class="modal-backdrop fade show"></div>
-                var interval = 500;
+                let interval = 500;
                 setInterval(() => {
                     $('.search-action-input').focus();
                 }, interval);
@@ -287,22 +219,20 @@ if ($(".modal-shortcut").length === false) {
                 $('.modal-shortcut').removeAattr("role", "dialog");
                 $('.modal-shortcut').removeAattr("style", "display: block;");
                 // create a paragraph element
-                var modalBottom = $("<div class='modal-backdrop fade show'></div>");
+                let modalBottom = $("<div class='modal-backdrop fade show'></div>");
                 modalBottom.html = "";
                 // append the paragraph to the parent
                 // $("body").append(modalBottom);
             })
-
             console.log('worked');
         }
     });
 }
-
 /* ********************************************************** */
 /* ########################################################## */
-/* COMMENT | SWIPER ***************************************** */
+/* Comment | Swiper ******************************************** */
 if ($(".commentUsers").length) {
-    var swiper = new Swiper(".commentUsers", {
+    let swiper = new Swiper(".commentUsers", {
         autoplay: {
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
@@ -312,6 +242,38 @@ if ($(".commentUsers").length) {
         slidesPerView: 2,
         grabCursor: true,
         loop: true,
+        breakpoints: {
+            // when window width is >= 320px
+            320: {
+                slidesPerView: 1,
+                // spaceBetween: 20
+            },
+            // when window width is >= 480px
+            480: {
+                slidesPerView: 1,
+                spaceBetween: 5
+            },
+            // when window width is >= 640px
+            640: {
+                slidesPerView: 1,
+                spaceBetween: 5
+            },
+            // when window width is >= 768px
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 5
+            },
+            // when window width is >= 1200px
+            1200: {
+                slidesPerView: 3,
+                spaceBetween: 10
+            },
+            // when window width is >= 1400px
+            1400: {
+                slidesPerView: 4,
+                spaceBetween: 10
+            },
+        },
         navigation: {
             nextEl: ".swiper-new-btn-next",
             prevEl: ".swiper-new-btn-prev",
@@ -319,23 +281,26 @@ if ($(".commentUsers").length) {
         },
     });
 }
+
 // Test
+
+
 /* ********************************************************** */
 /* ########################################################## */
-/* VOICE ON MODE ******************************************** */
-/* MODAL OKNA ZVUKOVOY EFFECT UCHUN ************************* */
-
+/* Voice on mode ******************************************** */
+/* Modal okna zvukovoy effect uchun ************************* */
 let Voicemode = localStorage.getItem("Voicemode");
-var voiceTop = document.querySelector(".voiceOn");
-var timeCloseModalAlert = 1000;
+let voiceTop = document.querySelector(".voiceOn");
+let timeCloseModalAlert = 1000;
 let voiceOn = false;
 let voiceCheck = true;
-var voiceModeControl = document.querySelector(".voiceModeControl");
+let voiceModeControl = document.querySelector(".voiceModeControl");
 const voiceModeToggle = document.querySelector(".mode__voice");
 let voiceSaveToggle = document.querySelector(".voicemode input[type='checkbox']");
 
-/* BARCHA MATNLARNI OVOZLARNI ******************************* */
-/* IJRO ETUVCHI FUNKSIYALAR SHUNI ICHIDA ******************** */
+/* Barcha matnlarni ovozlarni ******************************* */
+
+/* ijro etuvchi funksiyalar shuni ichida ******************** */
 function ifActiveVoice() {
     if (!voiceOn) {
         // Malum secundan keyin sahifa yangilanadi
@@ -355,14 +320,14 @@ function ifActiveVoice() {
             // Некоторые конфиги...
             // Ba'zi konfiguratsiyalar ...
 
-            var voiceSelect = document.getElementById("voiceSelect");
-            var myPhrase = ' ';
-            var voices = []; // This is essentially similar to jQuery's $.ready.
+            let voiceSelect = document.getElementById("voiceSelect");
+            let myPhrase = ' ';
+            let voices = []; // This is essentially similar to jQuery's $.ready.
             // По сути, это похоже на $.ready в jQuery.
             // Bu mohiyatan jQuery $.ready dasturiga o'xshaydi.
 
-            var ready = function (callback) {
-                var d = document,
+            let ready = function (callback) {
+                let d = document,
                     s = d.readyState; // DOMContentLoaded was fired
                 // DOMContentLoaded был запущен
                 // DOMContentLoaded ishdan bo'shatildi
@@ -384,8 +349,8 @@ function ifActiveVoice() {
             function populateVoiceList() {
                 voices = speechSynthesis.getVoices();
 
-                for (var i = 0; i < voices.length; i++) {
-                    var option = document.createElement('option');
+                for (let i = 0; i < voices.length; i++) {
+                    let option = document.createElement('option');
                     option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
                     option.textContent += voices[i].default ? ' -- DEFAULT' : '';
                     option.setAttribute('data-lang', voices[i].lang);
@@ -398,10 +363,10 @@ function ifActiveVoice() {
 
 
             function handler() {
-                var utterThis = new SpeechSynthesisUtterance(myPhrase);
-                var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+                let utterThis = new SpeechSynthesisUtterance(myPhrase);
+                let selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
 
-                for (var i = 0; i < voices.length; i++) {
+                for (let i = 0; i < voices.length; i++) {
                     if (voices[i].name === selectedOption) {
                         utterThis.voice = voices[i];
                     }
@@ -439,8 +404,8 @@ function ifActiveVoice() {
             function fnBrowserDetect() {
                 let userAgent = navigator.userAgent;
                 let browserName;
-                var button = document.querySelector(".btn-voice");
-                var detectBrowser = document.querySelector(".detect");
+                let button = document.querySelector(".btn-voice");
+                let detectBrowser = document.querySelector(".detect");
 
                 if (userAgent.match(/chrome|chromium|crios/i)) {
                     button.addEventListener("click", () => {
@@ -494,7 +459,7 @@ function ifActiveVoice() {
 
 
             function getSelectionText() {
-                var text = "";
+                let text = "";
 
                 if (window.getSelection) {
                     text = window.getSelection().toString().trim(); // for Internet Explorer 8 and below. For Blogger, you should use &amp;&amp; instead of &&.
@@ -533,6 +498,7 @@ function ifActiveVoice() {
         })();
     }
 }
+
 const enableVoiceMode = () => {
     voiceTop.classList.add("active");
     voiceModeControl.classList.add("active");
@@ -577,15 +543,14 @@ voiceTop.addEventListener("click", () => {
 });
 /* ********************************************************** */
 /* ########################################################## */
-/* FONT SIZE INCREMINE OR DECREMINE ************************* */
+/* Font size incremine or decremine ************************* */
 $(document).ready(function () {
     let plus5Max = '22px';
     let minus5Min = '16px';
     let decrease = document.querySelector(".decremet");
     let increase = document.querySelector(".increment");
     let currentSize = document.getElementById("currentSize");
-    var curFontSize = localStorage["FontSize"];
-
+    let curFontSize = localStorage["FontSize"];
     if (curFontSize) {
         //set to previously saved fontsize if available
         $('.dataFont').css('font-size', curFontSize);
@@ -606,7 +571,7 @@ $(document).ready(function () {
 
     }
     $(".increaseFont,.decreaseFont,.resetFont").click(function () {
-        var type = $(this).val();
+        let type = $(this).val();
         curFontSize = $('.dataFont').css('font-size');
         if (type === 'increase') {
             decrease.classList.remove('active-last');
@@ -642,17 +607,13 @@ $(document).ready(function () {
 });
 /* ********************************************************** */
 /* ########################################################## */
-/* DARK LIGHT MODE BILAN ULANISHLAR ************************* */
+/* Dark light mode bilan ulanishlar ************************* */
 let darkMode = localStorage.getItem("darkMode");
 const darkModeToggle = document.querySelector(".mode__theme");
 let svgNone = document.querySelectorAll(".svg-none");
 let saveToggle = document.querySelector(".darkmode input[type='checkbox']");
-var modeTop = document.querySelector(".modeOn");
-let modeOn = false;
-let modeCheck = true;
 
 const enableDarkMode = () => {
-    modeTop.classList.add("active");
     document.documentElement.classList.add("blind");
     darkModeToggle.classList.add("active");
     saveToggle.setAttribute("checked", "true");
@@ -662,14 +623,10 @@ const enableDarkMode = () => {
         element.style.display = "none";
     }
 
-    modeOn = true;
-    modeCheck = true;
-
     localStorage.setItem("darkMode", "enabled");
 };
 
 const disableDarkMode = () => {
-    modeTop.classList.remove("active");
     document.documentElement.classList.remove("blind");
     darkModeToggle.classList.remove("active");
     saveToggle.setAttribute("checked", "false");
@@ -678,26 +635,12 @@ const disableDarkMode = () => {
         element.style.display = "block";
     }
 
-    modeOn = false;
-    modeCheck = false;
-
     localStorage.setItem("darkMode", null);
 };
 
 if (darkMode === 'enabled') {
     enableDarkMode();
 }
-
-// modeTop.addEventListener("click", () => {
-//     if (!darkMode) {
-//         enableDarkMode();
-//     } else {
-//         disableDarkMode();
-//
-//     }
-//
-//     /*ifActiveVoice();*/
-// });
 
 function disableScroll() {
     // Get the current page scroll position
@@ -711,11 +654,11 @@ function disableScroll() {
 }
 
 function enableScroll() {
-    window.onscroll = function () { };
+    window.onscroll = function () {
+    };
 }
 
 darkModeToggle.addEventListener("click", () => {
-
     darkMode = localStorage.getItem("darkMode");
 
     if (darkMode !== 'enabled') {
@@ -728,13 +671,13 @@ darkModeToggle.addEventListener("click", () => {
 /* ********************************************************** */
 /* ########################################################## */
 /* Header Fixed ***********************************************/
-if ($("#myHeader").length) {
+if ($("#sticky-menu").length) {
     window.onscroll = function () {
         myFunction()
     };
 
-    var header = document.getElementById("myHeader");
-    var sticky = header.offsetTop;
+    let header = document.getElementById("sticky-menu");
+    let sticky = header.offsetTop;
 
     function myFunction() {
         if (window.pageYOffset > sticky) {
@@ -755,9 +698,9 @@ if ($("#scroll-up").length) {
         if (this.scrollY >= 350) scrollUp.classList.add('show-scroll');
         else scrollUp.classList.remove('show-scroll')
     }
+
     window.addEventListener('scroll', scrollUp)
 }
-
 
 
 /* ********************************************************** */
@@ -780,15 +723,14 @@ $(document).ready(function () {
 
 /* ********************************************************** */
 /* ########################################################## */
-/* Bootstrap Notify *******************************************/
-
+/* Bootstrap Notify ***********************************************/
 $('.voiceOn').click(function () {
     if ($(".voiceOn").hasClass("active")) {
         console.log('Work');
         $.notify({
             // options
             icon: 'bx bx-volume-full bx-sm',
-            title: 'Ovozli rejmda o’qish - Yoqildi',
+            title: 'Ovozli rejmda o’qish',
             message: 'Siz matnni ovozli rejimda o’qishni yoqdingiz, kerakli matnni belgilang va paydo bo’lgan tugmachani bosing !',
             // url: 'https://github.com/mouse0270/bootstrap-notify',
             // target: '_blank'
@@ -835,7 +777,7 @@ $('.voiceOn').click(function () {
         $.notify({
             // options
             icon: 'bx bx-volume-mute bx-sm',
-            title: 'Ovozli rejmda o’qish - O\'chirildi',
+            title: 'Ovozli rejmda o’qish',
             message: 'Siz matnni ovozli rejimda o’qishni o’chirdingiz !',
             // url: 'https://github.com/mouse0270/bootstrap-notify',
             // target: '_blank'
@@ -883,102 +825,4 @@ $('.voiceOn').click(function () {
 
 /* ********************************************************** */
 /* ########################################################## */
-/* Bootstrap Notify *******************************************/
-$('.modeOn').click(function () {
-    if ($(".modeOn").hasClass("active")) {
-        console.log('Work');
-        $.notify({
-            // options
-            icon: 'bx bx-moon bx-sm',
-            title: 'Tungu rejim - Yoqildi',
-            message: 'Saytda tunga rejim ishga tushdi !',
-            // url: 'https://github.com/mouse0270/bootstrap-notify',
-            // target: '_blank'
-        }, {
-            // settings
-            element: 'body',
-            // position: null,
-            type: "info",
-            // allow_dismiss: true,
-            // newest_on_top: false,
-            showProgressbar: false,
-            placement: {
-                from: "top",
-                align: "right"
-            },
-            offset: 20,
-            spacing: 10,
-            z_index: 9999,
-            delay: 3500,
-            timer: 1000,
-            url_target: '_blank',
-            mouse_over: null,
-            animate: {
-                enter: 'animated fadeInDown',
-                exit: 'animated fadeOutRight'
-            },
-            onShow: null,
-            onShown: null,
-            onClose: null,
-            onClosed: null,
-            icon_type: 'class',
-            // template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-            //     '<button type="button" aria-hidden="true" class="close btn p-2 border-0 bg-transparent bx-md" data-notify="dismiss">×</button>' +
-            //     '<span data-notify="icon"></span> ' +
-            //     '<span data-notify="title">{1}</span> ' +
-            //     '<span data-notify="message">{2}</span>' +
-            //     '<div class="progress" data-notify="progressbar">' +
-            //     '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-            //     '</div>' +
-            //     '<a href="{3}" target="{4}" data-notify="url"></a>' +
-            //     '</div>'
-        });
-    } else {
-        $.notify({
-            // options
-            icon: 'bx bx-sun bx-sm',
-            title: 'Kunduzgi rejim - Yoqildi',
-            message: 'Saytda kunduzgi rejim ishga tushdi !',
-            // url: 'https://github.com/mouse0270/bootstrap-notify',
-            // target: '_blank'
-        }, {
-            // settings
-            element: 'body',
-            // position: null,
-            type: "info",
-            // allow_dismiss: true,
-            // newest_on_top: false,.,?
-            showProgressbar: false,
-            placement: {
-                from: "top",
-                align: "right"
-            },
-            offset: 20,
-            spacing: 10,
-            z_index: 9999,
-            delay: 3500,
-            timer: 100000,
-            url_target: '_blank',
-            mouse_over: null,
-            animate: {
-                enter: 'animated fadeInDown',
-                exit: 'animated fadeOutRight'
-            },
-            onShow: null,
-            onShown: null,
-            onClose: null,
-            onClosed: null,
-            icon_type: 'class',
-            // template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-            //     '<button type="button" aria-hidden="true" class="close btn p-2 border-0 bg-transparent bx-md" data-notify="dismiss"><i  class=\'bx bx-x\'></i></button>' +
-            //     '<span data-notify="icon"></span> ' +
-            //     '<span data-notify="title">{1}</span> ' +
-            //     '<span data-notify="message">{2}</span>' +
-            //     '<div class="progress" data-notify="progressbar">' +
-            //     '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-            //     '</div>' +
-            //     '<a href="{3}" target="{4}" data-notify="url"></a>' +
-            //     '</div>'
-        });
-    }
-})
+/* Bootstrap Notify ***********************************************/

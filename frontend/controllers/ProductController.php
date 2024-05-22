@@ -20,6 +20,7 @@ class ProductController extends Controller
     {
         return $this->render('index', [
             'legal_type_list' => HandbookLegalType::_getItemsList(),
+            'type' => Yii::$app->request->get('type') ?? 1
         ]);
     }
 

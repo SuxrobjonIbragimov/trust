@@ -1,23 +1,32 @@
 <?php
 
+
+use backend\models\comment\Comments;
+use backend\models\insurance\InsuranceProduct;
+use backend\models\parts\HtmlParts;
+use backend\models\post\PostCategories;
+use backend\models\post\Posts;
+use backend\models\review\Contact;
+use backend\models\sliders\Sliders;
+
 /* @var $this yii\web\View */
 /* @var $title string */
 /* @var $logo string */
 /* @var $metaKeywords string */
 /* @var $metaDescription string */
 /* @var $footerText string */
-/* @var $slider \backend\models\sliders\Sliders */
-/* @var $product_list_main \backend\models\insurance\InsuranceProduct */
-/* @var $home_about_us_part \backend\models\parts\HtmlParts */
-/* @var $why_choose_us \backend\models\post\PostCategories */
-/* @var $companies_served \backend\models\post\PostCategories */
-/* @var $partners \backend\models\post\PostCategories */
-/* @var $comments \backend\models\comment\Comments */
-/* @var $latest_news \backend\models\post\PostCategories */
-/* @var $online_voting \backend\models\post\PostCategories */
-/* @var $modelVote \backend\models\post\Posts */
+/* @var $slider Sliders */
+/* @var $product_list_main InsuranceProduct */
+/* @var $home_about_us_part HtmlParts */
+/* @var $why_choose_us PostCategories */
+/* @var $companies_served PostCategories */
+/* @var $partners PostCategories */
+/* @var $comments Comments */
+/* @var $latest_news PostCategories */
+/* @var $online_voting PostCategories */
+/* @var $modelVote Posts */
 /* @var $online_voted boolean */
-/* @var $modelFeedback \backend\models\review\Contact */
+/* @var $modelFeedback Contact */
 
 $this->title = $title;
 
@@ -64,6 +73,13 @@ if ($footerText !== null)
     <!--SECTION ADVANTAGE SIDE END-->
 <?php endif; ?>
 
+<?php if (!empty($partners)):?>
+    <!--SECTION OUR PARTNER-->
+    <?= $this->render('inc/_block_partners',[
+        'model' => $partners,
+    ]) ?>
+    <!--SECTION OUR PARTNER END-->
+<?php endif; ?>
 
 <?php if (!empty($latest_news)):?>
     <!--SECTION LATEST NEWS-->
@@ -76,48 +92,10 @@ if ($footerText !== null)
 
 <?php if (!empty($comments)): ?>
     <!--SECTION COMMENTS-->
-    <?= $this->render('inc/_block_comments', [
+    <?= $this->render('inc/_block_links', [
         'model' => $comments,
     ]) ?>
     <!--SECTION COMMENTS END-->
-<?php endif; ?>
-
-
-<?php if (!empty($online_voting)):?>
-    <!--SECTION VOTING-->
-    <?= $this->render('inc/_block_voting_feedback',[
-        'online_voted' => $online_voted,
-        'model' => $modelVote,
-        'online_voting' => $online_voting,
-    ]) ?>
-    <!--SECTION VOTING END-->
-<?php endif; ?>
-
-
-<?php if (!empty($our_services)): ?>
-    <!--SECTION OUR COMPETENCIES-->
-    <?= $this->render('inc/_block_our_competencies', [
-        'model' => $our_services,
-    ]) ?>
-    <!--SECTION OUR COMPETENCIES END-->
-<?php endif; ?>
-
-
-<?php if (!empty($partners)):?>
-    <!--SECTION OUR PARTNER-->
-    <?= $this->render('inc/_block_partners',[
-        'model' => $partners,
-    ]) ?>
-    <!--SECTION OUR PARTNER END-->
-<?php endif; ?>
-
-
-<?php if (!empty($modelFeedback)): ?>
-    <!--SECTION OUR COMPETENCIES-->
-    <?= $this->render('inc/_block_contact_us', [
-        'modelFeedback' => $modelFeedback,
-    ]) ?>
-    <!--SECTION OUR COMPETENCIES END-->
 <?php endif; ?>
 
 

@@ -16,31 +16,30 @@ use yii2mod\notify\BootstrapNotify;
 
     <!--========== SECTION SUBSCRIBE ==========-->
 <?php Pjax::begin(['id' => 'subscribe_pjax', 'enablePushState' => false]); ?>
-    <div class="section-subscribe--content br-30 my-3">
-        <h5 class="footer-info--title d-none"><?= Yii::t('subscribe', 'Подписаться на рассылку') ?></h5>
+    <div class="" id="mc_embed_signup">
+        <?php $form = ActiveForm::begin([
+            'action' => ['/site/subscribe'],
+
+            'options' => [
+                'data' => ['pjax' => true],
+
+                'class' => [' '],
+            ],
+        ]); ?>
         <div class="input-group">
-            <?php $form = ActiveForm::begin([
-                'action' => ['/site/subscribe'],
-
-                'options' => [
-                    'data' => ['pjax' => true],
-
-                    'class' => ['section-subscribe--form d-flex', 'result-' . $type],
-                ],
-            ]); ?>
-
             <?= Html::activeInput('email', $model, 'email', [
-                'class' => 'form-control section-subscribe--input result-' . $type,
-                'placeholder' => Yii::t('frontend', 'Ваша почта'),
+                'class' => 'form-control',
+                'placeholder' => Yii::t('frontend', 'Введите свою электронную почту'),
                 'enableClientValidation' => false,
             ]) ?>
-
-            <?= Html::submitButton(Yii::t('frontend', 'Подписаться'), ['class' => 'btn btn-secondary section-subscribe--button']) ?>
+            <div class="input-group-btn">
+                <?= Html::submitButton('<i class="bx bx-right-arrow-alt bx-sm"></i>', ['class' => 'btn btn-default btn-primary rounded-0 rounded-end d-flex align-items-center justify-content-center']) ?>
+            </div>
+            <div class="info"></div>
+            <?php if ($message): ?>
+                <?= CustomAlert::widget() ?>
+            <?php endif; ?>
         </div>
-        <?php if ($message): ?>
-            <?= CustomAlert::widget() ?>
-        <?php endif; ?>
-
         <?php ActiveForm::end(); ?>
     </div>
 <?php Pjax::end(); ?>

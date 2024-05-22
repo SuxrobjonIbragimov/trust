@@ -17,8 +17,8 @@ $modelItems = $model->getActivePosts()->orderBy(['weight' => SORT_ASC, 'title' =
     <section class="section-company-confortablity">
         <div class="container">
             <div class="row justify-content-center align-items-center">
-                <div class="col-lg-10 col-md-12 col-sm-12 col-12 row gy-4 align-items-stretch">
-                    <h2 class="text-primary fw-bold text-center text-uppercase mb-4"><?= $model->name; ?></h2>
+                <div class="col-lg-8 col-md-10 col-sm-10 col-12 row gy-4 align-items-stretch">
+                    <h2 class="text-secondary fw-bold text-center text-uppercase mb-4"><?= $model->name; ?></h2>
                     <?php foreach ($modelItems as $key => $item): ?>
                         <div class="col-md-<?= ($key == 0) || ($key == 3) ? '7' :'' ?><?= ($key == 1) || ($key == 2) ? '5' :'' ?> col-12">
                             <div class="card h-100 py-2 px-3">

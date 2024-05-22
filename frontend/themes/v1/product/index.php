@@ -1,17 +1,18 @@
 <?php
 
+use backend\models\insurance\InsuranceProduct;
 use backend\modules\handbook\models\HandbookLegalType;
 use yii\helpers\Url;
 
-/* @var $legal_type_list \backend\modules\handbook\models\HandbookLegalType */
-/* @var $legal_type \backend\modules\handbook\models\HandbookLegalType */
-/* @var $items \backend\models\insurance\InsuranceProduct */
-/* @var $item \backend\models\insurance\InsuranceProduct */
+/* @var $legal_type_list HandbookLegalType */
+/* @var $legal_type HandbookLegalType */
+/* @var $items InsuranceProduct */
+/* @var $item InsuranceProduct */
+/* @var $type integer */
 
 $tab_index = Yii::$app->request->get('entity') ? intval(Yii::$app->request->get('entity')) : 0;
 
 $this->title = Yii::t('title', 'Все виды страхования');
-
 ?>
 <?php if (!empty($legal_type_list)): ?>
     <section class="section-plan mt-3" id="choosePlan">
@@ -23,13 +24,13 @@ $this->title = Yii::t('title', 'Все виды страхования');
                         id="pills-tab"
                         role="tablist">
                         <?php foreach ($legal_type_list as $key => $legal_type): ?>
-                            <li class="nav-item <?= ($key == 0) ? 'me-2 active' : 'ms-2' ?>" role="presentation">
+                            <li class="nav-item <?= ($legal_type->id == $type) ? 'me-2 active' : 'ms-2' ?>" role="presentation">
                                 <label for="t<?= ($key + 1) ?>"
-                                       class="nav-link rounded-5 <?= ($key == $tab_index) ? 'active' : '' ?>"
+                                       class="nav-link rounded-5 <?= ($legal_type->id == $type) ? 'active' : '' ?>"
                                        id="pills-<?= ($key) ?>-tab" data-bs-toggle="pill"
                                        data-bs-target="#pills-<?= ($key) ?>" type="button" role="tab"
                                        aria-controls="pills-<?= ($key) ?>"
-                                       aria-selected="<?= ($key == $tab_index) ? 'true' : 'false' ?>">
+                                       aria-selected="<?= ($legal_type->id == $type) ? 'true' : 'false' ?>">
                                     <?= $legal_type->nameLocale; ?>
                                 </label>
                             </li>
@@ -43,7 +44,7 @@ $this->title = Yii::t('title', 'Все виды страхования');
 
                 <div class="tab-content" id="pills-tabContent">
                     <?php foreach ($legal_type_list as $key => $legal_type): ?>
-                        <div class="tab-pane fade show <?= ($key == $tab_index) ? 'active' : '' ?>"
+                        <div class="tab-pane fade show <?= ($legal_type->id == $type) ? 'active' : '' ?>"
                              id="pills-<?= ($key) ?>" role="tabpanel" aria-labelledby="pills-<?= ($key) ?>-tab">
                             <div class="row justify-content-md-between justify-content-center gy-4">
                                 <?php $items = $legal_type->getProducts()->orderBy(['weight' => SORT_ASC, 'title' => SORT_ASC])->all(); ?>
@@ -54,7 +55,7 @@ $this->title = Yii::t('title', 'Все виды страхования');
                                                 <!--<img class="card-custom--icon" src="<? /*= $item->image; */ ?>" alt="">-->
                                                 <div class="d-inline-block h-150px z-index-1">
                                                     <img class="card-custom--icon w-100 h-100 object-fit-cover"
-                                                         src="/themes/v1/img/product_background.png" alt="">
+                                                         src="<?= '/themes/v1/img/product_background.png' ?>" alt="">
                                                 </div>
                                                 <div class="card-body d-flex flex-column justify-content-between align-items-center h-100 z-index-1 px-1">
                                                     <h4 class="position-relative text-primary z-index-2 text-start fw-bold "><?= $item->title; ?></h4>

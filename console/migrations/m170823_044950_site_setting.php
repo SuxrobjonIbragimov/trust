@@ -40,7 +40,7 @@ class m170823_044950_site_setting extends Migration
         ]);
 
         $items = [
-            ['logo',	'Logo',	'/themes/v1/images/logo/logo.png',	1,	1,	time(),	time()],
+            ['logo',	'Logo',	'/themes/v1/images/logo/site-logo.png',	1,	1,	time(),	time()],
             ['site_name',	'Site Name',	'Company name sitename.uz | Site info',	0,	1,	time(),	time()],
             ['home_page_footer_text',	'Home Page Footer Text',	'<p><span style=\"font-size:12px;\"><strong>Company name sitename.uz - Insurance Company in Uzbekistan, Tashkent.</strong></span></p>',	3,	1,	time(),	time()],
             ['home_page_meta_keywords',	'Home Page Meta Keywords',	'meta keywords',	0,	1,	time(),	time()],

@@ -32,6 +32,11 @@ use trntv\aceeditor\AceEditor;
             ]) ?>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-10">
+            <?= $form->field($model, 'summary')->textarea() ?>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-2 col-sm-4  col-xs-6">

@@ -48,7 +48,7 @@ class HtmlParts extends ActiveRecord
             TimestampBehavior::className(),
             [
                 'class' => TranslateDatabaseBehavior::className(),
-                'translateAttributes' => ['name', 'body'],
+                'translateAttributes' => ['name', 'body','summary'],
                 'tableName' => static::tableName(),
             ],
         ];

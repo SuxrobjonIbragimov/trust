@@ -29,6 +29,7 @@ use mihaildev\elfinder\InputFile;
             ]) ?>
 
             <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'subtitle')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 

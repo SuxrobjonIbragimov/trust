@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->params['container_class'] = 'page-si';
 ?>
 <div class="customer-login deals">
-    <h3 class="w3ls-title"><?= Html::encode($this->title) ?></h3>
+<!--    <h3 class="w3ls-title">--><?php //= Html::encode($this->title) ?><!--</h3>-->
 
     <p><?= Yii::t('frontend', 'Пожалуйста, заполните следующие поля для входа:') ?></p>
 

@@ -323,12 +323,16 @@ class m220623_144055_create_i18n_translates_seed extends Migration
         $command->execute();
 
         if ($this->db->driverName == 'pgsql') {
-            $sqlSequence = "SELECT setval('public.language_source_id_seq', 1685, true);";
+            $sqlSequence = "SELECT setval('public.language_source_id_seq', 2154, true);";
             $commandSequence = Yii::$app->db->createCommand($sqlSequence);
             $commandSequence->execute();
         }
 
         $sql = file_get_contents(__DIR__ . '/seeder/language_translate.sql');
+        $command = Yii::$app->db->createCommand($sql);
+        $command->execute();
+
+        $sql = file_get_contents(__DIR__ . '/seeder/translate_database.sql');
         $command = Yii::$app->db->createCommand($sql);
         $command->execute();
 

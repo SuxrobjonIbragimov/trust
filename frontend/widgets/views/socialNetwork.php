@@ -11,7 +11,7 @@ use yii\helpers\Url;
 
 ?>
 
-<?php if (!$has_image):?>
+<?php if ($has_image):?>
     <?php foreach ($socialNetworks as $id => $object):?>
         <div class="w-auto me-lg-4 me-md-3 me-sm-2 me-2">
             <?php
@@ -21,14 +21,12 @@ use yii\helpers\Url;
         </div>
     <?php endforeach;?>
 <?php else:?>
-    <ul class="<?= $tag_class ?> gap-2">
+    <div class="<?= $tag_class ?>">
         <?php foreach ($socialNetworks as $id => $object):?>
-            <li class="<?= $item_class ?>">
-                <?php
-                $_name = Html::tag('i', '', ['class' => $object['fa_icon']]);
-                ?>
-                <?= Html::a($_name,Url::to($object['url']),['target' => '_blank', 'class' => ($item_class_has) ? $object['html_item_class'].' text-secondary ' : 'text-secondary']); ?>
-            </li>
+            <?php
+            $_name = Html::tag('i', '', ['class' => [$object['fa_icon']]]);
+            ?>
+            <?= Html::a($_name,Url::to($object['url']),['target' => '_blank', 'class' => $object['html_item_class']]); ?>
         <?php endforeach;?>
-    </ul>
+    </div>
 <?php endif;?>

@@ -15,31 +15,26 @@ use yii\helpers\Url;
     <!--========================================================================-->
     <section class="insurance-section">
         <div class="container py-5">
-            <h2 class="text-uppercase text-primary text-center fw-bold mt-5">Sug’urta turlari</h2>
+            <h3 class="h1 text-uppercase text-secondary text-center fw-bold mt-5"><?= Yii::t('content','Sug’urta turlari'); ?></h3>
             <div class="swiper insuranceType pt-5">
                 <div class="swiper-wrapper pt-5">
                     <?php foreach ($model as $key_i => $item): ?>
                         <div class="swiper-slide h-100">
-                            <div class="card insurance-card w-100 mx-3 overflow-hidden">
-                                <div class="insurance-img-gen d-inline-block z-index-1">
+                            <div class="card insurance-card w-100">
+                                <div class="insurance-img-gen d-inline-block">
                                     <img src="<?= $item->image; ?>"
                                          class="card-img-top insurance-img object-fit-cover"
                                          alt="<?= $item->title; ?>">
 
                                 </div>
-                                <div class="card-body d-flex flex-column justify-content-between align-items-center z-index-1">
-                                    <h5 class="h5 text-uppercase text-primary text-center fw-bold">
+                                <div class="card-body d-flex flex-column justify-content-between align-items-center">
+                                    <h5 class="h5 text-uppercase text-secondary text-center fw-bold">
                                         <?= $item->title; ?>
                                     </h5>
-                                    <div class="d-flex justify-content-between align-items-center w-100 media-btn-class-gen">
-                                        <a href="<?= !empty($item->calc_link) ? $item->calc_link : '#'?>"
-                                           class="media-btn-class btn btn-primary rounded-2 text-center text-uppercase fs-5 fw-bold px-4 py-2 d-block mt-auto <?= (empty($item->calc_link) || $item->calc_link == '#') ? 'disabled' : ''?> "><?= Yii::t('frontend', 'Купить') ?></a>
-                                        <a href="<?= Url::to(['product/view', 'slug' => $item->slug]) ?>"
-                                           class="media-btn-class btn btn-secondary rounded-2 text-center text-uppercase fs-5 fw-bold px-4 py-2 d-block mt-auto"><?= Yii::t('frontend', 'Подробнее') ?></a>
-                                    </div>
-                                </div>
-                                <div class="position-absolute bottom-minus-20 end-minus-20 w-200px h-200px z-index-0 animation-rotate only-hover-active">
-                                    <img src="/themes/v1/images/logo/oriental.png" alt="">
+                                    <a  href="<?= Url::to(['product/view', 'slug' => $item->slug]) ?>"
+                                            class="btn btn-outline-primary rounded-2 text-uppercase fs-5 fw-bold px-4 py-2">
+                                        <?= Yii::t('frontend', 'Подробнее') ?>
+                                    </a>
                                 </div>
                             </div>
                         </div>

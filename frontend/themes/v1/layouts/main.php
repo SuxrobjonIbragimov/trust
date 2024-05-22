@@ -37,7 +37,7 @@ use yii\helpers\Url;
     if (isset($this->params['meta_description']))
         $this->registerMetaTag(['property' => 'og:description', 'content' => $this->params['meta_description']]);
     ?>
-
+    <link rel="shortcut icon" href="<?= '/themes/v1/images/logo/favicon.png' ?>" type="image/x-icon">
     <!--========== CDN FANCYBOX ANIMATION INTRO EFECT ==========-->
     <link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" rel="stylesheet">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -62,6 +62,8 @@ use yii\helpers\Url;
 <!-- //footer -->
 
 <?php $this->endBody() ?>
+
+
 <!--========== CDN AOS FANCYBOX ==========-->
 <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
 <script>
@@ -69,17 +71,11 @@ use yii\helpers\Url;
 </script>
 <script>
     $(function () {
-
-        $('.select2').select2({
-            maximumSelectionLength: 6,
-        });
-
         if ($(".nice-select").length) {
             $(document).ready(function () {
                 $('.nice-select').niceSelect();
             });
         }
-
         if ($(".advantages-article-title > span").length) {
             $('.advantages-article-title > span').counterUp({
                 delay: 10,
@@ -88,16 +84,6 @@ use yii\helpers\Url;
             });
         }
     })
-</script>
-<script>
-    var rellax = new Rellax('.rellax', {
-        center:true,
-        breakpoints:[576, 768, 1201]
-    });
-    var rellax2 = new Rellax('.rellax_DESC', {
-        breakpoints:[576, 768, 1201],
-
-    });
 </script>
 </body>
 </html>

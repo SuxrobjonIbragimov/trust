@@ -16,14 +16,14 @@ $modelItems = $model->getActivePosts()->orderBy(['weight' => SORT_ASC, 'title' =
     <!--========================================================================-->
     <section>
         <div class="container py-5 ">
-            <h2 class="text-primary fw-bold text-center text-uppercase mb-4"><?= $model->name; ?></h2>
-            <div class="swiper partnersSlider pt-5 pb-3">
-                <div class="swiper-wrapper pt-5 pb-3">
+            <h2 class="text-secondary fw-bold text-center text-uppercase mb-4"><?= $model->name; ?></h2>
+            <div class="swiper partnersSlider pt-5">
+                <div class="swiper-wrapper pt-5">
                     <?php foreach ($modelItems as $item): ?>
                         <div class="swiper-slide">
-                            <div class="card our-partner--box partner-card w-100 mx-3">
+                            <div class="card partner-card w-100 mx-3">
                                 <img src="<?= $item->image; ?>"
-                                     class="card-img-top object-fit-contain w-75 mx-auto h-100 partner-img px-2 py-2"
+                                     class="card-img-top object-fit-contain w-100 h-100 partner-img px-2 py-2"
                                      alt="<?= $item->title; ?>">
                             </div>
                         </div>

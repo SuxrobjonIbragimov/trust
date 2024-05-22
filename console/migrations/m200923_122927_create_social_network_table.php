@@ -93,7 +93,7 @@ class m200923_122927_create_social_network_table extends Migration
                 'url' => 'https://www.facebook.com/',
                 'html_class' => 'bx bxl-facebook-circle bx-md',
                 'image' => '/themes/v1/images/svg/social/fb.svg',
-                'html_item_class' => 'fb',
+                'html_item_class' => 'd-flex align-items-center',
                 'status' => 1,
             ],
             [
@@ -101,7 +101,7 @@ class m200923_122927_create_social_network_table extends Migration
                 'url' => 'https://www.instagram.com/',
                 'html_class' => 'bx bxl-instagram-alt bx-md',
                 'image' => '/themes/v1/images/svg/social/insta.svg',
-                'html_item_class' => 'insta',
+                'html_item_class' => 'd-flex align-items-center',
                 'status' => 1,
             ],
             [
@@ -109,7 +109,7 @@ class m200923_122927_create_social_network_table extends Migration
                 'url' => 'https://t.me/',
                 'html_class' => 'bx bxl-telegram bx-md',
                 'image' => '/themes/v1/images/svg/social/telegram.svg',
-                'html_item_class' => 'tg',
+                'html_item_class' => 'd-flex align-items-center',
                 'status' => 1,
             ],
             [

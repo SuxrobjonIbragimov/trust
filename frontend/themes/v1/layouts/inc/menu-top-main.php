@@ -10,27 +10,31 @@ use yii\helpers\Url;
 $menu_front_header = Menus::findOne(['key' => 'front_header', 'status' => Menus::STATUS_ACTIVE]);
 ?>
 
-<?php if ((($menuItems = $menu_front_header->getMenuItemsActive()->all()) !== null) ) { ?>
-    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+<?php if ((($menuItems = $menu_front_header->getMenuItemsActive()->all()) !== null) ): ?>
+    <ul class=" d-flex align-items-center dropdown-toggles pb-lg-2">
         <?php foreach ($menuItems as $key_item => $item) : ?>
             <?php if (!empty($item->menuItemsActive)): ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-primary-hover d-flex align-items-center text-dark fs-6" href="javascript:void(0)" id="navbarDropdown-<?= $key_item ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li>
+                    <a class="fs-6 fw-normal text-secondary px-3 pb-2 dropdown-toggle" href="javascript:void(0)" id="navbarDropdown-<?= $key_item ?>">
                         <?= $item->label ?>
                     </a>
-                    <ul class="dropdown-menu dropdown-transition" aria-labelledby="navbarDropdown-<?= $key_item ?>">
-                        <?php foreach ($item->menuItemsActive as $item2) : ?>
-                            <li>
-                                <?= Html::a($item2->label, [$item2->url], ['class' => 'dropdown-item']) ?>
-                            </li>
-                        <?php endforeach; ?>
-                    </ul>
+                    <div class="dropdown-menu w-100 bg-white d-block position-absolute p-3" aria-labelledby="navbarDropdown-<?= $key_item ?>">
+                        <div class="row w-100">
+                            <div class="col-xl-3">
+                                <ul class="d-flex align-items-start flex-column row-gap-2">
+                                    <?php foreach ($item->menuItemsActive as $item2) : ?>
+                                        <?= Html::a($item2->label, [$item2->url], ['class' => 'fs-7 text-secondary']) ?>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </li>
             <?php else: ?>
-                <li class="nav-item">
-                    <?= Html::a($item->label, [$item->url], ['class' => 'nav-link text-dark text-primary-hover fs-6']) ?>
+                <li>
+                    <?= Html::a($item->label, [$item->url], ['class' => 'fs-6 fw-normal text-secondary px-3 pb-2 text-nowrap']) ?>
                 </li>
             <?php endif; ?>
         <?php endforeach; ?>
     </ul>
-<?php } ?>
+<?php endif; ?>

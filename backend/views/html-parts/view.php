@@ -38,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'key',
                         'name',
                         'body:ntext',
+                        'summary:ntext',
                         'created_at:datetime',
                         'updated_at:datetime',
                         [
