@@ -1,0 +1,12 @@
+.dynamicform_wrapper_parent .container-items-parent .item-parent:first-child .pull-right.page-footer-button,
+.dynamicform_wrapper_child .container-items-child .item-child:first-child .pull-right.page-footer-button,
+.dynamicform_wrapper .container-items .item:first-child .pull-right.page-footer-button {
+    visibility: hidden;
+}
+.travel-multiple-check {
+    border: none !important;
+    padding: 12px 16px !important;
+}
+.select2-container {
+    width: 100% !important;
+}

@@ -1,0 +1,66 @@
+<?php
+
+use backend\models\insurance\InsuranceProductItem;
+use backend\modules\admin\components\Helper;
+use yii\helpers\Html;
+use yii\grid\GridView;
+
+/* @var $this yii\web\View */
+/* @var $searchModel backend\models\insurance\InsuranceProductItemSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = Yii::t('model', 'Insurance Product Items');
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="insurance-product-item-index box box-default">
+    <div class="box-body">
+        <p class="btn-group">
+            <?php if (Helper::checkRoute('create'))
+                echo Html::a(Yii::t('views', 'Create'), ['create'], ['class' => 'btn btn-success']); ?>
+        </p>
+
+        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+        <?= GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+
+                'id',
+                'title',
+                [
+                    'attribute' => 'type',
+                    'format' => 'raw',
+                    'filter' => InsuranceProductItem::_getTypeList(),
+                    'value' => function (InsuranceProductItem $data) {
+                        return $data->_getTypeName();
+                    },
+                ],
+//                'description:ntext',
+                //'parent_id',
+                //'image',
+                //'icon',
+                [
+                    'attribute' => 'weight',
+                    'visible' => (Yii::$app->user->can('administrator')),
+                ],
+                [
+                    'attribute' => 'status',
+                    'visible' => (Yii::$app->user->can('administrator')),
+                ],
+                'created_at:datetime',
+                [
+                    'attribute' => 'updated_at',
+                    'format' => 'datetime',
+                    'visible' => (Yii::$app->user->can('administrator')),
+                ],
+
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+        ]); ?>
+
+    </div>
+
+
+</div>
