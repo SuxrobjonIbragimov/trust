@@ -35,20 +35,27 @@ use yii\helpers\Url;
     $lang_name = ($native) ? $cur_lang_object['native'] : $cur_lang_object['name'];
     $lang_name = ($short) ? mb_strtoupper($cur_lang) : ($lang_name) ;
     ?>
-
-    <select class="nice-select nice-select-default text-gray fs-7">
-<!--    <ul class="text-gray fs-7">-->
-        <?php foreach ($languages as $language => $object):?>
-            <?php $language_key = $object['language_id'];?>
-            <?php
-            $lang_name = ($native) ? $object['native'] : $object['name'];
-            $lang_name = ($short) ? mb_strtoupper($language) : $lang_name ;
-            $link = Html::a($lang_name, Url::current(['language-picker-language' => $language_key]), ['class' => $language . ' ' . $container_class]);
-            ?>
-            
-            <option value="<?= $language_key ?>" <?= ($language == $cur_lang) ? 'selected' : '' ?> ><?= $link ?></option>
-        <?php endforeach;?>
-    </select>
+    <div class="nav-item-top dropdown ms-3 me-lg-0 me-3">
+        <a class="nav-link-sm d-flex align-items-center text-gray fw-bold column-gap-2 dropdown-toggle dropdown-arrow dropdown-toggle-not pe-3"
+           href="#" id="navbarDropdownLang" role="button" data-bs-toggle="dropdown"
+           aria-expanded="false">
+            <?= $lang_name  ?>
+        </a>
+        <!-- Language -->
+        <ul class="dropdown-menu dropdown-transition" aria-labelledby="navbarDropdownLang" style="min-width: auto">
+            <?php foreach ($languages as $language => $object):?>
+                <?php $language_key = $object['language_id'];?>
+                <?php
+                $lang_name = ($native) ? $object['native'] : $object['name'];
+                $link = Html::a($lang_name, Url::current(['language-picker-language' => $language_key]), ['class' => $language . ' ' . $container_class]);
+                ?>
+                    <li>
+                        <a class="<?= $language ?> dropdown-item dropdown-item-language" href="<?= Url::current(['language-picker-language' => $language_key]) ?>"><?= $lang_name ?></a>
+                    </li>
+            <?php endforeach;?>
+        </ul>
+        <!-- End Language -->
+    </div>
 <?php elseif($is_mobile): ?>
     <?php foreach ($languages as $language => $object):?>
         <?php $language_key = $object['language_id'];?>
