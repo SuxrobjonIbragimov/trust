@@ -20,6 +20,7 @@ class V1Asset extends AssetBundle
         'styles/swiper-bundle.min.css',
         'styles/animate.min.3.2.3.css',
         'styles/snow.css',
+        'styles/pretty-checkbox.min.css',
 //        'styles/additionalClasses.css',
         'styles/main.css',
     ];

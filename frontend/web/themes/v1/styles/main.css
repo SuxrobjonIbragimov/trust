@@ -347,6 +347,29 @@ body {
 
 /*=============== Header-intro ===============*/
 /* ============ desktop view ============ */
+.dropdown-arrow::after {
+    border-bottom: 2px solid #999;
+    border-right: 2px solid #999;
+    border-left: initial !important;
+    border-top: initial !important;
+    content: "";
+    display: block;
+    height: 6px;
+    margin-top: -4px;
+    pointer-events: none;
+    position: absolute;
+    right: 2px;
+    top: 55%;
+    transform-origin: 66% 66%;
+    transform: rotate(45deg);
+    transition: all .2s ease-in-out;
+    width: 6px;
+}
+
+.dropdown-arrow.show::after {
+    transform: rotate(-135deg);
+}
+
 .header-intro-bg {
     position: absolute;
     width: 100%;
@@ -706,6 +729,15 @@ progress {
     top: 0;
 }
 
+/* Others pages */
+.select2-selection.select2-selection--multiple.form-control.travel-multiple-check {
+    border: 1px solid #aaaaaa !important;
+}
+
+.primary-accent-color {
+    accent-color: var(--bs-primary);
+}
+
 /* Bootstrap Notify */
 [data-notify="progressbar"] {
     margin-bottom: 0px;
@@ -818,6 +850,7 @@ progress {
         height: 250px;
     }
 }
+
 .tt-scrollable-menu {
-    width: 100%!important;
+    width: 100% !important;
 }

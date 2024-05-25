@@ -22,8 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?php if (1) : ?>
                 <div class="payment-page__container" style="">
-                    <div class="payment-page">
-                        <div class="payment-page__info modal-cont-alt">
+                    <div class="row row-gap-3">
+                        <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
 
                             <div class="calculator-card__item">
                                 <div class="calculator-card__label">
@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?= Yii::t('policy','FIO');?>
                                 </div>
                                 <div class="calculator-card__value">
-                                    <span><?= $model->appFullName ?></span>
+                                    <span class="fw-bold"><?= $model->appFullName ?></span>
                                 </div>
                             </div>
 
@@ -48,12 +48,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?= Yii::t('policy','PHONE');?>
                                 </div>
                                 <div class="calculator-card__value">
-                                    <span>+<?= $model->app_phone ?></span>
+                                    <span class="fw-bold">+<?= $model->app_phone ?></span>
                                 </div>
                             </div>
 
                         </div>
-                        <div class="payment-page__info modal-cont-alt">
+                        <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
 
                             <?php if (!empty($program['name'])):?>
                                 <div class="calculator-card__item">
@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <?= Yii::t('policy','Program');?>
                                     </div>
                                     <div class="calculator-card__value">
-                                        <span>
+                                        <span class="fw-bold">
                                             <?= ($program['name']) ?: Yii::t('policy','Program not selected') ?>
                                         </span>
                                     </div>
@@ -73,8 +73,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?= Yii::t('policy','Полис нархи');?>
                                 </div>
                                 <div class="calculator-card__value">
-                                    <span id="policy_price"><?= number_format($model->amount_uzs, 2, '.', ' ')?></span>
-                                    <span class="currency"><?= Yii::t('policy','сўм');?></span>
+                                    <span class="fw-bold" id="policy_price"><?= number_format($model->amount_uzs, 2, '.', ' ')?></span>
+                                    <span class="currency fw-bold"><?= Yii::t('policy','сўм');?></span>
                                 </div>
                             </div>
 
@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?= Yii::t('policy','Period');?>
                                 </div>
                                 <div class="calculator-card__value">
-                                    <span><?= date('d.m.Y', strtotime($model->start_date))?> - <?= date('d.m.Y', strtotime($model->end_date))?></span>
+                                    <span class="fw-bold"><?= date('d.m.Y', strtotime($model->start_date))?> - <?= date('d.m.Y', strtotime($model->end_date))?></span>
                                 </div>
                             </div>
 
@@ -92,15 +92,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                     </div>
 
-                    <div class="modal__container">
+                    <div class="col-lg-6">
                         <div>
-                            <div class="text-center payment-page__label">
-                                <p><?= Yii::t('policy','Оплатите через');?>:</p>
+                            <div class="text-start contact-us-page__label">
+                                <p class="mt-2"><?= Yii::t('policy','Оплатите через');?>:</p>
                             </div>
-                            <div class="flex-row d-flex align-items-center">
+                            <div class="row">
                                 <?php foreach ($payment_type_list as $key => $item ): ?>
-                                    <div class="field  modal__field modal__field-col modal-img">
-                                        <?= Html::a($item['name'],[$item['url'],'h' => $item['h']])?>
+                                    <div class="col-6 col-md-4 col-lg-4">
+                                        <?= Html::a($item['name'],[$item['url'],'h' => $item['h']], ['class' => 'd-flex align-items-center border border-2 rounded-3 bg-gray p-3 payme h-100'])?>
                                     </div>
                                 <?php endforeach; ?>
                             </div>

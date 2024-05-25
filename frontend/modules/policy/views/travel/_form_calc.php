@@ -99,10 +99,10 @@ HTML;
                                         <?php $label = $model->getAttributeLabel('program_id'); ?>
                                         <?php $info_svg = '<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M12 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm.5 17h-1v-9h1v9zm-.5-12c.466 0 .845.378.845.845 0 .466-.379.844-.845.844-.466 0-.845-.378-.845-.844 0-.467.379-.845.845-.845z"/></svg>'; ?>
                                         <?= $form->field($model, 'program_id')->radioList($model->_travelProgramsList, [
-                                            'class' => 'form-control flex-column on-change id-custom p-2',
+                                            'class' => 'form-control d-flex column-gap-2 on-change id-custom p-2',
                                             'item' => function ($index, $label, $name, $checked, $value) use ($info_svg) {
                                                 $checked = $checked ? 'checked' : '';
-                                                return "<div class='pretty p-default p-round p-smooth'><input class='mr-1 primary-accent-color' type='radio' {$checked} name='{$name}' value='{$value}'><i class='ml-05'></i><div class='state p-warning-o'><label class='checkbox checkbox-custom mr-4 mb-1 position-relative'><span>{$label} </span> <span role='button' data-toggle='modal' data-target='#modalProgramInfo' class='show-modal-program ml-1 d-none' data-title='{$label}' data-key='{$value}'> {$info_svg} </span></label></div></div>";
+                                                return "<div class='pretty p-default p-round p-smooth d-flex align-items-center'><input class='me-1 primary-accent-color' type='radio' {$checked} name='{$name}' value='{$value}'><i class='ml-05'></i><div class='state p-warning-o'><label class='checkbox checkbox-custom mr-4 position-relative'><span>{$label} </span> <span role='button' data-toggle='modal' data-target='#modalProgramInfo' class='show-modal-program ml-1 d-none' data-title='{$label}' data-key='{$value}'> {$info_svg} </span></label></div></div>";
                                             }
                                         ]) ?>
                                         <?php if (!empty($model->programs_info)) : ?>
@@ -181,7 +181,7 @@ HTML;
                                     'class' => 'form-control on-change form-custom d-flex flex-wrap p-3 row-gap-3 column-gap-2',
                                     'item' => function ($index, $label, $name, $checked, $value) {
                                         $checked = $checked ? 'checked' : '';
-                                        return "<div class='pretty p-default p-round p-smooth'><input class='mr-1 primary-accent-color' type='radio' {$checked} name='{$name}' value='{$value}'><i class='ml-05'></i><div class='state p-warning-o'><label class='checkbox mr-4 position-relative'>{$label}</label></div></div>";
+                                        return "<div class='pretty p-default p-round p-smooth d-flex align-items-center'><input class='me-1 primary-accent-color' type='radio' {$checked} name='{$name}' value='{$value}'><i class='ml-05'></i><div class='state p-warning-o'><label class='checkbox mr-4 position-relative'>{$label}</label></div></div>";
                                     }
                                 ])->label($label, ['class' => 'control-label main-form-label']) ?>
                             </div>
