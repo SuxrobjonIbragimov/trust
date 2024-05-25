@@ -14,8 +14,8 @@ use Yii;
 class LanguageSwitcherWidget extends Widget
 {
     public $languages;
-    public $native = true;
-    public $short = false;
+    public $native = false;
+    public $short = true;
     public $flag = false;
     public $container_tag = 'li';
     public $container_class = null;

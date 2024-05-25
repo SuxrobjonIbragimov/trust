@@ -47,6 +47,7 @@ use yii\helpers\Url;
                 <?php $language_key = $object['language_id'];?>
                 <?php
                 $lang_name = ($native) ? $object['native'] : $object['name'];
+                $lang_name = ($short) ? mb_strtoupper($object['language']) : ($lang_name) ;
                 $link = Html::a($lang_name, Url::current(['language-picker-language' => $language_key]), ['class' => $language . ' ' . $container_class]);
                 ?>
                     <li>
