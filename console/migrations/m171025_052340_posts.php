@@ -213,36 +213,6 @@ class m171025_052340_posts extends Migration
             $row_data
         );
 
-        // INSERT TO language_source
-        $this->batchInsert('{{%translate_database}}',
-            ['key', 'language', 'translation'],
-            [
-                ['post_categories_33_name', 'uz-UZ', 'Xizmat ko\'rsatish sifatini qanday baholaysiz?', ],
-                ['post_categories_33_name', 'ru-RU', 'Как бы вы оценили качество обслуживания?', ],
-                ['post_categories_33_name', 'en-US', 'How would you rate the quality of service?', ],
-
-                ['posts_4_title', 'uz-UZ', '5 (a`lo)', ],
-                ['posts_4_title', 'ru-RU', '5 (отлично)', ],
-                ['posts_4_title', 'en-US', '5 (excellent)', ],
-
-                ['posts_5_title', 'uz-UZ', '4 (yaxshi)', ],
-                ['posts_5_title', 'ru-RU', '4 (хорошо)', ],
-                ['posts_5_title', 'en-US', '4 (good)', ],
-
-                ['posts_6_title', 'uz-UZ', '3 (qoniqarli)', ],
-                ['posts_6_title', 'ru-RU', '3 (удовлетворительно)', ],
-                ['posts_6_title', 'en-US', '3 (satisfactory)', ],
-
-                ['posts_7_title', 'uz-UZ', '2 (qoniqarsiz)', ],
-                ['posts_7_title', 'ru-RU', '2 (не удовлетворен)', ],
-                ['posts_7_title', 'en-US', '2 (unsatisfied)', ],
-
-                ['posts_8_title', 'uz-UZ', '1 (yomon)', ],
-                ['posts_8_title', 'ru-RU', '1 (плохо)', ],
-                ['posts_8_title', 'en-US', '1 (bad)', ],
-
-            ]
-        );
 
         // head seed
         $row_data = [
