@@ -823,6 +823,9 @@ INSERT INTO "language_translate" ("id", "language", "translation") VALUES
 (2135,	'uz-UZ',	'Shaxsiy kabinet'),
 (2136,	'ru-RU',	'Меню сайта'),
 (2136,	'uz-UZ',	'Sayt menu'),
+(2147,	'uz-UZ',	'Foydali havolalar'),
 (2152,	'ru-RU',	'Виды страхования'),
+(2153,	'ru-RU',	'Физическое лица'),
 (2153,	'uz-UZ',	'Jismoniy shaxs'),
+(2154,	'ru-RU',	'Юридическое лица'),
 (2154,	'uz-UZ',	'Yuridik shaxs');
