@@ -1,6 +1,7 @@
 <?php
 namespace backend\modules\policy\migrations;
 
+use Yii;
 use yii\db\Migration;
 
 /**
@@ -45,17 +46,6 @@ class m220823_084728_create_policy_travel_program_table extends Migration
             '{{%policy_travel_program}}',
             'id',
             'CASCADE'
-        );
-
-        $this->batchInsert('policy_travel_program',
-            ['name_ru', 'name_uz', 'name_en', 'weight', 'status', 'created_at', 'updated_at'],
-            [
-                ['MINIMUM', 'MINIMUM', 'MINIMUM', 1, 1, time(), time()],
-                ['ECANOM', 'ECANOM', 'ECANOM', 2, 1, time(), time()],
-                ['OPTIMA', 'OPTIMA', 'OPTIMA', 3, 1, time(), time()],
-                ['STANDART', 'STANDART', 'STANDART', 4, 1, time(), time()],
-                ['LUKS', 'LUKS', 'LUKS', 5, 1, time(), time()],
-            ]
         );
     }
 

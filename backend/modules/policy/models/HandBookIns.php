@@ -88,6 +88,15 @@ class HandBookIns extends Model
     // GNK PINFL/INN
     const METHOD_DIDOX_GET_PROFILE = 'v1/profile/';
 
+    const METHOD_OSGO_POST_CREATE_ANKETA_KS_V2 = 'osgo/create';
+
+    const METHOD_OSGO_POST_VEHICLE_KS_V2 = 'provider/v2/vehicle';
+    const METHOD_OSGO_POST_PASSPORT_BIRTH_DATE_KS_V2 = 'provider/v2/passport-birth-date';
+    const METHOD_OSGO_POST_PASSPORT_PERSONAL_ID_KS_V2 = 'provider/v2/passport-pinfl';
+    const METHOD_OSGO_POST_IS_PENSIONER_KS_V2 = 'provider/v2/is-pensioner';
+    const METHOD_OSGO_POST_PROVIDED_DISCOUNTS_KS_V2 = 'provider/v2/provided-discounts';
+    const METHOD_OSGO_POST_DRIVER_SUMMARY_KS_V2 = 'provider/v2/driver-summary';
+    const METHOD_OSGO_POST_DRIVER_LICENSE_KS_V2 = 'provider/v2/driver-license';
 
     public function __construct($token = null, $config = [])
     {
@@ -243,6 +252,22 @@ class HandBookIns extends Model
     public function setHeaders($headers)
     {
         $this->headers = $headers;
+    }
+
+    /**
+     * @param $headers
+     */
+    public function setLogin($login)
+    {
+        $this->username = $login;
+    }
+
+    /**
+     * @param $headers
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
     }
 
     /**

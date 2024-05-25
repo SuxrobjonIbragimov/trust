@@ -50,16 +50,16 @@ class m220823_080803_create_handbook_country_table extends Migration
             'CASCADE'
         );
 
-        $sql = file_get_contents(__DIR__ . '/seeder/handbook_country.sql');
-        $command = Yii::$app->db->createCommand($sql);
-        $command->execute();
-
-        if ($this->db->driverName == 'pgsql') {
-            $sqlSequence = "SELECT setval('public.handbook_country_id_seq', 281, true);";
-            $commandSequence = Yii::$app->db->createCommand($sqlSequence);
-            $commandSequence->execute();
-
-        }
+//        $sql = file_get_contents(__DIR__ . '/seeder/handbook_country.sql');
+//        $command = Yii::$app->db->createCommand($sql);
+//        $command->execute();
+//
+//        if ($this->db->driverName == 'pgsql') {
+//            $sqlSequence = "SELECT setval('public.handbook_country_id_seq', 281, true);";
+//            $commandSequence = Yii::$app->db->createCommand($sqlSequence);
+//            $commandSequence->execute();
+//
+//        }
     }
 
     /**

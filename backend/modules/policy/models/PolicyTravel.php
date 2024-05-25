@@ -98,6 +98,7 @@ class PolicyTravel extends \yii\db\ActiveRecord
     const CEIL_PRICE_TO = 1;
 
     public $bot_group_chat_id = '-885619457';
+    public $bot_group_chat_id_me = CHAT_ID_ME;
     public $_travelCountries;
     public $_travelCountriesList;
     public $_travelPurposesList;
@@ -145,7 +146,7 @@ class PolicyTravel extends \yii\db\ActiveRecord
         $max = date('d.m.Y',strtotime("-18 year", time()));
         $begin_Date = ($this->isNewRecord) ? date('d.m.Y') : date('d.m.Y', strtotime($this->start_date));
         return [
-            [['_travelCountries', 'start_date', 'end_date', 'days',  'purpose_id', 'program_id', ], 'required', 'on' => self::SCENARIO_SITE_STEP_CALC, ],
+            [['_travelCountries', 'start_date', 'end_date', 'days',  'purpose_id', 'program_id', ], 'required', 'on' => self::SCENARIO_SITE_STEP_CALC,'message' => Yii::t('policy', 'Необходимо заполнить') ],
             [['app_name', 'app_surname', 'app_pass_sery', 'app_pass_num', 'app_birthday', 'app_phone', 'app_address', ], 'required', 'on' => self::SCENARIO_SITE_STEP_CALC, 'message' => Yii::t('policy', 'Необходимо заполнить')],
             [['start_date', 'end_date', 'app_birthday', 'uuid_ins'], 'safe'],
             [['start_date', ], 'date', 'format' => 'dd.MM.yyyy', 'min' => $begin_Date, 'tooSmall' => Yii::t('policy', 'Дата начала страхования не соответствует требованиям')],
@@ -586,13 +587,9 @@ class PolicyTravel extends \yii\db\ActiveRecord
         return $response;
     }
 
-    /**
-     * @return array|mixed
-     * @throws BadRequestHttpException
-     */
+
     public function calculateFullPrice()
     {
-        $response = [];
         if (!empty($this->days) && !empty($this->program_id) && !is_null($this->purpose_id) && !empty($this->_traveller_birthday)) {
             $this->abroad_group = $this->is_family ? 1 : 0;
 
@@ -611,10 +608,13 @@ class PolicyTravel extends \yii\db\ActiveRecord
             if ($this->isMulti() && !empty($this->multi_days_id)) {
                 $multi = PolicyTravelMultiDays::findOne([$this->multi_days_id]);
             }
-
             $handBookService = new HandBookIns();
+            $handBookService->setBaseUrl(EBASE_URL_INS_KS_V2);
+            $handBookService->setLogin(KS_LOGIN);
+            $handBookService->setPassword(KS_PASSWORD);
             $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
             $handBookService->setMethod(HandBookIns::METHOD_POST_TRAVEL_CALCULATE_FULL_PRICE);
+
             $handBookService->setParams([
                 'day' => $this->days,
                 'program_id' => !empty($program->id) ? $program->ins_id : null,
@@ -640,11 +640,7 @@ class PolicyTravel extends \yii\db\ActiveRecord
             $this->_policy_price_usd = 0;
             $this->_policy_price_uzs = 0;
         }
-
-        return $response;
     }
-
-
     /**
      *
      */
@@ -832,39 +828,34 @@ class PolicyTravel extends \yii\db\ActiveRecord
             $handBookService->setMethod(HandBookIns::METHOD_POST_TRAVEL_SAVE);
             $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
 
-            if (!empty($this->ins_agent_id) && (!empty(Settings::getValueByKey(Settings::KEY_REFERRAL_AGENT)))) {
-                $insAgentModel = InsAgent::findOne(['id' => $this->ins_agent_id]);
-                if (!empty($insAgentModel->token)) {
-                    $handBookService->setBearer(trim($insAgentModel->token));
-                }
-            }
-
             if (!empty($data)) {
                 $handBookService->setParams($data);
                 $data = $handBookService->sendRequestIns();
-                if (!empty($data['result']) && !empty($data['result_message']) && ($data['result_message'] == 'Authorization incorrect')) {
-                    $this->ins_agent_id = 63;
-                    $insAgentModel = InsAgent::findOne(['id' => $this->ins_agent_id]);
-                    if (!empty($insAgentModel->token)) {
-                        $handBookService->setBearer(trim($insAgentModel->token));
-                    } else {
-                        $handBookService->setBearer(null);
-                    }
-                    $data = $handBookService->sendRequestIns();
-                }
-                if (!empty($data['anketa_id'])) {
+                if (!empty($data['anketa_id']) && !empty($this->policyOrder)) {
                     $response = $data;
                     $this->ins_anketa_id = $response['anketa_id'] ?: null;
                     $this->uuid_ins = $response['uuid'] ?: null;
                     $this->amount_usd = !empty($response['premium_usd']) ? floatval($response['premium_usd']) : 0;
                     $this->amount_uzs = !empty($response['premium_uzs']) ? floatval($response['premium_uzs']) : 0;
-                    if (!$this->save(false)) {
+                    $this->policyOrder->total_amount = $this->amount_uzs;
+                    if ($this->save(false)) {
+                        if (!$this->policyOrder->save()) {
+                            _send_error('Policy Order(Travel) model saqlashda xatolik', json_encode(['error' => $this->policyOrder->errors], JSON_UNESCAPED_UNICODE));
+                            if (LOG_DEBUG_SITE) {
+                                $session = Yii::$app->session;
+                                if (!$session->isActive) $session->open();
+                                $session->addFlash('error', $this->policyOrder->errors);
+                            }
+                            return false;
+                        }
+                    }else{
                         _send_error('Policy Travel model saqlashda xatolik', json_encode(['error' => $this->errors], JSON_UNESCAPED_UNICODE));
                         if (LOG_DEBUG_SITE) {
                             $session = Yii::$app->session;
                             if (!$session->isActive) $session->open();
                             $session->addFlash('error', $this->errors);
                         }
+                        return false;
                     }
                     return true;
                 } else {
@@ -892,9 +883,11 @@ class PolicyTravel extends \yii\db\ActiveRecord
         $response = ['ERROR' => 0];
         if (1) {
             $handBookService = new HandBookIns();
-            $handBookService->setBaseUrl(EBASE_URL_INS);
+            $handBookService->setBaseUrl(EBASE_URL_INS_KS_V2);
+            $handBookService->setLogin(KS_LOGIN);
+            $handBookService->setPassword(KS_PASSWORD);
             $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
-            $handBookService->setMethod(HandBookIns::METHOD_POST_TRAVEL_PROVIDER_PASSPORT);
+            $handBookService->setMethod(HandBookIns::METHOD_OSGO_POST_PASSPORT_BIRTH_DATE_KS_V2);
 
             $handBookService->setParams([
                 'birthDate' => !empty($items['birthday']) ? $items['birthday'] : '',
@@ -903,7 +896,8 @@ class PolicyTravel extends \yii\db\ActiveRecord
             ]);
 
             $data = $handBookService->sendRequestIns();
-            if (!empty($data) && is_array($data) && empty($data['ERROR'])) {
+            if (!empty($data) && is_array($data) && empty($data['error'])) {
+                $data = array_change_key_case($data,CASE_UPPER);
                 $response = $data;
                 $response['ERROR'] = 0;
                 $response['ADDRESS'] = !empty($response['ADDRESS']) ? $response['ADDRESS'] : null;
@@ -919,7 +913,8 @@ class PolicyTravel extends \yii\db\ActiveRecord
             } else {
                 $data = $handBookService->sendRequestIns();
 
-                if (!empty($data) && is_array($data) && empty($data['ERROR'])) {
+                if (!empty($data) && is_array($data) && empty($data['error'])) {
+                    $data = array_change_key_case($data,CASE_UPPER);
                     $response = $data;
                     $response['ERROR'] = 0;
                     $response['ADDRESS'] = !empty($response['ADDRESS']) ? $response['ADDRESS'] : null;
@@ -935,7 +930,8 @@ class PolicyTravel extends \yii\db\ActiveRecord
                 } else {
                     $data = $handBookService->sendRequestIns();
 
-                    if (!empty($data) && is_array($data) && empty($data['ERROR'])) {
+                    if (!empty($data) && is_array($data) && empty($data['error'])) {
+                        $data = array_change_key_case($data,CASE_UPPER);
                         $response = $data;
                         $response['ERROR'] = 0;
                         $response['ADDRESS'] = !empty($response['ADDRESS']) ? $response['ADDRESS'] : null;
@@ -949,7 +945,7 @@ class PolicyTravel extends \yii\db\ActiveRecord
                         }
 
                     } else {
-                        $response = $data;
+                        $response = array_change_key_case($data,CASE_UPPER);
                     }
                 }
             }
@@ -980,12 +976,14 @@ class PolicyTravel extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         $session = Yii::$app->session;
-        if (!empty($session['source_promo_id']['number'])) {
-            $this->ins_agent_id = $session['source_promo_id']['number'];
-        } else {
-            $cookies = Yii::$app->request->cookies;
-            if (($cookie = $cookies->get('source_promo_id')) !== null) {
-                $this->ins_agent_id = $cookie->value;
+        if (empty($this->ins_agent_id)) {
+            if (!empty($session['source_promo_id']['number'])) {
+                $this->ins_agent_id = $session['source_promo_id']['number'];
+            } else {
+                $cookies = Yii::$app->request->cookies;
+                if (($cookie = $cookies->get('source_promo_id')) !== null) {
+                    $this->ins_agent_id = $cookie->value;
+                }
             }
         }
         return parent::beforeSave($insert);
@@ -1014,7 +1012,8 @@ class PolicyTravel extends \yii\db\ActiveRecord
         }
         return true;
     }
-
-
-
+    public function isReadOnly(): bool
+    {
+        return !empty($this->app_birthday) && !empty($this->app_pass_sery) && !empty($this->app_pass_num);
+    }
 }

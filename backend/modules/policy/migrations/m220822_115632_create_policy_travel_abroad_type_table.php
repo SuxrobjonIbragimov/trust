@@ -2,6 +2,7 @@
 
 namespace backend\modules\policy\migrations;
 
+use Yii;
 use yii\db\Migration;
 
 /**
@@ -25,7 +26,16 @@ class m220822_115632_create_policy_travel_abroad_type_table extends Migration
             'created_at' => $this->integer(),
             'updated_at' => $this->integer(),
         ]);
+        $sql = file_get_contents(__DIR__ . '/seeder/policy_travel_abroad_type.sql');
+        $command = Yii::$app->db->createCommand($sql);
+        $command->execute();
 
+        if ($this->db->driverName == 'pgsql') {
+            $sqlSequence = "SELECT setval('public.policy_travel_abroad_type_id_seq', 2, false);";
+            $commandSequence = Yii::$app->db->createCommand($sqlSequence);
+            $commandSequence->execute();
+
+        }
     }
 
     /**

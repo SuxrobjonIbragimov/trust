@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="flex-center-block payment-page__container mb-3">
 
-                <?php if (0) : ?>
+                <?php if (1) : ?>
                 <div class="payment-page__container" style="">
                     <div class="payment-page">
                         <div class="payment-page__info modal-cont-alt">

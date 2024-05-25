@@ -2,16 +2,15 @@
 
 namespace frontend\modules\payment\controllers;
 
+use Yii;
 use common\library\paycom\Paycom\PaycomSubscribeForm;
-use backend\modules\policy\models\PolicyOrder;
 use common\library\paycom\Paycom\PaycomApplication;
 use common\library\payment\models\PaymentTransaction;
 use backend\modules\policy\models\PolicyTravel;
-use Yii;
-use yii\base\BaseObject;
+use yii\web\Controller;
 use yii\web\Response;
 
-class PaymeController extends \yii\web\Controller
+class PaymeController extends Controller
 {
     /**
      * @param \yii\base\Action $action
@@ -56,7 +55,7 @@ class PaymeController extends \yii\web\Controller
             /* @var $model PolicyTravel */
             if (!empty($model->policyOrder)) {
                 $params = [
-                    'order_id' => (!empty($id_model['formName']) && $id_model['formName'] == "PolicyOsgo") ? $model->ins_anketa_id : $model->policyOrder->id,
+                    'order_id' => $model->ins_anketa_id,
                     'product_name' => $model->policyOrder->productName,
                     'amount' => $model->policyOrder->total_amount*100,
                     'h' => $h,

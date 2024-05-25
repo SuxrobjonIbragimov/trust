@@ -9,6 +9,7 @@ use backend\modules\policy\models\PolicyTravelParentTraveller;
 use backend\modules\policy\models\PolicyTravelProgram;
 use backend\modules\policy\models\PolicyTravelToCountry;
 use backend\modules\policy\models\PolicyTravelTraveller;
+use backend\modules\telegram\models\BotUser;
 use common\base\Model;
 use common\models\Settings;
 use Exception;
@@ -16,9 +17,11 @@ use Yii;
 use yii\base\BaseObject;
 use yii\db\Expression;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * TravelController implements the CRUD actions for PolicyTravel model.
@@ -55,21 +58,16 @@ class TravelController extends Controller
         ];
     }
 
-    public function beforeAction($action)
+    public function actionIndex()
     {
-        if ($action->id == 'my-method') {
-            $this->enableCsrfValidation = false;
-        }
-
-        return parent::beforeAction($action);
+        return $this->redirect(Url::to(['/policy/travel/calculate']));
     }
-
     /**
      * Creates a new PolicyTravel model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCalculate($code=null)
+    public function actionCalculate($h = null)
     {
         $model = new PolicyTravel(['scenario' => PolicyTravel::SCENARIO_SITE_STEP_CALC]);
         $model->_loadDefaultValues();
@@ -81,6 +79,11 @@ class TravelController extends Controller
         }
 
         if (!empty(Yii::$app->session->get('b_u_id'))) {
+            $bot_user_id = Yii::$app->session->get('b_u_id');
+            $botModel = BotUser::findOne($bot_user_id);
+            if (!empty($botModel->ins_agent_id)) {
+                $model->ins_agent_id = $botModel->ins_agent_id;
+            }
             $model->bot_user_id = Yii::$app->session->get('b_u_id');
         }
 
@@ -111,7 +114,6 @@ class TravelController extends Controller
                 }
             }
         }
-
         $model->_travelCountriesList = $model->getCountriesList();
         $model->_travelPurposesList = $model->getPurposesList();
         if (!empty($model->_travelCountries)) {
@@ -120,6 +122,7 @@ class TravelController extends Controller
             $model->program_id = null;
             $model->_travelProgramsList = null;
         }
+
 
         if (!empty($model->_travelCountries) && !empty($model->program_id) && !empty($model->days)) {
             if (!empty($model->_traveller_birthday)) {
@@ -400,232 +403,9 @@ class TravelController extends Controller
         ]);
     }
 
-    public function actionForm($h=null)
+    public function actionForm($h=null): Response
     {
-        return $this->redirect(['travel/calculate'], 301);
-        $session = Yii::$app->session;
-        if (!$session->isActive) $session->open();
-
-        $model = null;
-        $modelTravellers = null;
-        $session_calc_countries = null;
-        if (!empty($h)) {
-            $id_model = _model_decrypt($h);
-            $modelClassName = 'backend\modules\policy\models\\'.$id_model['formName'];
-            $model = $modelClassName::findOne($id_model['id']);
-            /* @var $model PolicyTravel */
-            if (!empty($model) && empty($model->policyOrder->paymentTransaction)) {
-                $model->scenario = PolicyTravel::SCENARIO_SITE_STEP_FORM;
-                $model->start_date = date('d.m.Y', strtotime($model->start_date));
-                $model->end_date = date('d.m.Y', strtotime($model->end_date));
-                $model->country_ids = json_decode($model->country_ids);
-                $modelTravellers_ = $model->policyTravelTravellers;
-                if (!empty($modelTravellers_)) {
-                    foreach ($modelTravellers_ as $traveller) {
-                        $traveller->scenario = PolicyTravelTraveller::SCENARIO_SITE_STEP_FORM;
-                        $traveller->birthday = date('d.m.Y', strtotime($traveller->birthday));
-                        $modelTravellers[] = $traveller;
-                    }
-                }
-            }
-        }
-
-        $program = null;
-
-        $modelPage = $this->findPage('travel_anketa');
-
-        if (empty($model) && empty($modelTravellers)) {
-
-            $model = new PolicyTravel(['scenario' => PolicyTravel::SCENARIO_SITE_STEP_FORM]);
-
-            if ($session->has('model_travel_calc') && $session->has('model_travel_calc_travellers')) {
-                $session_model = $session->get('model_travel_calc');
-                $session_model_travellers = $session->get('model_travel_calc_travellers');
-                $session_calc_countries = $session->get('model_travel_calc_countries');
-                if (!empty($session_model)) {
-                    $attrs = json_decode($session_model);
-                    $model->attributes = (array)$attrs;
-                    if ($session->has('model_travel_program')) {
-                        $program = $session->get('model_travel_program');
-                        $model->_ins_amount = $program['amount'];
-                    }
-                }
-                if (!empty($session_model_travellers)) {
-                    $attrs = json_decode($session_model_travellers);
-                    foreach ((array)$attrs as $attr) {
-                        $modelTravellers[] = new PolicyTravelTraveller(['scenario' => PolicyTravelTraveller::SCENARIO_SITE_STEP_FORM,'birthday' => $attr]);
-                    }
-                }
-            }
-        }
-
-        if (is_null($session_calc_countries) || is_null($model->start_date) || is_null($model->end_date) || is_null($model->purpose_id) || is_null($model->program_id) || is_null($modelTravellers)) {
-            return $this->redirect(['travel/calculate']);
-        }
-
-        if ($model->is_family && !empty($modelTravellers[0]->birthday)) {
-            $model->app_birthday = date('d.m.Y', strtotime($modelTravellers[0]->birthday));
-        }
-
-        if (!empty(Yii::$app->session->get('b_u_id'))) {
-            $model->bot_user_id = Yii::$app->session->get('b_u_id');
-        }
-
-//        d($model->attributes);
-//        d($program);
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
-            if (!$model->isNewRecord) {
-                $oldIDs = ArrayHelper::map($modelTravellers, 'id', 'id');
-                $modelTravellers = Model::createMultiple(PolicyTravelTraveller::classname(), $modelTravellers);
-                Model::loadMultiple($modelTravellers, Yii::$app->request->post());
-                $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelTravellers, 'id', 'id')));
-            } else {
-                $oldIDs = null;
-                $modelTravellers = Model::createMultiple(PolicyTravelTraveller::classname());
-                Model::loadMultiple($modelTravellers, Yii::$app->request->post());
-                $deletedIDs = null;
-            }
-
-            // validate all models
-            $valid = $model->validate();
-            $valid = Model::validateMultiple($modelTravellers) && $valid;
-
-            if ($valid) {
-                $exception_catch = Yii::t('frontend','Travel model exception');
-                $session_error_flash = Yii::t('frontend','Хатолик юз берди биз оздан сўнг қайта уриниб кўринг');
-
-                $transaction = \Yii::$app->db->beginTransaction();
-                try {
-
-                    $model->setEndDate();
-                    $model->app_name = mb_strtoupper($model->app_name);
-                    $model->app_pass_sery = mb_strtoupper($model->app_pass_sery);
-                    $model->app_phone = clear_phone_full($model->app_phone);
-                    $model->start_date = date('Y-m-d', strtotime($model->start_date));
-                    $model->end_date = date('Y-m-d', strtotime($model->end_date));
-                    $model->app_birthday = date('Y-m-d', strtotime($model->app_birthday));
-                    $model->country_ids = json_encode($model->country_ids);
-                    $model->app_address = mb_strtoupper($model->app_address);
-//                    dd($model->attributes);
-                    if ($flag = $model->save(false)) {
-                        if (!empty($deletedIDs)) {
-                            PolicyTravelTraveller::deleteAll(['id' => $deletedIDs]);
-                        }
-                        $count_traveller = 0;
-                        /* @var $modelItem PolicyTravelTraveller */
-                        if ($model->is_family && $model->isNewRecord) {
-                            $attributes = [
-                                'first_name' => $model->app_name,
-                                'surname' => $model->app_surname,
-                                'phone' => $model->app_phone,
-                                'email' => $model->app_email,
-                                'address' => $model->app_address,
-                                'policy_travel_id' => $model->id,
-                                'pass_sery' => $model->app_pass_sery,
-                                'pass_num' => $model->app_pass_num,
-                                'birthday' => date('Y-m-d', strtotime($model->app_birthday)),
-                            ];
-                            $modelTraveller = new PolicyTravelTraveller($attributes);
-                            if (!($flag = $modelTraveller->save(false))) {
-                                $transaction->rollBack();
-                            } else {
-                                $session->addFlash('error', $modelTraveller->errors);
-                            }
-                            $count_traveller++;
-                        }
-                        if ($flag) {
-                            foreach ($modelTravellers as $index => $modelItem) {
-                                if ($count_traveller==6) {
-                                    break;
-                                }
-                                $modelItem->policy_travel_id = $model->id;
-                                $modelItem->pass_sery = mb_strtoupper($modelItem->pass_sery);
-                                $modelItem->birthday = date('Y-m-d', strtotime($modelItem->birthday));
-                                if (!($flag = $modelItem->save(false))) {
-                                    $transaction->rollBack();
-                                    break;
-                                } else {
-                                    $session->addFlash('error', $modelItem->errors);
-                                }
-                                $count_traveller++;
-                            }
-                        }
-                        if ($flag && !empty($session_calc_countries)) {
-                            if(is_array($session_calc_countries)) {
-                                foreach ($session_calc_countries as $key => $country_id) {
-                                    $attributes = [
-                                        'policy_travel_id' => $model->id,
-                                        'country_id' => $country_id,
-                                        'weight' => $key,
-                                    ];
-                                    $modelCountry = new PolicyTravelToCountry($attributes);
-
-                                    if (!($flag = $modelCountry->save(false))) {
-                                        $transaction->rollBack();
-                                        break;
-                                    } else {
-                                        $session->addFlash('error', $modelCountry->errors);
-                                    }
-                                }
-                            } else {
-
-                                $attributes = [
-                                    'policy_travel_id' => $model->id,
-                                    'country_id' => intval($session_calc_countries),
-                                    'weight' => 0,
-                                ];
-                                $modelCountry = new PolicyTravelToCountry($attributes);
-
-                                if (!($flag = $modelCountry->save(false))) {
-                                    $transaction->rollBack();
-                                } else {
-                                    $session->addFlash('error', $modelCountry->errors);
-                                }
-                            }
-                        }
-                    }
-                    if ($flag) {
-                        $transaction->commit();
-                        unset($session['model_travel_calc'],$session['model_travel_calc_travellers'],$session['model_travel_ins_amount']);
-                        return $this->redirect(['travel/approve', 'h' => _model_encrypt($model)]);
-                    } else {
-                        $session->addFlash('error', $model->errors);
-                        $title = Yii::t('policy','Travel model exception');
-                        _send_error($title,json_encode($model->errors, JSON_UNESCAPED_UNICODE));
-                        dd($model->errors);
-                    }
-                } catch (Exception $e) {
-                    $title = Yii::t('policy','Travel model exception');
-                    _send_error($title,$e->getMessage());
-                    $session->addFlash('error', Yii::t('policy','Хатолик юз берди биз оздан сўнг қайта уриниб кўринг'));
-                    $transaction->rollBack();
-                }
-            } else {
-                $session->addFlash('error', $model->errors);
-            }
-        } elseif ($model->load(Yii::$app->request->post())) {
-            $session->addFlash('error', $model->errors);
-        }
-
-        if (!empty($model->app_birthday)) {
-            $model->app_birthday = date('d.m.Y', strtotime($model->app_birthday));
-        }
-        if (!empty($modelTravellers)) {
-            foreach ($modelTravellers as $key => $modelItem) {
-                if (!empty($modelItem->birthday)) {
-                    $modelItem->birthday = date('d.m.Y', strtotime($modelItem->birthday));
-                }
-                $modelTravellers[$key] = $modelItem;
-            }
-        }
-        return $this->render('fill_from', [
-            'model' => $model,
-            'program' => $program,
-            'modelPage' => $modelPage,
-            'logo' => Yii::$app->request->hostInfo . Settings::getLogoValue(),
-            'modelTravellers' => (empty($modelTravellers)) ? [new PolicyTravelTraveller()] : $modelTravellers
-        ]);
+        return $this->redirect(Url::to(['travel/calculate','h'=>$h]), 301);
     }
 
     /**
@@ -676,7 +456,7 @@ class TravelController extends Controller
 
     public function actionGetPassBirthdayData()
     {
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $out = [];
         if (Yii::$app->request->post() && ($post = Yii::$app->request->post())) {
             $items = [

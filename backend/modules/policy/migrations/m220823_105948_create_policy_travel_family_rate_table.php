@@ -23,13 +23,6 @@ class m220823_105948_create_policy_travel_family_rate_table extends Migration
             'created_at' => $this->integer(),
             'updated_at' => $this->integer(),
         ]);
-
-        $this->batchInsert('policy_travel_family_rate',
-            ['member_min', 'member_max', 'rate', 'status', 'created_at', 'updated_at'],
-            [
-                [3, 5, 2.5, 1, time(), time()],
-            ]
-        );
     }
 
     /**

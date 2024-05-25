@@ -2,8 +2,6 @@
 
 namespace backend\modules\policy\models;
 
-use common\components\behaviors\AuthorBehavior;
-use phpDocumentor\Reflection\Types\Self_;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
@@ -24,6 +22,8 @@ use yii\helpers\ArrayHelper;
  * @property int|null $status
  * @property int|null $created_at
  * @property int|null $updated_at
+ *
+ * @property string|null $localeName
  *
  * @property HandbookCountry $parent
  * @property HandbookCountry[] $handbookCountries
@@ -67,6 +67,12 @@ class HandbookCountry extends \yii\db\ActiveRecord
             [['name_ru', 'name_uz', 'name_en', 'code', 'flag'], 'string', 'max' => 255],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => HandbookCountry::className(), 'targetAttribute' => ['parent_id' => 'id']],
         ];
+    }
+    public function getLocaleName()
+    {
+        $lang = _lang();
+        $field = 'name_'.$lang;
+        return !empty($this->$field) ? $this->$field : 'name_ru';
     }
 
     /**
@@ -140,7 +146,8 @@ class HandbookCountry extends \yii\db\ActiveRecord
         return ArrayHelper::map(
             self::find()
                 ->where(['status' =>self::STATUS_ACTIVE])
-                ->andWhere(['IS NOT', 'parent_id', null])
+//                ->andWhere(['IS NOT', 'parent_id', null])
+                ->orderBy([$name_field => SORT_ASC])
                 ->all(), 'id' ,"{$name_field}"
         );
     }

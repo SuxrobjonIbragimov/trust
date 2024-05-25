@@ -132,7 +132,7 @@ class ClickController extends \yii\web\Controller
             /* @var $model PolicyTravel */
             if (!empty($model->policyOrder)) {
                 $content = [
-                    'order_id' => (!empty($id_model['formName']) && $id_model['formName'] == "PolicyOsgo") ? $model->ins_anketa_id : $model->policyOrder->id,
+                    'order_id' => $model->ins_anketa_id,
                     'total' => $model->policyOrder->total_amount,
                 ];
                 $click->performTransaction($content);

@@ -1,23 +1,28 @@
 <?php
 
+use backend\models\page\Pages;
+use backend\modules\policy\models\PolicyTravel;
+use backend\modules\policy\models\PolicyTravelTraveller;
+use frontend\modules\policy\assets\TravelAsset;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 
 /* @var $this yii\web\View */
 /* @var $program array */
 /* @var $logo string */
-/* @var $modelPage \backend\models\page\Pages */
-/* @var $model \backend\modules\policy\models\PolicyTravel */
-/* @var $modelTravellers \backend\modules\policy\models\PolicyTravelTraveller */
+/* @var $modelPage Pages */
+/* @var $model PolicyTravel */
+/* @var $modelTravellers PolicyTravelTraveller */
 
-\frontend\modules\policy\assets\TravelAsset::register($this);
+TravelAsset::register($this);
 
 $this->title = !empty($modelPage->name) ? $modelPage->name : Yii::t('policy','Онлайн оформление полиса TRAVEL');
 $this->params['breadcrumbs'][] = !empty($modelPage->name) ? $modelPage->name : Yii::t('policy','Онлайн оформление полиса TRAVEL');
 
 $this->params['meta_title'] = !empty($modelPage->meta_title) ? $modelPage->meta_title : null;
 $this->params['meta_type'] = 'page';
-$this->params['meta_url'] = Yii::$app->request->hostInfo . \yii\helpers\Url::current();
+$this->params['meta_url'] = Yii::$app->request->hostInfo . Url::current();
 if (!empty($modelPage->image)) {
     $this->params['meta_image'] = Yii::$app->request->hostInfo . $modelPage->image;
 } else {

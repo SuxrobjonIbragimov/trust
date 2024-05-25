@@ -49,16 +49,16 @@ class m220823_083000_create_policy_travel_purpose_table extends Migration
         );
 
 
-        $sql = file_get_contents(__DIR__ . '/seeder/policy_travel_purpose.sql');
-        $command = Yii::$app->db->createCommand($sql);
-        $command->execute();
-
-        if ($this->db->driverName == 'pgsql') {
-            $sqlSequence = "SELECT setval('public.policy_travel_purpose_id_seq', 5, true);";
-            $commandSequence = Yii::$app->db->createCommand($sqlSequence);
-            $commandSequence->execute();
-
-        }
+//        $sql = file_get_contents(__DIR__ . '/seeder/policy_travel_purpose.sql');
+//        $command = Yii::$app->db->createCommand($sql);
+//        $command->execute();
+//
+//        if ($this->db->driverName == 'pgsql') {
+//            $sqlSequence = "SELECT setval('public.policy_travel_purpose_id_seq', 5, true);";
+//            $commandSequence = Yii::$app->db->createCommand($sqlSequence);
+//            $commandSequence->execute();
+//
+//        }
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 namespace backend\modules\policy\migrations;
 
+use Yii;
 use yii\db\Migration;
 
 /**
@@ -59,32 +60,6 @@ class m220823_102503_create_policy_travel_program_to_risk_table extends Migratio
             '{{%policy_travel_risk}}',
             'id',
             'CASCADE'
-        );
-
-        $this->batchInsert('policy_travel_program_to_risk',
-            ['policy_travel_program_id', 'policy_travel_risk_id', 'value', 'created_at'],
-            [
-                [1, 1, 1000, time()],
-                [1, 2, 2000, time()],
-                [1, 3, 7000, time()],
-
-                [2, 1, 1000, time()],
-                [2, 2, 10000, time()],
-                [2, 3, 9000, time()],
-
-                [3, 1, 1500, time()],
-                [3, 2, 20000, time()],
-                [3, 3, 23500, time()],
-
-                [4, 1, 2000, time()],
-                [4, 2, 30000, time()],
-                [4, 3, 28000, time()],
-
-                [5, 1, 3000, time()],
-                [5, 2, 40000, time()],
-                [5, 3, 47000, time()],
-
-            ]
         );
     }
 
