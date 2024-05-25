@@ -13,8 +13,8 @@ use yii\widgets\Breadcrumbs;
 
 OsgoAsset::register($this);
 
-$this->title = $modelPage->meta_title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('policy', 'Calculate Policy'), 'url' => ['calculate']];
+$this->title = $modelPage->name;
+//$this->params['breadcrumbs'][] = ['label' => Yii::t('policy', 'Calculate Policy'), 'url' => ['calculate']];
 $this->params['breadcrumbs'][] = $modelPage->name;
 
 $this->params['meta_type'] = 'page';

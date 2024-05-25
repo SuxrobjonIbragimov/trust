@@ -2,6 +2,7 @@
 
 namespace backend\modules\policy\migrations;
 
+use Yii;
 use yii\db\Migration;
 
 /**
@@ -11,7 +12,7 @@ use yii\db\Migration;
  * - `{{%user}}`
  * - `{{%user}}`
  */
-class m221007_112455_create_policy_osgo_table extends Migration
+class m240513_094032_create_policy_osgo_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -31,6 +32,7 @@ class m221007_112455_create_policy_osgo_table extends Migration
             'driver_limit_id' => $this->integer()->defaultValue(0),
             'discount_id' => $this->integer()->defaultValue(0),
             'citizenship_id' => $this->integer(),
+            'owner_address' => $this->text()->null(),
             'owner_orgname' => $this->string(),
             'owner_first_name' => $this->string(),
             'owner_last_name' => $this->string(),
@@ -42,6 +44,7 @@ class m221007_112455_create_policy_osgo_table extends Migration
             'owner_pass_num' => $this->string(),
             'owner_pass_issued_by' => $this->string(),
             'owner_pass_issue_date' => $this->date(),
+            'owner_pass_expiration_date' => $this->date(),
             'owner_region' => $this->string(),
             'owner_district' => $this->string(),
             'owner_is_driver' => $this->boolean(),
@@ -57,6 +60,7 @@ class m221007_112455_create_policy_osgo_table extends Migration
             'app_pass_num' => $this->string(),
             'app_pass_issued_by' => $this->string(),
             'app_pass_issue_date' => $this->date(),
+            'app_pass_expiration_date' => $this->date(),
             'app_phone' => $this->string(),
             'app_email' => $this->string(),
             'app_region' => $this->string(),
@@ -68,6 +72,7 @@ class m221007_112455_create_policy_osgo_table extends Migration
             'tech_pass_series' => $this->string(),
             'tech_pass_number' => $this->string(),
             'tech_pass_issue_date' => $this->date(),
+            'product_type' => $this->string()->defaultValue('osgo'),
             'vehicle_model_name' => $this->string(),
             'vehicle_marka_id' => $this->integer(),
             'vehicle_model_id' => $this->integer(),
@@ -77,7 +82,8 @@ class m221007_112455_create_policy_osgo_table extends Migration
             'vehicle_engine_number' => $this->string(),
             'source' => $this->string(),
             'ins_anketa_id' => $this->integer()->null(),
-            'ins_policy_id' => $this->integer()->null(),
+            'ins_policy_id' => $this->string()->null(),
+            'uuid_sys' => $this->string(),
             'uuid_fond' => $this->string(),
             'ins_log' => $this->text(),
             'status' => $this->integer()->defaultValue(0),

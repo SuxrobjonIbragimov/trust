@@ -11,7 +11,7 @@ use yii\widgets\Breadcrumbs;
 
 OsgoAsset::register($this);
 
-$this->title = $modelPage->meta_title;
+$this->title = $modelPage->name;
 $this->params['breadcrumbs'][] = $modelPage->name;
 
 $this->params['meta_type'] = 'page';

@@ -169,9 +169,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         </table>
 
                         <?php if (!empty($model->policyOsgoDrivers)) :?>
-                            <h4 class="mid-3 text-center"><?= ($model->driver_limit_id == PolicyOsgo::DRIVER_UNLIMITED) ? Yii::t('policy','Родственники') : Yii::t('policy','Водители')?></h4>
+                            <h6 class="mid-3 text-center fw-bold"><?= ($model->driver_limit_id == PolicyOsgo::DRIVER_UNLIMITED) ? Yii::t('policy','Родственники') : Yii::t('policy','Водители')?></h6>
                             <div class="table-box">
-                                <table class="table inner-table">
+                                <table class="table table-striped table-bordered detail-view">
                                     <thead>
                                     <tr>
                                         <th><?= Yii::t('policy', '№')?></th>
@@ -201,13 +201,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     </div>
 
-                    <div class="d-flex justify-content-center align-items-center mt-5" style="min-width: 400px;">
-                        <div class="flex-item">
-                            <?= Html::a(Yii::t('policy', 'Изменить данные'), ['/policy/osgo/form', 'h' => _model_encrypt($model)], ['class' => 'btn btn-default']) ?>
+                    <div class="row align-items-center modal__container mx-0 mt-3 mt-5 w-100">
+                        <div class="col-sm-5 col-12 field  modal__field d-flex justify-content-center me-auto mt-md-0 mt-2 mb-md-0 mb-3  p-0">
+                            <?= Html::a(Yii::t('policy', 'Изменить данные'), ['/policy/osgo/form', 'h' => _model_encrypt($model)], ['class' => 'btn btn-light border-light-subtle w-100']) ?>
                         </div>
 
-                        <div class="flex-item">
-                            <?= Html::a(Yii::t('policy', 'Перейти к оплате'), ['/policy/osgo/confirm', 'h' => _model_encrypt($model)], ['class' => 'btn btn-success']) ?>
+                        <div class="col-sm-5 field col-12 modal__field ms-auto mt-md-0 mt-2 mb-md-0 mb-3 p-0">
+                            <?= Html::a(Yii::t('policy', 'Перейти к оплате'), ['/policy/osgo/confirm', 'h' => _model_encrypt($model)], ['class' => 'btn btn-primary w-100']) ?>
                         </div>
                     </div>
                 </div>

@@ -12,7 +12,7 @@ use yii\db\Migration;
  * - `{{%user}}`
  * - `{{%user}}`
  */
-class m221007_112459_create_policy_osgo_driver_table extends Migration
+class m240513_094119_create_policy_osgo_driver_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -30,6 +30,7 @@ class m221007_112459_create_policy_osgo_driver_table extends Migration
             'pass_num' => $this->string(),
             'pass_issued_by' => $this->string(),
             'pass_issue_date' => $this->date(),
+            'pass_expiration_date' => $this->date(),
             'pinfl' => $this->string(),
             'license_series' => $this->string(),
             'license_number' => $this->string(),

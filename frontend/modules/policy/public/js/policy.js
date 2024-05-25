@@ -3,6 +3,7 @@ let csrfToken = $('meta[name="csrf-token"]').attr("content");
 let lang = $('html').attr('lang');
 
 let overlay = jQuery('.overlay');
+let overlay_right = jQuery('.overlay-right');
 
 $(function () {
     $('.mask-card-number').mask('0000 0000 0000 0000');

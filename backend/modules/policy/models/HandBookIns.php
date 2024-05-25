@@ -72,14 +72,14 @@ class HandBookIns extends Model
     const METHOD_OSGO_GET_REGIONS = 'osgo/reference/regions';
     const METHOD_OSGO_GET_DISTRICTS = 'osgo/reference/districts';
 
-    const METHOD_OSGO_POST_CALC_PREM = 'osgo/provider/calc-prem';
-    const METHOD_OSGO_POST_VEHICLE = 'osgo/provider/vehicle';
-    const METHOD_OSGO_POST_PASSPORT_BIRTH_DATE = 'osgo/provider/passport-birth-date';
-    const METHOD_OSGO_POST_PASSPORT_PERSONAL_ID = 'osgo/provider/passport-pinfl';
-    const METHOD_OSGO_POST_IS_PENSIONER = 'osgo/provider/is-pensioner';
-    const METHOD_OSGO_POST_PROVIDED_DISCOUNTS = 'osgo/provider/provided-discounts';
-    const METHOD_OSGO_POST_DRIVER_SUMMARY = 'osgo/provider/driver-summary';
-    const METHOD_OSGO_POST_DRIVER_LICENSE = 'osgo/provider/driver-license';
+    const METHOD_OSGO_POST_CALC_PREM = 'osgo/calc-prem';
+    const METHOD_OSGO_POST_VEHICLE = 'provider/v2/vehicle';
+    const METHOD_OSGO_POST_PASSPORT_BIRTH_DATE = 'provider/v2/passport-birth-date';
+    const METHOD_OSGO_POST_PASSPORT_PERSONAL_ID = 'provider/v2/passport-pinfl';
+    const METHOD_OSGO_POST_IS_PENSIONER = 'provider/v2/is-pensioner';
+    const METHOD_OSGO_POST_PROVIDED_DISCOUNTS = 'provider/v2/provided-discounts';
+    const METHOD_OSGO_POST_DRIVER_SUMMARY = 'provider/v2/driver-summary';
+    const METHOD_OSGO_POST_DRIVER_LICENSE = 'provider/v2/driver-license';
 
     const METHOD_OSGO_POST_CREATE_ANKETA = 'osgo/create/create';
 

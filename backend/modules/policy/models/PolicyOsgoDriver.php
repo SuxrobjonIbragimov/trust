@@ -90,7 +90,7 @@ class PolicyOsgoDriver extends \yii\db\ActiveRecord
         $resident_id_uz = self::RESIDENT_UZB;
         return [
             [['policy_osgo_id', 'relationship_id', 'resident_id', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
-            [['birthday', 'pass_issue_date', 'license_issue_date', 'driver_limit', 'resident_id'], 'safe'],
+            [['birthday', 'pass_issue_date', 'pass_expiration_date', 'license_issue_date', 'driver_limit', 'resident_id'], 'safe'],
             [['resident_id', 'birthday', 'pass_sery', 'pass_num', /*'first_name', 'last_name', 'middle_name', 'pinfl',*/ 'license_series', 'license_number', 'license_issue_date'], 'required', 'on' => self::SCENARIO_SITE_STEP_FORM, 'message' => Yii::t('policy','Необходимо заполнить')],
 
             [['relationship_id', ], 'required', 'message' => Yii::t('policy','Необходимо заполнить'),

@@ -3,7 +3,6 @@
 use backend\modules\policy\models\PolicyTravel;
 use backend\modules\policy\models\PolicyTravelParentTraveller;
 use backend\modules\policy\models\PolicyTravelPurpose;
-use kartik\daterange\DateRangePicker;
 use wbraganca\dynamicform\DynamicFormWidget;
 use yii\helpers\Html;
 use yii\helpers\Url;

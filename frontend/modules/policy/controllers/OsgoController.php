@@ -87,45 +87,12 @@ class OsgoController extends Controller
      */
     public function actionCalculate()
     {
-        $model = new PolicyOsgo(['scenario' => PolicyOsgo::SCENARIO_SITE_STEP_CALC]);
-        $model->_loadDefaultValues();
-        $modelPage = $this->findPage('osgo_calc');
-
         $session = Yii::$app->session;
         if (!$session->isActive) $session->open();
 
         $session->remove('model_osgo_calc');
         $session->remove('model_osgo_drivers');
         return $this->redirect(['osgo/form'], 301);
-
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate()) {
-
-                $model->calculatePremPrice();
-
-                $model->amount_uzs = $model->_policy_price_uzs;
-                $model->amount_usd = $model->_policy_price_usd;
-
-                $session['model_osgo_calc'] = json_encode($model->attributes);
-                return $this->redirect(['osgo/form'], 301);
-            } else {
-                $session->addFlash('error', $model->errors);
-            }
-        }
-
-        if (!empty($model->vehicle_type_id) && !empty($model->_use_territory_id) && !empty($model->period_id) && !is_null($model->driver_limit_id)) {
-            $model->calculatePremPrice();
-        }
-        if (!empty($model->start_date)) {
-            $model->setEndDate();
-            $model->end_date = date('d.m.Y',strtotime($model->end_date));
-        }
-
-        return $this->render('calculate', [
-            'model' => $model,
-            'modelPage' => $modelPage,
-            'logo' => Yii::$app->request->hostInfo . Settings::getLogoValue(),
-        ]);
     }
 
     public function actionForm($h=null)
@@ -187,15 +154,13 @@ class OsgoController extends Controller
                 $modelDrivers[] = new PolicyOsgoDriver(['scenario' => PolicyOsgoDriver::SCENARIO_SITE_STEP_FORM,'driver_limit' => $model->driver_limit_id]);
             }
         }
-
-        if (is_null($model->vehicle_type_id) || is_null($model->start_date) || is_null($model->end_date) || is_null($model->period_id) || is_null($model->region_id)) {
+//        if (is_null($model->vehicle_type_id) || is_null($model->start_date) || is_null($model->end_date) || is_null($model->period_id) || is_null($model->region_id)) {
 //            return $this->redirect(['osgo/calculate'], 301);
-        }
+//        }
 
         $model->calculatePremPrice();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
             if (($model->owner_is_pensioner != PolicyOsgo::DEFAULT_OWNER_IS_PENSIONER) && (!$model->owner_is_applicant || $model->owner_fy != PolicyOsgo::LEGAL_TYPE_FIZ)) {
                 $model->owner_is_pensioner = PolicyOsgo::DEFAULT_OWNER_IS_PENSIONER;
             }
@@ -217,12 +182,14 @@ class OsgoController extends Controller
             }
 
             if ($session->has('model_osgo_vehicle') && !empty($session['model_osgo_vehicle'])) {
-                $model->attributes = $session['model_osgo_vehicle'];
+                $attributes = array_filter($session['model_osgo_vehicle'],function ($data){
+                    return $data !== null;
+                });
+                $model->attributes = $attributes;
             }
             // validate all models
             $valid = $model->validate();
             $valid = Model::validateMultiple($modelDrivers) && $valid;
-
 
             if ($model->_isEnabledOsgoLimited()) {
                 Yii::warning("_isEnabledOsgoLimited");
@@ -309,7 +276,7 @@ class OsgoController extends Controller
                 $session->addFlash('error', $model->errors);
             }
         } elseif ($model->load(Yii::$app->request->post())) {
-            $session->addFlash('error', $model->errors);
+            $session->addFlash('error', getFirstErrorMessage($model->errors));
         }
 
         if (!empty($model->app_birthday)) {
@@ -359,7 +326,7 @@ class OsgoController extends Controller
     public function actionConfirm($h)
     {
         $model = $this->findModelHash($h);
-        if (1) { /*$model->saveInsAnketa()*/
+        if ($model->saveInsAnketa()) {
 
             $session = Yii::$app->session;
             if (!$session->isActive) $session->open();

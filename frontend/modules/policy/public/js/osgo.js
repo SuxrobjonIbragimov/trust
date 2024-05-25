@@ -1,8 +1,7 @@
-let overlay_right = jQuery('.overlay-right');
-
 let url_post_price_calc = jQuery('#url_post_price_calc').val();
 let url_post_tech_pass_data = jQuery('#url_post_tech_pass_data').val();
 let url_post_pass_birthday = jQuery('#url_post_pass_birthday').val();
+let url_post_pass_pinfl = jQuery('#url_post_pass_pinfl').val();
 let label_driver = jQuery('#label_driver').val();
 
 $(function() {
@@ -11,7 +10,6 @@ $(function() {
     var driver_limit_id_cur = $('#policyosgo-driver_limit_id').val();
     eighteenYearsAgo = currentDate.setFullYear(currentDate.getFullYear()-18);
     hundredYearsAgo = currentDate.setFullYear(currentDate.getFullYear()-100);
-
 
     if ($('body').find('#policyosgo-start_date')) {
         var startDate = $('#policyosgo-start_date');
@@ -322,6 +320,7 @@ $(function() {
                     $('#policyosgo-app_first_name').val(owner_first_name).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
                     $('#policyosgo-app_middle_name').val(owner_middle_name).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
                     $('#policyosgo-app_address').val(owner_address).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
+                    $('#policyosgo-app_pinfl').val(owner_pinfl).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
                     $('#policyosgo-owner_is_driver').trigger('change');
                 }
             } else {
@@ -333,6 +332,7 @@ $(function() {
                 $('#policyosgo-app_first_name').val('').removeAttr('readonly');
                 $('#policyosgo-app_middle_name').val('').removeAttr('readonly');
                 $('#policyosgo-app_address').val('').removeAttr('readonly');
+                $('#policyosgo-app_pinfl').val('').removeAttr('readonly');
             }
         } else {
             $("#applicant-info").removeClass('d-none');
@@ -425,7 +425,7 @@ $(function() {
                 {
                     overlay.hide();
                     console.log(response);
-                    if (response.ERROR > 0) {
+                    if (response.ERROR != 0) {
                         alert(response.ERROR_MESSAGE);
                     } else if ( (response.ERROR == 0) && response) {
                         data = response;
@@ -436,8 +436,11 @@ $(function() {
                             $('#policyosgo-tech_pass_number').attr('readonly', true);
 
                             $('#policyosgo-vehicle_model_name').val(data.MODEL_NAME);
-                            $("#check-vehicle").removeClass('check').addClass('clear');
+                            hideSearchButton()
 
+                        }
+                        if (data.FY){
+                            $("#osgo-submit-btn").removeClass('d-none')
                         }
                         if (data.VEHICLE_TYPE_NAME) {
                             $('#policyosgo-vehicle_type_id').val(data.VEHICLE_TYPE_NAME);
@@ -452,6 +455,21 @@ $(function() {
                         }
                         if (data.ISSUE_YEAR) {
                             $('#policyosgo-vehicle_issue_year').val(data.ISSUE_YEAR);
+                        } else {
+                            $('#policyosgo-vehicle_issue_year').focus();
+                            $('#policyosgo-vehicle_issue_year').removeAttr('readonly');
+                        }
+                        if (data.BODY_NUMBER) {
+                            $('#policyosgo-vehicle_body_number').val(data.BODY_NUMBER).attr('readonly', true);
+                        } else {
+                            $('#policyosgo-vehicle_body_number').focus();
+                            $('#policyosgo-vehicle_body_number').removeAttr('readonly');
+                        }
+                        if (data.ENGINE_NUMBER) {
+                            $('#policyosgo-vehicle_engine_number').val(data.ENGINE_NUMBER).attr('readonly', true);
+                        } else {
+                            $('#policyosgo-vehicle_engine_number').focus();
+                            $('#policyosgo-vehicle_engine_number').removeAttr('readonly');
                         }
                         if (data.ORGNAME) {
                             $('#policyosgo-owner_orgname').val(data.ORGNAME);
@@ -467,12 +485,12 @@ $(function() {
                             // $('#policyosgo-owner_region').removeAttr('readonly').parent('div');
                         }
 
-                        if (data.DISTRICT_ID) {
-                            $('#policyosgo-owner_district').val(data.DISTRICT_ID).change().attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
-                        } else {
+                        // if (data.DISTRICT_ID) {
+                        //     $('#policyosgo-owner_district').val(data.DISTRICT_ID).change().attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
+                        // } else {
                             // $(".owner-region-info").removeClass('d-none');
                             // $('#policyosgo-owner_district').removeAttr('readonly').parent('div');
-                        }
+                        // }
 
 
                         $('#owner_inn').val(data.INN);
@@ -492,6 +510,7 @@ $(function() {
                             $(".pinfl-block").addClass('d-none');
                             $(".owner-is-app").addClass('d-none');
                             $('#policyosgo-owner_inn').val(data.INN);
+                            $('#policyosgo-owner_fy').val(data.FY);
                         } else {
                             $(".owner-is-app").removeClass('d-none');
                             $(".pinfl-block").removeClass('d-none');
@@ -526,6 +545,11 @@ $(function() {
                                     $('.owner-pensioner-info').removeClass('d-none');
                                 } else {
                                     $('.owner-pensioner-info').addClass('d-none');
+                                }
+                                if (data.PINFL) {
+                                    $('#policyosgo-app_pinfl').val(data.PINFL).attr('readonly', true);
+                                } else {
+                                    $('#policyosgo-app_pinfl').val(data.PINFL).removeAttr('readonly');
                                 }
 
                                 $('#policyosgo-app_last_name').val(data.LAST_NAME);
@@ -573,9 +597,9 @@ $(function() {
                 error  : function ()
                 {
                     overlay.hide();
-                    console.log('internal server error');
-                }
-            });
+                    alert('Internal server error. Please repeat a few moments later');
+                },
+            })
         } else {
             return false;
         }
@@ -584,21 +608,25 @@ $(function() {
 
     function _getPassBirthdayData(birthday, pass_series, pass_number, driver_id = null) {
 
+
+        let sender_pinfl = $('#policyosgo-app_pinfl').val();
+
         // return false if form still have some validation errors
-        if ((pass_series && pass_number && birthday))
+        if ((pass_series && pass_number && birthday && sender_pinfl))
         {
             overlay.show();
             // submit form
             $.ajax({
                 url    : url_post_pass_birthday,
                 type   : 'post',
-                data   : {csrfParam: csrfToken, pass_series: pass_series, pass_number: pass_number, birthday: birthday, driver_id: driver_id},
+                data   : {csrfParam: csrfToken, pass_series: pass_series, pass_number: pass_number, birthday: birthday, driver_id: driver_id, sender_pinfl: sender_pinfl},
                 success: function (response)
                 {
                     overlay.hide();
                     console.log(response);
                     if (response.ERROR > 0) {
                         alert(response.ERROR_MESSAGE);
+                        setEmptyDriver(driver_id)
                     } else if ( (response.ERROR == 0) && response) {
                         data = response;
                         if (driver_id == null) {
@@ -607,13 +635,13 @@ $(function() {
                             $('#policyosgo-app_pass_sery').attr('readonly', true);
                             $('#policyosgo-app_pass_num').attr('readonly', true);
 
-                            $("#check-applicant").removeClass('check').addClass('clear');
+                            $("#check-applicant").removeClass('check').addClass('clear').addClass('bg-danger');
 
                             $('#policyosgo-app_last_name').val(data.LAST_NAME).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
                             $('#policyosgo-app_first_name').val(data.FIRST_NAME).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
-                            $('#policyosgo-app_pinfl').val(data.PINFL).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
                             $('#policyosgo-app_region').val(data.REGION_ID).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
                             $('#policyosgo-app_district').val(data.DISTRICT_ID).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
+
                             if (data.MIDDLE_NAME) {
                                 $('#policyosgo-app_middle_name').val(data.MIDDLE_NAME).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
                             } else {
@@ -677,6 +705,102 @@ $(function() {
                     console.log('internal server error');
                 }
             });
+        } else if (!sender_pinfl) {
+            alert("Pinfl to'ldirilishi shart");
+            $('#policyosgo-app_pinfl').removeAttr('readonly').focus().parent('div').add('has-error').find('.help-block').html('');
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    function _getPasspinflData(pinfl, pass_series, pass_number, driver_id = null) {
+
+        // return false if form still have some validation errors
+        if ((pass_series && pass_number && pinfl))
+        {
+            overlay.show();
+            // submit form
+            $.ajax({
+                url    : url_post_pass_pinfl,
+                type   : 'post',
+                data   : {csrfParam: csrfToken, pass_series: pass_series, pass_number: pass_number, pinfl: pinfl, driver_id: driver_id},
+                success: function (response)
+                {
+                    overlay.hide();
+                    console.log(response)
+                    if (response.ERROR != 0) {
+                        alert(response.ERROR_MESSAGE);
+                        hideSaveButton()
+                    } else if ( (response.ERROR == 0) && response) {
+                        data = response;
+                        showSaveButton()
+                        console.log(driver_id)
+                        if (typeof driver_id === 'undefined' || driver_id == null) {
+                            $(".app-name-address-info").removeClass('d-none');
+                            $("#driver-info").removeClass('d-none');
+                            $("#submit-button").removeClass('d-none');
+                            if (pinfl) {
+                                $('#policyosgo-app_pinfl').val(pinfl).attr('readonly', true);
+                            } else {
+                                $('#policyosgo-app_pinfl').val(pinfl).removeAttr('readonly');
+                            }
+                            if (data.DISTRICT_ID) {
+                                $('#policyosgo-owner_district').val(data.DISTRICT_ID);
+                            }
+                            if (data.REGION_ID) {
+                                $('#policyosgo-owner_region').val(data.REGION_ID).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
+                            }
+                        } else if (driver_id) {
+
+                            $("button.check-driver.check-driver-index-"+driver_id).removeClass('check').addClass('clear');
+                            $('#policyosgodriver-'+driver_id+'-_full_name').val(data.FULL_NAME_TMP).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
+
+                            if (data.LICENSE_SERIA) {
+                                $('#policyosgodriver-'+driver_id+'-license_series').val(data.LICENSE_SERIA).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
+                            } else {
+                                $('#policyosgodriver-'+driver_id+'-license_series').removeAttr('readonly').parent('div').removeClass('has-error').find('.help-block').html('');
+                            }
+
+                            if (data.LICENSE_NUMBER) {
+                                $('#policyosgodriver-'+driver_id+'-license_number').val(data.LICENSE_NUMBER).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
+                            } else {
+                                $('#policyosgodriver-'+driver_id+'-license_number').removeAttr('readonly').parent('div').removeClass('has-error').find('.help-block').html('');
+                            }
+
+                            if (data.ISSUE_DATE) {
+                                $('#policyosgodriver-'+driver_id+'-license_issue_date').val(data.ISSUE_DATE).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
+                            } else {
+                                $('#policyosgodriver-'+driver_id+'-license_issue_date').removeAttr('readonly').parent('div').removeClass('has-error').find('.help-block').html('');
+                            }
+
+                            if (data.PINFL) {
+                                $('#policyosgodriver-'+driver_id+'-pinfl').val(data.PINFL).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
+                            } else {
+                                $('#policyosgodriver-'+driver_id+'-pinfl').removeAttr('readonly').parent('div').removeClass('has-error').find('.help-block').html('');
+                            }
+
+                            $('#policyosgodriver-'+driver_id+'-relationship_id').removeAttr('readonly').parent('div').removeClass('has-error').find('.help-block').html('');
+                            $('.driver-index-'+driver_id+' .driver-license-info').removeClass('d-none');
+
+                            if ($('#policyosgo-owner_is_driver').is(':checked')) {
+                                $('.driver-index-0 .relationship-block').addClass('d-none');
+                            } else {
+                                $('.relationship-block').removeClass('d-none');
+                                $('#policyosgodriver-'+driver_id+'-relationship_id').removeAttr('readonly').parent('div').removeClass('has-error').find('.help-block').html('');
+                                $('#policyosgodriver-'+driver_id+'-relationship_id').focus();
+                            }
+                        }
+
+                    }
+                },
+                error  : function ()
+                {
+                    overlay.hide();
+                    console.log('internal server error');
+                },
+            });
         } else {
             return false;
         }
@@ -701,10 +825,11 @@ $(function() {
     // VEHICLE
     $(document).on('click', '#check-vehicle', function(e) {
         if ($(this).hasClass('clear')) {
+            $("#check-applicant").trigger('click')
             $('#policyosgo-vehicle_gov_number').val('').removeAttr('readonly').focus();
             $('#policyosgo-tech_pass_series').val('').removeAttr('readonly');
             $('#policyosgo-tech_pass_number').val('').removeAttr('readonly').trigger('keyup');
-            $(this).addClass('check').removeClass('clear');
+            showSearchButton()
         } else if ($(this).hasClass('check')) {
             $('#policyosgo-tech_pass_number').trigger('keyup');
         }
@@ -742,11 +867,11 @@ $(function() {
             $('#policyosgo-app_birthday').val('').removeAttr('readonly').focus();
             $('#policyosgo-app_pass_sery').val('').removeAttr('readonly');
             $('#policyosgo-app_pass_num').val('').removeAttr('readonly').trigger('keyup');
-            $(this).addClass('check').removeClass('clear');
+            $(this).addClass('check').removeClass('clear').addClass('bg-primary').removeClass('bg-danger');
         } else if ($(this).hasClass('check')) {
-            $('#policyosgo-app_birthday').datepicker('hide');
             $('#policyosgo-app_pass_num').trigger('keyup');
         }
+        $('#policyosgo-app_birthday').datepicker('hide');
     })
 
     $(document).on('keyup', '#policyosgo-app_birthday', function(e) {
@@ -784,6 +909,43 @@ $(function() {
         }
     })
 
+    $(document).on('keyup', '#policyosgo-owner_pinfl', function(e) {
+        let maxLength = $(this).attr('maxlength');
+        if ($(this).val().length >= maxLength) {
+            $('#policyosgo-owner_pass_sery').focus();
+        }
+    })
+
+    $(document).on('keyup', '#policyosgo-owner_pass_sery', function(e) {
+        let maxLength = $(this).attr('maxlength');
+        if ($(this).val().length >= maxLength) {
+            $('#policyosgo-owner_pass_num').focus();
+        }
+    })
+
+    $(document).on('keyup', '#policyosgo-owner_pass_num', function(e) {
+        let maxLength = $(this).attr('maxlength');
+        if ($(this).val().length >= maxLength) {
+            $('#policyosgo-app_phone').focus();
+        }
+    })
+
+
+    // ON change owner info
+    $(document).on('keyup', '.on-change-owner-fy-info', function(e) {
+        let owner_pinfl = $('#policyosgo-owner_pinfl');
+        let owner_pass_sery = $('#policyosgo-owner_pass_sery');
+        let owner_pass_num = $('#policyosgo-owner_pass_num');
+
+        let owner_pinfl_maxLength = owner_pinfl.attr('maxlength');
+        let owner_pass_sery_maxLength = owner_pass_sery.attr('maxlength');
+        let owner_pass_num_maxLength = owner_pass_num.attr('maxlength');
+        if (owner_pinfl.val().length >= owner_pinfl_maxLength && owner_pass_sery.val().length >= owner_pass_sery_maxLength && owner_pass_num.val().length >= owner_pass_num_maxLength) {
+            $(this).trigger('change');
+            _getPasspinflData(owner_pinfl.val(), owner_pass_sery.val(), owner_pass_num.val(), null);
+        }
+    })
+
     // DRIVER
     $(document).on('click', 'button.check-driver', function(e) {
         let driver_id = $(this).data('index') ? $(this).data('index') : 0;
@@ -798,7 +960,7 @@ $(function() {
             $('#policyosgodriver-'+driver_id+'-license_issue_date').val('').removeAttr('readonly');
             $('#policyosgodriver-'+driver_id+'-relationship_id').val('').removeAttr('readonly');
             $('.driver-index-'+driver_id+' .driver-license-info').addClass('d-none');
-            $(this).addClass('check').removeClass('clear');
+            $(this).addClass('check').removeClass('clear').addClass('bg-primary');
         } else if ($(this).hasClass('check')) {
             $('.driver_birthday').datepicker('hide');
             $('#policyosgodriver-'+driver_id+'-pass_num').trigger('keyup');
@@ -810,7 +972,7 @@ $(function() {
             let owner_birthday = $('#owner_birthday').val();
             let owner_pass_sery = $('#policyosgo-owner_pass_sery').val();
             let owner_pass_num = $('#policyosgo-owner_pass_num').val();
-
+            console.log(owner_birthday)
             if (owner_birthday) {
                 $('#policyosgodriver-0-birthday').val(owner_birthday).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
             }
@@ -940,7 +1102,35 @@ $(function() {
             $('.submitFormOsgo').attr('disabled',true)
         }
     });
+    function hideSaveButton()
+    {
+        $("#osgo-submit-btn").addClass('d-none')
+    }
+    function showSaveButton()
+    {
+        if ($("#osgo-submit-btn").hasClass('d-none'))
+        {
+            $("#osgo-submit-btn").removeClass('d-none')
+        }
+    }
 
+    function hideSearchButton()
+    {
+        $("#check-vehicle").removeClass('check').addClass('clear').addClass('bg-danger');
+    }
+    function showSearchButton()
+    {
+        $("#check-vehicle").removeClass('clear').addClass('check').addClass('bg-primary').removeClass('bg-danger');
+    }
+
+    function setEmptyDriver(driver_id = null)
+    {
+        if (driver_id != null){
+            $("#policyosgodriver-" + driver_id + "-birthday").val('').focus()
+            $("#policyosgodriver-" + driver_id + "-pass_sery").val('')
+            $("#policyosgodriver-" + driver_id + "-pass_num").val('')
+        }
+    }
     let isLoading = false;
 
 })

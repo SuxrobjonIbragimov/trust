@@ -1124,3 +1124,106 @@ if (!function_exists('mask_to_phone_format')) {
     }
 
 }
+
+if (!function_exists('_getFizYurByGovNumber')) {
+
+    /**
+     * @param $govnumber
+     * @return string
+     */
+    function _getFizYurByGovNumber($govnumber)
+    {
+        $govnumber = preg_replace('/\s+/', '', $govnumber);
+        $fy = 1;
+        $pattern_fiz = '/[0-9]{2}[A-Z]{1}[0-9]{3}[A-Z]{2}/';
+        $pattern_fiz_h = '/[0-9]{2}[H]{1}/';
+        $fiz = preg_match($pattern_fiz, $govnumber, $matches);
+        $fiz_h = preg_match($pattern_fiz_h, $govnumber, $matches_h);
+        if ($fiz || $fiz_h) {
+            $fy = 0;
+        }
+        return $fy;
+    }
+}
+
+if (!function_exists('_getSptilFullName')) {
+
+    /**
+     * @param $str
+     * @return array
+     */
+    function _getSptilFullName($str)
+    {
+        $full_str = null;
+        $str = explode(' ', trim($str));
+        if (!empty($str[0])) {
+            $full_str['FIRST_NAME'] = $str[0];
+        }
+        if (!empty($str[1])) {
+            $full_str['LAST_NAME'] = $str[1];
+        }
+        if (!empty($str[2])) {
+            $full_str['MIDDLE_NAME'] = $str[2];
+        }
+        if (!empty($str[3])) {
+            $full_str['MIDDLE_NAME'] .= ' '.$str[3];
+        }
+        return $full_str;
+    }
+}
+if (!function_exists('sanitizeVehicleModelID'))
+{
+    function sanitizeVehicleModelID($modelID){
+        if (!empty($modelID) && strpos($modelID,'#'))
+        {
+            $item = explode('#',$modelID);
+            return !empty($item[0]) ? $item[0] : $modelID;
+        }
+        return $modelID;
+    }
+}
+if(!function_exists('getFirstErrorMessage'))
+{
+    function getFirstErrorMessage(array $errors)
+    {
+        $message = '';
+        if (empty($errors))
+            return '';
+        foreach ($errors as $error)
+        {
+            if (!empty($error[0]))
+            {
+                $message = $error[0];
+                break;
+            }
+        }
+        return $message;
+    }
+}
+if (!function_exists('gen_uuid')) {
+
+    /**
+     * @return string
+     */
+    function gen_uuid() {
+        return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+            // 32 bits for "time_low"
+            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
+
+            // 16 bits for "time_mid"
+            mt_rand( 0, 0xffff ),
+
+            // 16 bits for "time_hi_and_version",
+            // four most significant bits holds version number 4
+            mt_rand( 0, 0x0fff ) | 0x4000,
+
+            // 16 bits, 8 bits for "clk_seq_hi_res",
+            // 8 bits for "clk_seq_low",
+            // two most significant bits holds zero and one for variant DCE1.1
+            mt_rand( 0, 0x3fff ) | 0x8000,
+
+            // 48 bits for "node"
+            mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+        );
+    }
+}
