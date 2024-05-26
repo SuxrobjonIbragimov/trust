@@ -329,7 +329,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                                     echo $form->field($model, 'owner_is_applicant', [
                                                         'template' => $template
                                                     ])->checkbox([
-                                                        'class' => 'on-change-insurer',
+                                                        'class' => 'primary-accent-color',
                                                     ])->label(false);
                                                     ?>
                                                     <?php
@@ -508,7 +508,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                             echo $form->field($model, 'owner_is_driver', [
                                                 'template' => $template
                                             ])->checkbox([
-                                                'class' => 'on-change-owner_is_driver',
+                                                'class' => 'primary-accent-color',
                                             ])->label(false);
                                             ?>
                                         </div>
@@ -672,7 +672,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                                 </div>
 
                                                 <div class="row driver-license-info pinfl-block <?= ($modelItem->isNewRecord) ? 'd-none' : ''; ?>">
-                                                    <div class="col-md-6 col-sm-7 col-12 field">
+                                                    <div class="col-md-7 col-sm-7 col-12 field">
                                                         <?php $label = $modelItem->getAttributeLabel('_full_name'); ?>
                                                         <?= $form->field($modelItem, "[{$i}]_full_name", ['options' => ['class' => 'form-group']])->textInput([
                                                             'maxlength' => true,
@@ -684,7 +684,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                                                 ['label' => $label]),
                                                         ])->label($label, ['class' => 'control-label my-2']) ?>
                                                     </div>
-                                                    <div class="col-md-6 col-sm-5 col-12 field">
+                                                    <div class="col-md-5 col-sm-5 col-12 field">
                                                         <?php $label = $modelItem->getAttributeLabel('pinfl'); ?>
                                                         <?= $form->field($modelItem, "[{$i}]pinfl", ['options' => ['class' => 'form-group']])
                                                             ->textInput(['type' => 'text',
@@ -738,7 +738,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                                 </div>
 
                                                 <div class="row driver-license-info license-block <?= ($modelItem->isNewRecord) ? 'd-none' : ''; ?>">
-                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-4 field">
+                                                    <div class="col-xl-7 col-lg-6 col-md-6 col-sm-4 field">
                                                         <?php $label = $modelItem->getAttributeLabel('license_issue_date'); ?>
                                                         <?= $form->field($modelItem, "[{$i}]license_issue_date", ['options' => ['class' => 'form-group']])
                                                             ->textInput(['type' => 'text',
@@ -761,7 +761,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                                             'placeholder' => Yii::t('policy', 'AF'),
                                                         ])->label($label, ['class' => 'control-label d-block w-100 overflow-visible visible ws-nowrap my-2 text-nowrap']) ?>
                                                     </div>
-                                                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 field">
+                                                    <div class="col-xl-2 col-lg-3 col-md-3 col-sm-3 field">
                                                         <?php $label = $modelItem->getAttributeLabel('license_number'); ?>
                                                         <?= $form->field($modelItem, "[{$i}]license_number", ['options' => ['class' => 'form-group']])->textInput([
                                                             'maxlength' => 7,

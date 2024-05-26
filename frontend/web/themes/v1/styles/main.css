@@ -35,6 +35,10 @@
     width: max-content !important;
 }
 
+.bg-red {
+    background-color: red !important;
+}
+
 .text-primary-hover {
     transition: color .3s;
 }
@@ -828,6 +832,9 @@ progress {
 @media (max-width: 576px) {
     .scrollup {
         right: 1.2rem;
+    }
+    .check-button, .remove-item-drive {
+        width: 100% !important;
     }
 }
 

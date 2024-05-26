@@ -35,7 +35,7 @@ use yii\helpers\Url;
     $lang_name = ($native) ? $cur_lang_object['native'] : $cur_lang_object['name'];
     $lang_name = ($short) ? mb_strtoupper($cur_lang) : ($lang_name) ;
     ?>
-    <div class="nav-item-top dropdown ms-3 me-lg-0 me-3">
+    <div class="nav-item-top dropdown ms-3 me-2">
         <a class="nav-link-sm d-flex align-items-center text-gray fw-bold column-gap-2 dropdown-toggle dropdown-arrow dropdown-toggle-not pe-3"
            href="#" id="navbarDropdownLang" role="button" data-bs-toggle="dropdown"
            aria-expanded="false">
