@@ -1204,4 +1204,14 @@ INSERT INTO "language_source" ("id", "category", "message") VALUES
                                 card''s content.'),
 (2152,	'content',	'Sug’urta turlari'),
 (2153,	'header',	'Физическое лицо'),
-(2154,	'header',	'Юридическое лицо');
+(2154,	'header',	'Юридическое лицо'),
+(2155,	'policy',	'Oked'),
+(2156,	'policy',	'Okonx'),
+(2157,	'policy',	'Размер ГЗП'),
+(2158,	'policy',	'на 12 месяцев'),
+(2159,	'policy',	'на 9 месяцев'),
+(2160,	'policy',	'на 6 месяцев'),
+(2161,	'policy',	'на 3 месяца'),
+(2162,	'policy',	'Data not found'),
+(2163,	'policy',	'sendRequestIns Anketa saqlashda xatolik error_message bor'),
+(2164,	'policy',	'Countries');
