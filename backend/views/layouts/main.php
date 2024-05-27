@@ -19,7 +19,7 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <link rel="shortcut icon" type="image/png" href="<?= Url::base() ?>/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="<?= Url::to('/themes/v1/images/logo/favicon.png',true) ?>">
     <?php $this->head() ?>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
