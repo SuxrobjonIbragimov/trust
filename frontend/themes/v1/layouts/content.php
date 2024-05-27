@@ -5,7 +5,6 @@
 use common\widgets\CustomAlert;
 use yii\widgets\Breadcrumbs;
 use yii2mod\notify\BootstrapNotify;
-
 /* @var $content string */
 ?>
 
@@ -24,7 +23,7 @@ use yii2mod\notify\BootstrapNotify;
                         'activeItemTemplate' => "<li class='breadcrumb-item active'>{link}</li>\n",
                     ]) ?>
                 </nav>
-                <h2 class="main-title title-center"><?= $this->title ?></h2>
+                <h4 class="main-title title-center"><?= $this->title ?></h4>
                 <?= $content ?>
             </div>
         </section>
