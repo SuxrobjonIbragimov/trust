@@ -276,7 +276,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                                 echo Html::hiddenInput('owner_middle_name', $model->owner_middle_name, ['id' => 'owner_middle_name']);
                                                 echo Html::hiddenInput('owner_address', $model->owner_address, ['id' => 'owner_address']);
                                                 echo Html::hiddenInput('owner_inn', $model->owner_inn, ['id' => 'owner_inn']);
-                                                echo Html::hiddenInput('owner_fy', 0, ['id' => 'owner_fy']);
+                                                echo Html::hiddenInput('owner_fy', $model->owner_fy === 1 ? 1 : 0, ['id' => 'owner_fy']);
                                                 ?>
                                             </div>
                                         </div>
