@@ -861,3 +861,14 @@ progress {
 .tt-scrollable-menu {
     width: 100% !important;
 }
+
+.has-error .help-block
+{
+    color: red;
+}
+.p-relative {
+    position: relative;
+}
+.bx-custom-sm {
+    font-size: 1rem !important;
+}

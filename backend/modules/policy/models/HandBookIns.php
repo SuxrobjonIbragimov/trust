@@ -98,6 +98,8 @@ class HandBookIns extends Model
     const METHOD_OSGO_POST_DRIVER_SUMMARY_KS_V2 = 'provider/v2/driver-summary';
     const METHOD_OSGO_POST_DRIVER_LICENSE_KS_V2 = 'provider/v2/driver-license';
 
+    const METHOD_OSGO_POST_CONFIRMPAYMENT = 'payments/check';
+
     public function __construct($token = null, $config = [])
     {
         $this->lang = _lang();

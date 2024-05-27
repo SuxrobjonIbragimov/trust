@@ -697,7 +697,7 @@ HTML;
                                                 <h3 class="panel-title pull-left panel-title-birthday contact-us-page__label fw-bold fs-4"><?= Yii::t('policy', 'Traveller <span class="index">{0}</span>', [$i + 1]) ?></h3>
                                                 <div class="pull-right page-footer-button">
                                                     <button type="button" class="remove-item btn btn-danger btn-xs">
-                                                        <i class='bx bxs-user-x bx-sm'></i>
+                                                        <i class='bx bxs-user-x bx-custom-sm'></i>
                                                     </button>
                                                 </div>
                                                 <div class="clearfix"></div>
@@ -718,7 +718,7 @@ HTML;
                                                                 'maxlength' => 10,
                                                                 'autocomplete' => 'off',
                                                                 'data-param' => 'travel',
-                                                                'class' => 'field__input form-control mask-birthday traveller-birthday on-change on-change-traveller-info dd-with',
+                                                                'class' => 'field__input form-control mask-birthday traveller-birthday on-change-traveller-info dd-with',
                                                                 'placeholder' => Yii::t('policy', 'dd.mm.yyyy')
                                                             ])->label($label, ['class' => 'control-label main-form-label']) ?>
                                                     </div>

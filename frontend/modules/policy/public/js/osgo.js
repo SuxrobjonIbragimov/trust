@@ -612,7 +612,7 @@ $(function() {
         let sender_pinfl = $('#policyosgo-app_pinfl').val();
 
         // return false if form still have some validation errors
-        if ((pass_series && pass_number && birthday && sender_pinfl))
+        if ((pass_series && pass_number && birthday))
         {
             overlay.show();
             // submit form
@@ -651,6 +651,11 @@ $(function() {
                                 $('#policyosgo-app_address').val(data.ADDRESS).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
                             } else {
                                 $('#policyosgo-app_address').removeAttr('readonly').parent('div').removeClass('has-error').find('.help-block').html('');
+                            }
+                            if (data.PINFL) {
+                                $('#policyosgo-app_pinfl').val(data.PINFL).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
+                            } else {
+                                $('#policyosgo-app_pinfl').removeAttr('readonly').parent('div').removeClass('has-error').find('.help-block').html('');
                             }
 
                             $(".app-name-address-info").removeClass('d-none');
@@ -868,6 +873,7 @@ $(function() {
             $('#policyosgo-app_pass_sery').val('').removeAttr('readonly');
             $('#policyosgo-app_pass_num').val('').removeAttr('readonly').trigger('keyup');
             $(this).addClass('check').removeClass('clear').addClass('bg-primary').removeClass('bg-danger');
+            $('#policyosgo-app_pinfl').val('').removeAttr('readonly');
         } else if ($(this).hasClass('check')) {
             $('#policyosgo-app_pass_num').trigger('keyup');
         }
