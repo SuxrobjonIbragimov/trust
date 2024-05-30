@@ -1214,4 +1214,14 @@ INSERT INTO "language_source" ("id", "category", "message") VALUES
 (2161,	'policy',	'на 3 месяца'),
 (2162,	'policy',	'Data not found'),
 (2163,	'policy',	'sendRequestIns Anketa saqlashda xatolik error_message bor'),
-(2164,	'policy',	'Countries');
+(2164,	'policy',	'Countries'),
+(2165,	'policy',	'Oked ID'),
+(2166,	'policy',	'Онлайн оформление полиса ОСГОВТС'),
+(2167,	'policy',	'Онлайн оформление полиса ОСГОР'),
+(2168,	'policy',	'000 000 001'),
+(2169,	'policy',	'Company name'),
+(2170,	'policy',	'Вилоят'),
+(2171,	'policy',	'Туман/шаҳар'),
+(2172,	'policy',	'1 000 000 000'),
+(2173,	'policy',	'Согласен с Правилами'),
+(2174,	'policy',	'обязательного страхования гражданской ответственности работодателя');
