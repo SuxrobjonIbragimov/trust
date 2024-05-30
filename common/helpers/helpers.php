@@ -16,8 +16,11 @@ define("BOT_TOKENT_SALE", "5200097983:AAHMt6jSaVdWarnKMHKieLF2XUCOx9_MJ5k");
 define("CHAT_ID_ME", "5204219901");
 define("CHAT_ID_GROUP_SALE", "-887395551");
 define("EBASE_URL_INS_KS_V2", "https://openapi.ksc.uz/api/");
+define("EBASE_URL_INS_TR", "http://api.online-trust.uz/api/");
 define("KS_LOGIN", "EPOLIS");
 define("KS_PASSWORD", 'EP0LI$_5485');
+define("TR_LOGIN", 'WEBSITE');
+define("TR_PASSWORD", '!@#$WEB$|TE_2024');
 $domainName = !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
 if ($domainName == MAIN_DOMAIN_NAME) {
     define("EBASE_URL_INS", "http://api.ksc.uz/");

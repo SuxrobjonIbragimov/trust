@@ -774,7 +774,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                                 </div>
                                             </div>
 
-                                            <div class="row driver-license-info relationship-block  <?= ($modelItem->isNewRecord) ? 'd-none' : ''; ?>">
+                                            <div class="row driver-license-info relationship-block  <?= ($modelItem->isNewRecord || $model->owner_fy === PolicyOsgo::LEGAL_TYPE_YUR) ? 'd-none' : ''; ?>" id="relationship-block">
                                                 <div class="field">
                                                     <?php $label = $modelItem->getAttributeLabel('relationship_id'); ?>
                                                     <?= $form->field($modelItem, "[{$i}]relationship_id", ['options' => ['class' => 'form-group']])->dropDownList(PolicyOsgoDriver::_getRelationList(), [

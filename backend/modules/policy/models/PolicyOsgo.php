@@ -3,6 +3,8 @@
 namespace backend\modules\policy\models;
 
 use backend\modules\handbook\models\HandbookFondRegion;
+use backend\modules\handbook\models\HandbookOked;
+use backend\modules\handbook\models\HandbookOkonh;
 use common\components\behaviors\AuthorBehavior;
 use common\library\payment\models\PaymentTransaction;
 use common\models\Settings;
@@ -221,6 +223,7 @@ class PolicyOsgo extends ActiveRecord
     public $_tmp_message;
     public $offer;
 
+    public $okonx_list = [];
     /**
      * {@inheritdoc}
      */
@@ -670,9 +673,9 @@ class PolicyOsgo extends ActiveRecord
         $response = [];
         if (self::ENABLE_CALCULATE_INS) {
             $handBookService = new HandBookIns();
-            $handBookService->setBaseUrl(EBASE_URL_INS_KS_V2);
-            $handBookService->setLogin(KS_LOGIN);
-            $handBookService->setPassword(KS_PASSWORD );
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
             $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
             $handBookService->setMethod(HandBookIns::METHOD_OSGO_POST_CALC_PREM);
             if (!empty($this->vehicle_type_id) && !empty($this->region_id) && !is_null($this->driver_limit_id) && !empty($this->period_id)) {
@@ -684,10 +687,12 @@ class PolicyOsgo extends ActiveRecord
                     'discount' => $this->discount_id,
                 ]);
                 $data = $handBookService->sendRequestIns();
+
                 if (!empty($data['prem'])) {
+                    $premAmount = $data['prem'];
                     $response = $data;
-                    $this->_policy_price_uzs = !empty($data['prem']) ? $data['prem'] : 0;
-                    $this->amount_uzs = !empty($data['prem']) ? $data['prem'] : 0;
+                    $this->_policy_price_uzs = $premAmount;
+                    $this->amount_uzs = $premAmount;
                     $this->_policy_price_usd = 0;
                 } else {
                     $this->_policy_price_usd = 0;
@@ -1067,16 +1072,16 @@ class PolicyOsgo extends ActiveRecord
         $response = [];
         if (self::ENABLE_CALCULATE_INS || 1) {
             $handBookService = new HandBookIns();
-            $handBookService->setBaseUrl(EBASE_URL_INS_KS_V2);
-            $handBookService->setLogin(KS_LOGIN);
-            $handBookService->setPassword(KS_PASSWORD);
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
             $handBookService->setMethod(HandBookIns::METHOD_OSGO_POST_VEHICLE);
             $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
 
             $handBookService->setParams([
                 'techPassportSeria' => !empty($items['tech_pass_series']) ? $items['tech_pass_series'] : '',
                 'techPassportNumber' => !empty($items['tech_pass_number']) ? $items['tech_pass_number'] : '',
-                'govNumber' => !empty($items['vehicle_gov_number']) ? $items['vehicle_gov_number'] : '',
+                'govnumber' => !empty($items['vehicle_gov_number']) ? $items['vehicle_gov_number'] : '',
             ]);
 
             $car_number_prefix = _getCarAutoNumberPrefix($items['vehicle_gov_number']);
@@ -1183,7 +1188,7 @@ class PolicyOsgo extends ActiveRecord
                     }
                 }
             } else {
-                $response = array_change_key_case($data,CASE_UPPER);
+                $response = is_array($data) ? array_change_key_case($data,CASE_UPPER) : $data;
                 $title = Yii::t('policy', 'Хатолик юз берди биз оздан сўнг қайта уриниб кўринг');
                 $response['ERROR'] = $data['error'] ?? -1;
                 $response['ERROR_MESSAGE'] = $data['error_message'] ?? $title;
@@ -1244,9 +1249,9 @@ class PolicyOsgo extends ActiveRecord
         $response = [];
         if (self::ENABLE_CALCULATE_INS || 1) {
             $handBookService = new HandBookIns();
-            $handBookService->setBaseUrl(EBASE_URL_INS_KS_V2);
-            $handBookService->setLogin(KS_LOGIN);
-            $handBookService->setPassword(KS_PASSWORD);
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
             $handBookService->setMethod(HandBookIns::METHOD_OSGO_POST_DRIVER_SUMMARY);
             $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
 
@@ -1282,9 +1287,9 @@ class PolicyOsgo extends ActiveRecord
         $response = [];
         if (self::ENABLE_CALCULATE_INS || 1) {
             $handBookService = new HandBookIns();
-            $handBookService->setBaseUrl(EBASE_URL_INS_KS_V2);
-            $handBookService->setLogin(KS_LOGIN);
-            $handBookService->setPassword(KS_PASSWORD);
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
             $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
             $handBookService->setMethod(HandBookIns::METHOD_OSGO_POST_PASSPORT_BIRTH_DATE);
 
@@ -1349,9 +1354,9 @@ class PolicyOsgo extends ActiveRecord
         $response = [];
         if (self::ENABLE_CALCULATE_INS || 1) {
             $handBookService = new HandBookIns();
-            $handBookService->setBaseUrl(EBASE_URL_INS_KS_V2);
-            $handBookService->setLogin(KS_LOGIN);
-            $handBookService->setPassword(KS_PASSWORD);
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
             $handBookService->setMethod(HandBookIns::METHOD_OSGO_POST_PASSPORT_PERSONAL_ID);
             $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
 
@@ -1459,9 +1464,9 @@ class PolicyOsgo extends ActiveRecord
         $response = [];
         if (self::ENABLE_CALCULATE_INS || 1) {
             $handBookService = new HandBookIns();
-            $handBookService->setBaseUrl(EBASE_URL_INS_KS_V2);
-            $handBookService->setLogin(KS_LOGIN);
-            $handBookService->setPassword(KS_PASSWORD);
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
             $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
             $handBookService->setMethod(HandBookIns::METHOD_OSGO_POST_PROVIDED_DISCOUNTS);
 
@@ -1756,9 +1761,9 @@ class PolicyOsgo extends ActiveRecord
         }
         $data['drivers'] = $drivers;
         $handBookService = new HandBookIns();
-        $handBookService->setBaseUrl(EBASE_URL_INS_KS_V2);
-        $handBookService->setLogin(KS_LOGIN);
-        $handBookService->setPassword(KS_PASSWORD);
+        $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+        $handBookService->setLogin(TR_LOGIN);
+        $handBookService->setPassword(TR_PASSWORD);
         $handBookService->setMethod(HandBookIns::METHOD_OSGO_POST_CREATE_ANKETA_KS_V2);
         $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
         if (!empty($data)) {
@@ -1940,5 +1945,195 @@ class PolicyOsgo extends ActiveRecord
     {
         return false;
 //        return !empty($this->vehicle_gov_number) && !empty($this->tech_pass_series) && !empty($this->tech_pass_number);
+    }
+
+    /**
+     * @return array|mixed
+     * @throws BadRequestHttpException
+     */
+    public function calculatePremPriceOsgor()
+    {
+        $response = [];
+        if (1) {
+            $handBookService = new HandBookIns();
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
+            $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
+            $handBookService->setMethod(HandBookIns::METHOD_OSGOR_POST_CALC_PREM);
+            $this->owner_inn = preg_replace('/\D/', '', $this->owner_inn);
+            $this->setEndDate();
+            if (!empty($this->org_okonx) && !empty($this->org_annual_salary)) {
+                $this->org_annual_salary = (int)str_replace(' ','',$this->org_annual_salary);
+                $handBookService->setParams([
+                    'fot' => $this->org_annual_salary,
+                    'okonx' => $this->org_okonx,
+                ]);
+                $data = $handBookService->sendRequestIns();
+                if (!empty($data) && is_array($data) && !empty($data['prem'])) {
+                    $response['prem'] = $data['prem'];
+                    $this->_policy_price_uzs = $response['prem'];
+                    $this->amount_uzs = $response['prem'];
+                    $this->_policy_price_usd = 0;
+                } else {
+                    $this->_policy_price_usd = 0;
+                    $this->_policy_price_uzs = 0;
+                    $title = !empty($data['result_message']) && $data['']  ? $data['result_message'] : Yii::t('policy', 'Хатолик юз берди биз оздан сўнг қайта уриниб кўринг');
+                    $this->_tmp_message = $title;
+                    _send_error($title, json_encode($data,JSON_UNESCAPED_UNICODE));
+                }
+                $this->setEndDate();
+                $this->end_date = date('d.m.Y', strtotime($this->end_date));
+                $response['end_date'] = $this->end_date;
+                $this->_ins_amount = $this->org_annual_salary;
+            } else {
+                $this->_policy_price_usd = 0;
+                $this->_policy_price_uzs = 0;
+            }
+            if (!empty($response['prem'])) {
+                $response['prem'] = number_format($response['prem'], 2, '.', ' ');
+            }
+        }
+        return $response;
+    }
+
+    /**
+     * @param $item
+     * @return array
+     */
+    public static function _getOkonxData($item=null)
+    {
+        $response = [];
+        if (self::ENABLE_CALCULATE_INS || 1) {
+            $condition = ['ins_id' => $item];
+            $okedModel = HandbookOked::findOne($condition);
+            if (!empty($okedModel)) {
+                $data_models = HandbookOkonh::find()->where(['oked_id' => $okedModel->id])->all();
+                if (!empty($data_models)) {
+                    $data = [];
+                    /* @var $model HandbookOkonh */
+                    $name_field = 'name_'._lang();
+                    foreach ($data_models as $model) {
+                        $data[]=[
+                            'ID' => $model->ins_id,
+                            'NAME' => $model->$name_field,
+                        ];
+                    }
+                    $response = $data;
+                    $response['ERROR'] = 0;
+                }
+            } else {
+                $title = Yii::t('policy', 'Хатолик юз берди биз оздан сўнг қайта уриниб кўринг');
+                _send_error("_getOkonxData - ".$title, json_encode($item,JSON_UNESCAPED_UNICODE));
+                $response['ERROR'] = 422;
+                $response['ERROR_MESSAGE'] = $title;
+            }
+
+
+        }
+
+        return $response;
+    }
+
+    /**
+     * @return bool
+     */
+    public function saveInsAnketaOsgor()
+    {
+        if (empty($this->ins_anketa_id) && empty($this->policy_number)) {
+            $params = [
+                'inn' => $this->owner_inn,
+                'orgname' => $this->owner_orgname,
+                'oked' => $this->owner_oked,
+                'okonx' => $this->org_okonx,
+                'oblast' => $this->getFondAddressInsID($this->app_region),
+                'rayon' => $this->getFondAddressInsID($this->app_district),
+                'address' => $this->owner_address,
+                'phone' => clear_phone_full($this->app_phone),
+                'dog_num' => $this->id,
+                'contract_begin' => date('d.m.Y', strtotime($this->start_date)),
+                'fot' => (int)str_replace(' ','',$this->org_annual_salary),
+            ];
+
+            $handBookService = new HandBookIns();
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
+            $handBookService->setMethod(HandBookIns::METHOD_OSGOR_POST_CREATE_ANKETA);
+            $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
+
+            if (!empty($params)) {
+                $handBookService->setParams($params);
+                $data = $handBookService->sendRequestIns();
+                if (!empty($data['anketa_id'])) {
+                    $response = $data;
+                    $this->ins_log = json_encode($data);
+                    $this->ins_anketa_id = $response['anketa_id'] ?: null;
+                    $this->uuid_fond = $response['uuid'] ?: null;
+                    if (!$this->save(false)) {
+                        _send_error('Policy Osgo model saqlashda xatolik', json_encode(['error' => $this->errors], JSON_UNESCAPED_UNICODE));
+                        if (LOG_DEBUG_SITE) {
+                            $session = Yii::$app->session;
+                            if (!$session->isActive) $session->open();
+                            $session->addFlash('error', _generate_error($this->errors));
+                        }
+                    }
+                    return true;
+                }  elseif (!empty($data['error_code']) && !empty($data['error_text'])) {
+                    $this->ins_log = json_encode($data);
+                    if (!$this->save(false)) {
+                        _send_error('Policy Osgo model saqlashda xatolik', json_encode(['error' => $this->errors], JSON_UNESCAPED_UNICODE));
+                        if (LOG_DEBUG_SITE) {
+                            $session = Yii::$app->session;
+                            if (!$session->isActive) $session->open();
+                            $session->addFlash('error', _generate_error($this->errors));
+                        }
+                    }
+                    $title = $data['error_text'];
+                    $titleLog = Yii::t('policy', 'sendRequestIns Anketa saqlashda xatolik error_message bor');
+                    $this->_tmp_message = $title;
+//                    _send_error($titleLog, json_encode($data,JSON_UNESCAPED_UNICODE));
+                    $session = Yii::$app->session;
+                    if (!$session->isActive) $session->open();
+                    $session->addFlash('error', $title);
+
+                } else {
+                    $title = Yii::t('policy', 'Хатолик юз берди биз оздан сўнг қайта уриниб кўринг');
+                    $titleLog = Yii::t('policy', 'sendRequestIns Anketa saqlashda xatolik');
+                    $this->_tmp_message = $title;
+                    _send_error($titleLog, json_encode($data,JSON_UNESCAPED_UNICODE));
+
+                    $session = Yii::$app->session;
+                    if (!$session->isActive) $session->open();
+
+                    if (!empty($data['error_text']) && !empty($data['error_code'])) {
+                        $session->addFlash('error', $data['error_text']);
+                    } else {
+                        $session->addFlash('error', $title);
+                    }
+                    $this->ins_log = json_encode($data);
+                    if (!$this->save(false)) {
+                        _send_error('Policy Osgo model saqlashda xatolik', json_encode(['error' => $this->errors], JSON_UNESCAPED_UNICODE));
+                        if (LOG_DEBUG_SITE) {
+                            $session = Yii::$app->session;
+                            if (!$session->isActive) $session->open();
+                            $session->addFlash('error', _generate_error($this->errors));
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function getFondAddressInsID($param): ?int
+    {
+        $handbook = HandbookFondRegion::findOne($param);
+        if (empty($handbook))
+        {
+            return $param;
+        }
+        return $handbook->ins_id;
     }
 }

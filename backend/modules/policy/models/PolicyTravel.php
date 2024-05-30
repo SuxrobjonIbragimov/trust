@@ -609,9 +609,9 @@ class PolicyTravel extends \yii\db\ActiveRecord
                 $multi = PolicyTravelMultiDays::findOne([$this->multi_days_id]);
             }
             $handBookService = new HandBookIns();
-            $handBookService->setBaseUrl(EBASE_URL_INS_KS_V2);
-            $handBookService->setLogin(KS_LOGIN);
-            $handBookService->setPassword(KS_PASSWORD);
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
             $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
             $handBookService->setMethod(HandBookIns::METHOD_POST_TRAVEL_CALCULATE_FULL_PRICE);
 
@@ -883,11 +883,11 @@ class PolicyTravel extends \yii\db\ActiveRecord
         $response = ['ERROR' => 0];
         if (1) {
             $handBookService = new HandBookIns();
-            $handBookService->setBaseUrl(EBASE_URL_INS_KS_V2);
-            $handBookService->setLogin(KS_LOGIN);
-            $handBookService->setPassword(KS_PASSWORD);
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
             $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
-            $handBookService->setMethod(HandBookIns::METHOD_OSGO_POST_PASSPORT_BIRTH_DATE_KS_V2);
+            $handBookService->setMethod(HandBookIns::METHOD_OSGO_POST_PASSPORT_BIRTH_DATE);
 
             $handBookService->setParams([
                 'birthDate' => !empty($items['birthday']) ? $items['birthday'] : '',
@@ -945,7 +945,7 @@ class PolicyTravel extends \yii\db\ActiveRecord
                         }
 
                     } else {
-                        $response = array_change_key_case($data,CASE_UPPER);
+                        $response = is_array($data) ? array_change_key_case($data,CASE_UPPER) : $data;
                     }
                 }
             }
