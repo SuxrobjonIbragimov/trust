@@ -97,7 +97,7 @@ class PolicyOsgoDriver extends \yii\db\ActiveRecord
                 'on' => self::SCENARIO_SITE_STEP_FORM, 'when' => function ($model) {
                 return ($model->driver_limit == PolicyOsgo::DRIVER_UNLIMITED);
             }, 'whenClient' => "function (attribute, value) {
-                        return ($('#policyosgodriver-0-driver_limit').val() === 0);
+                        return ($('#policyosgodriver-0-driver_limit').val() == 0 && $('#owner_fy').val() == 0);
                     }"
             ],
             [['pinfl', ], 'required', 'on' => self::SCENARIO_SITE_STEP_FORM, 'when' => function ($model) {

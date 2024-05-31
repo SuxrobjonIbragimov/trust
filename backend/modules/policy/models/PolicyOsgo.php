@@ -1812,7 +1812,7 @@ class PolicyOsgo extends ActiveRecord
                         $session->addFlash('error', _generate_error($this->errors));
                     }
                 }
-                $title = $data['error_text'];
+                $title = $data['error_message'];
                 $titleLog = Yii::t('policy', 'sendRequestIns Anketa saqlashda xatolik error_message bor');
                 $this->_tmp_message = $title;
                 $session = Yii::$app->session;
@@ -1828,8 +1828,8 @@ class PolicyOsgo extends ActiveRecord
                 $session = Yii::$app->session;
                 if (!$session->isActive) $session->open();
 
-                if (!empty($data['error_text']) && !empty($data['error_code'])) {
-                    $session->addFlash('error', $data['error_text']);
+                if (!empty($data['error_message']) && !empty($data['error'])) {
+                    $session->addFlash('error', $data['error_message']);
                 } else {
                     $session->addFlash('error', $title);
                 }

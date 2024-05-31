@@ -183,7 +183,7 @@ $(function() {
             format: 'dd.mm.yyyy'
         });
 
-        $('.license_issue_date').datepicker({
+        _license_issue_date.datepicker({
             autoHide: true,
             endDate: new Date(new Date().setDate(new Date().getDate())),
             maxDate: new Date(new Date().setDate(new Date().getDate())),
