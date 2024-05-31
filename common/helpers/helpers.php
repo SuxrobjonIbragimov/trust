@@ -40,6 +40,8 @@ define("LOG_DEBUG_SITE", true);
 use common\library\request_logger\models\RequestHistory;
 use common\models\User;
 use yii\httpclient\Client;
+use yii\web\Application;
+use yii\web\Request;
 
 if (!function_exists('d')) {
 
@@ -820,9 +822,14 @@ if (!function_exists('_send_error')) {
 
     function _send_error($title, $message, $exception = [], $app = null) {
         $blackWords = ['YandexBot', 'TwitterBot', 'apple-touch-icon', 'e-bazar.uz', '/mp/page/service_center', '/category/95ed', '/frontend/web/uploads/', '/themes/mp/assets/fonts/'];
-        $userAgent = Yii::$app->request->userAgent;
-        $url = Yii::$app->request->absoluteUrl;
-        $referrer = Yii::$app->request->referrer;
+        $userAgent = null;
+        $url = '';
+        $referrer = null;
+        if (\Yii::$app->request instanceof Request) {
+            $userAgent = Yii::$app->request->userAgent;
+            $url = Yii::$app->request->absoluteUrl;
+            $referrer = Yii::$app->request->referrer;
+        }
         $noNeedError = false;
         foreach ($blackWords as $blackWord) {
             $str_tmp = $array = array($userAgent, $url, $referrer);
@@ -836,13 +843,17 @@ if (!function_exists('_send_error')) {
 
             $dateFormat = "D d M Y H:i:s";
             $date = date($dateFormat);
-
-            $query = Yii::$app->request->queryParams;
+            $query = [];
+            $userIP = null;
+            $userHost = null;
+            $method = '';
+            if (\Yii::$app->request instanceof Request) {
+                $query = Yii::$app->request->queryParams;
+                $userIP = Yii::$app->request->userIP;
+                $userHost = Yii::$app->request->userHost;
+                $method = Yii::$app->request->method;
+            }
             $app_id = Yii::$app->controller->module->id;
-
-            $userIP = Yii::$app->request->userIP;
-            $userHost = Yii::$app->request->userHost;
-            $method = Yii::$app->request->method;
 
             $message_ = "<b>{$title}</b>: in <b>{$app_id}</b> on <b>{$date}</b>\n";
             $message_ .= '<a href="'.$url.'">'.$url.'</a>'."\n";
@@ -850,7 +861,7 @@ if (!function_exists('_send_error')) {
             $message_ .= '<code>'.json_encode($exception).'</code>'."\n";
             $message_ .= '<code>'.json_encode($query).'</code>'."\n";
 
-            if (!Yii::$app->user->isGuest) {
+            if ((Yii::$app instanceof Application) && !Yii::$app->user->isGuest) {
                 $user_id = Yii::$app->user->identity['id'];
                 $user_name = Yii::$app->user->identity['username'];
                 $user_info = "<i>id:</i> <b>{$user_id}</b> <i>username:</i> <b>{$user_name}</b>\n";

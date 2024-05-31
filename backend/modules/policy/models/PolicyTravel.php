@@ -749,11 +749,10 @@ class PolicyTravel extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param int $user_id
      * @return bool
      * @throws BadRequestHttpException
      */
-    public function saveInsAnketa($user_id = self::INS_USER_ID_TRAVEL_ONLINE_STTE)
+    public function saveInsAnketa()
     {
         if (empty($this->ins_policy_id) && empty($this->ins_anketa_id) && empty($this->policy_number)) {
             $insured = null;
@@ -825,6 +824,9 @@ class PolicyTravel extends \yii\db\ActiveRecord
             ];
 
             $handBookService = new HandBookIns();
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
             $handBookService->setMethod(HandBookIns::METHOD_POST_TRAVEL_SAVE);
             $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
 

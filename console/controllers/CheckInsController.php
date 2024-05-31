@@ -214,7 +214,9 @@ class CheckInsController extends Controller
         $message = null;
 
         $handBookService = new HandBookIns();
-        $handBookService->setBaseUrl(EBASE_URL_INS);
+        $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+        $handBookService->setLogin(TR_LOGIN);
+        $handBookService->setPassword(TR_PASSWORD);
 
         // GET MULTI DAYS
         $handBookService->setMethod(HandBookIns::METHOD_GET_TRAVEL_MULTI_DAYS);
@@ -225,6 +227,9 @@ class CheckInsController extends Controller
             $name_field .= '_'.$this->lang;
             $counter = 0;
             foreach ($data as $key_r => $dataItem) {
+                if (is_array($dataItem)){
+                    $dataItem = array_change_key_case($dataItem,CASE_UPPER);
+                }
                 if (isset($dataItem['ID']) && !is_null($dataItem['ID'])) {
                     $ins_id = $dataItem['ID'];
                     $ins_name = trim($dataItem['NAME']);
@@ -266,6 +271,9 @@ class CheckInsController extends Controller
             $name_field .= '_'.$this->lang;
             $counter = 0;
             foreach ($data as $key_r => $dataItem) {
+                if (is_array($dataItem)){
+                    $dataItem = array_change_key_case($dataItem,CASE_UPPER);
+                }
                 if (isset($dataItem['ID']) && !is_null($dataItem['ID'])) {
                     $ins_id = $dataItem['ID'];
                     $ins_name = trim($dataItem['NAME']);
@@ -305,6 +313,9 @@ class CheckInsController extends Controller
             $name_field .= '_'.$this->lang;
             $counter = 0;
             foreach ($data as $key_r => $dataItem) {
+                if (is_array($dataItem)){
+                    $dataItem = array_change_key_case($dataItem,CASE_UPPER);
+                }
                 if (isset($dataItem['ID']) && !is_null($dataItem['ID'])) {
                     $ins_id = $dataItem['ID'];
                     $ins_name = trim($dataItem['NAME']);
@@ -351,6 +362,9 @@ class CheckInsController extends Controller
             $name_field .= '_'.$this->lang;
             $counter = 0;
             foreach ($data as $key_r => $dataItem) {
+                if (is_array($dataItem)){
+                    $dataItem = array_change_key_case($dataItem,CASE_UPPER);
+                }
                 if (isset($dataItem['ID']) && !is_null($dataItem['ID'])) {
                     $ins_id = $dataItem['ID'];
                     $ins_name = trim($dataItem['NAME']);
@@ -429,6 +443,9 @@ class CheckInsController extends Controller
             $name_field .= '_'.$this->lang;
             $counter = 0;
             foreach ($data as $key_r => $dataItem) {
+                if (is_array($dataItem)){
+                    $dataItem = array_change_key_case($dataItem,CASE_UPPER);
+                }
                 if (isset($dataItem['ID']) && !is_null($dataItem['ID'])) {
                     $suffix = ', SCHENGEN';
                     switch ($this->lang) {
@@ -498,7 +515,7 @@ class CheckInsController extends Controller
 
 
         if ($message) {
-            $message_full .= $message;
+            $message_full .= $message."\n".Yii::$app->name;
             sendTelegramData('sendMessage', [
                 'chat_id' => CHAT_ID_ME,
                 'text' => $message_full,

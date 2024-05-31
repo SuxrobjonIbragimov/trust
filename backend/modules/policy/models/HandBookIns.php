@@ -48,13 +48,13 @@ class HandBookIns extends Model
 
     // TRAVEL METHODS
     const METHOD_GET_POLICY_INFO = 'check/polis';
-    const METHOD_GET_TRAVEL_MULTI_DAYS = 'travel/reference/multi-days';
-    const METHOD_GET_TRAVEL_ABROAD_TYPE = 'travel/reference/abroad-type';
-    const METHOD_GET_TRAVEL_ABROAD_ACTIVITY = 'travel/reference/abroad-activity';
+    const METHOD_GET_TRAVEL_MULTI_DAYS = 'reference/multi-days';
+    const METHOD_GET_TRAVEL_ABROAD_TYPE = 'reference/abroad-type';
+    const METHOD_GET_TRAVEL_ABROAD_ACTIVITY = 'reference/abroad-activity';
     const METHOD_GET_TRAVEL_ABROAD_GROUP = 'travel/reference/abroad-group';
     const METHOD_GET_TRAVEL_ABROAD_RATES = 'travel/reference/abroad-rates';
-    const METHOD_GET_TRAVEL_COUNTRIES = 'travel/reference/abroad-country';
-    const METHOD_POST_TRAVEL_PROGRAMS = 'travel/reference/abroad-program';
+    const METHOD_GET_TRAVEL_COUNTRIES = 'reference/abroad-country';
+    const METHOD_POST_TRAVEL_PROGRAMS = 'reference/abroad-program';
 
     const METHOD_POST_TRAVEL_CALCULATE_INITIAL_PRICE = 'travel/price/initial';
     const METHOD_POST_TRAVEL_CALCULATE_FULL_PRICE = 'travel/price/total';
