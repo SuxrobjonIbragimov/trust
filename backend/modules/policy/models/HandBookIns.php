@@ -111,6 +111,13 @@ class HandBookIns extends Model
 
     const METHOD_OSGO_POST_CONFIRMPAYMENT = 'payments/check';
 
+    // OSGOR METHODS
+
+    const METHOD_OSGOP_POST_CALC_PREM = 'osgop/calculate';
+    const METHOD_OSGOP_GET_VEHICLE_TYPES = 'osgop/vehicle-types';
+
+    const METHOD_OSGOP_POST_CREATE_ANKETA = 'osgop/contract';
+
     public function __construct($token = null, $config = [])
     {
         $this->lang = _lang();

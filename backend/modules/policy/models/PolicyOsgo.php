@@ -162,6 +162,26 @@ class PolicyOsgo extends ActiveRecord
     const INSURANCE_SUM_COVERAGE_PROPERTY = 35; // %
     const INSURANCE_SUM = 40000000; // UZS
 
+    const VEHICLE_TYPE_OSGOP_BUS = 1; // Автобусы 0.12
+    const VEHICLE_TYPE_OSGOP_CAR = 2; // Легковые автомобили  0.1
+    const VEHICLE_TYPE_OSGOP_TRAILERS = 3; // Прицепы  0.1
+    const VEHICLE_TYPE_OSGOP_MOTO = 4; // Мотоциклы и мотороллеры  0.1
+    const VEHICLE_TYPE_OSGOP_ELECTRO = 5; // Электромобиль  0.1
+    const VEHICLE_TYPE_OSGOP_TRUCKS = 6; // Грузовые автомобили  0.1
+    const VEHICLE_TYPE_OSGOP_BUS_MIN = 7; // Микроавтобусы  0.1
+    const VEHICLE_TYPE_OSGOP_SPECIAL_EQUIPMENT = 8; // Спецтехника  0.1
+    const VEHICLE_TYPE_OSGOP_OTHER_GROUND_VEHICLES = 9; // Другие наземные ТС  0.1
+    const VEHICLE_TYPE_OSGOP_FREIGHT_PASSENGER = 10; // Грузовые-пассажирские ТС  0.1
+    const VEHICLE_TYPE_OSGOP_SEMI_TRAILERS = 11; // Полуприцепы  0.1
+    const VEHICLE_TYPE_OSGOP_TROLLEY = 12; // Троллейбусы  0.12
+    const VEHICLE_TYPE_OSGOP_TRAMS = 13; // Трамваи  0.12
+    const VEHICLE_TYPE_OSGOP_METRO = 14; // Метрополитен  0.12
+    const VEHICLE_TYPE_OSGOP_RAILWAY = 15; // Железнодорожный транспорт  0.12
+    const VEHICLE_TYPE_OSGOP_AIR = 16; // Воздушный транспорт
+    const VEHICLE_TYPE_OSGOP_OTHERS = 17; // Другие транспортные средства
+
+    const INSURANCE_SUM_OSGOP = 40000000; // UZS
+
     const LEGAL_TYPE_FIZ = 0;
     const LEGAL_TYPE_YUR = 1;
 
@@ -2135,5 +2155,383 @@ class PolicyOsgo extends ActiveRecord
             return $param;
         }
         return $handbook->ins_id;
+    }
+
+    /**
+     * @return array|mixed
+     * @throws BadRequestHttpException
+     */
+    public function calculatePremPriceOsgop()
+    {
+        $response = ['prem' => 0];
+        if (1) {
+            $params  = [
+                'vehicle' => $this->vehicle_type_id,
+                'seats' => $this->vehicle_seats_count,
+                'period' => $this->period
+            ];
+            $handBookService = new HandBookIns();
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
+            $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
+            $handBookService->setMethod(HandBookIns::METHOD_OSGOP_POST_CALC_PREM);
+            if (!empty($this->vehicle_type_id) && !empty($this->vehicle_seats_count) && !is_null($this->period)) {
+                $handBookService->setParams($params);
+                $data = $handBookService->sendRequestIns();
+                if (!empty($data) && is_array($data) && !empty($data['prem'])) {
+                    $premAmount = $data['prem'];
+                    $this->_policy_price_uzs = $premAmount;
+                    $this->amount_uzs = $premAmount;
+                    $this->_policy_price_usd = 0;
+                    $response = [
+                        'prem' => number_format($premAmount, 2, '.', ' '),
+                        'insuredAmount' => 0,
+                    ];
+                } else {
+                    $this->_policy_price_usd = 0;
+                    $this->_policy_price_uzs = 0;
+                    $title = Yii::t('policy', 'Хатолик юз берди биз оздан сўнг қайта уриниб кўринг');
+                    $this->_tmp_message = $title;
+                    _send_error($title, json_encode($data,JSON_UNESCAPED_UNICODE));
+                }
+                $this->setEndDate();
+                $this->end_date = date('d.m.Y', strtotime($this->end_date));
+                $response['end_date'] = $this->end_date;
+                $response['period_name'] = $this->getPeriodName();
+                $this->_ins_amount = !empty($response['insuredAmount'] ) ? $response['insuredAmount']  : self::INSURANCE_SUM_OSGOP;
+            } else {
+                $this->_policy_price_usd = 0;
+                $this->_policy_price_uzs = 0;
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param null $item
+     * @return array
+     * @throws BadRequestHttpException
+     */
+    public function getVehicleTypesListOsgop ($item=null)
+    {
+        $response = [];
+        if (self::ENABLE_CALCULATE_INS || 1) {
+            $handBookService = new HandBookIns();
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
+            $handBookService->setMethod(HandBookIns::METHOD_OSGOP_GET_VEHICLE_TYPES);
+            $handBookService->setHeaders([
+                [ 'key' => 'Accept-Language','value' => _lang()]
+            ]);
+
+            $data = $handBookService->sendRequestIns();
+            if (!empty($data) && is_array($data)) {
+                $name_field_default = 'name';
+                $name_field = 'name';
+                $name_field .= '_'._lang();
+                $name_field = mb_strtoupper($name_field);
+                $name_field_default = mb_strtoupper($name_field_default);
+                foreach ($data as $dataItem) {
+//                dd($dataItem);
+                    if (!empty($dataItem['ID'])) {
+                        $response[$dataItem['ID']] = !empty($dataItem[$name_field]) ? $dataItem[$name_field] : $dataItem[$name_field_default];
+                        if ($dataItem['ID'] == self::DEFAULT_VEHICLE_TYPE) {
+                            if ($this->vehicle_type_id == null) {
+                                $this->vehicle_type_id = $dataItem['ID'];
+                            }
+                        }
+                    }
+                }
+            } else {
+                $this->vehicle_type_id = self::DEFAULT_VEHICLE_TYPE;
+                $title = Yii::t('policy', 'Хатолик юз берди биз оздан сўнг қайта уриниб кўринг');
+                $this->_tmp_message = $title;
+                _send_error($title, json_encode($data,JSON_UNESCAPED_UNICODE));
+                throw new BadRequestHttpException($title);
+            }
+
+        } else {
+            $response = [
+                self::VEHICLE_TYPE_OSGOP_CAR => Yii::t('policy','Легковые автомобили'),
+                self::VEHICLE_TYPE_OSGOP_ELECTRO => Yii::t('policy','Электромобиль'),
+                self::VEHICLE_TYPE_OSGOP_BUS_MIN => Yii::t('policy','Микроавтобусы'),
+                self::VEHICLE_TYPE_OSGOP_BUS => Yii::t('policy','Автобусы'),
+                self::VEHICLE_TYPE_OSGOP_TRAILERS => Yii::t('policy','Прицепы'),
+                self::VEHICLE_TYPE_OSGOP_MOTO => Yii::t('policy','Мотоциклы и мотороллеры'),
+                self::VEHICLE_TYPE_OSGOP_TRUCKS => Yii::t('policy','Грузовые автомобили'),
+                self::VEHICLE_TYPE_OSGOP_SPECIAL_EQUIPMENT => Yii::t('policy','Спецтехника'),
+                self::VEHICLE_TYPE_OSGOP_OTHER_GROUND_VEHICLES => Yii::t('policy','Другие наземные ТС'),
+                self::VEHICLE_TYPE_OSGOP_FREIGHT_PASSENGER => Yii::t('policy','Грузовые-пассажирские ТС'),
+                self::VEHICLE_TYPE_OSGOP_SEMI_TRAILERS => Yii::t('policy','Полуприцепы'),
+                self::VEHICLE_TYPE_OSGOP_TROLLEY => Yii::t('policy','Троллейбусы'),
+                self::VEHICLE_TYPE_OSGOP_TRAMS => Yii::t('policy','Трамваи'),
+                self::VEHICLE_TYPE_OSGOP_METRO => Yii::t('policy','Метрополитен'),
+                self::VEHICLE_TYPE_OSGOP_RAILWAY => Yii::t('policy','Железнодорожный транспорт'),
+                self::VEHICLE_TYPE_OSGOP_AIR => Yii::t('policy','Воздушный транспорт'),
+                self::VEHICLE_TYPE_OSGOP_OTHERS => Yii::t('policy','Другие транспортные средства'),
+            ];
+        }
+
+        if (!empty($item)) {
+            return !empty($response[$item]) ? $response[$item] : $item;
+        }
+        return $response;
+    }
+
+    /**
+     * @param $items
+     * @return array|mixed|string|string[]
+     * @throws BadRequestHttpException
+     */
+    public static function _getTechPassDataOsgop($items=null, PolicyOsgo $model = null)
+    {
+        $response = [];
+        if (self::ENABLE_CALCULATE_INS || 1) {
+            $params = [
+                'techPassportSeria' => !empty($items['tech_pass_series']) ? $items['tech_pass_series'] : '',
+                'techPassportNumber' => !empty($items['tech_pass_number']) ? $items['tech_pass_number'] : '',
+                'govnumber' => !empty($items['vehicle_gov_number']) ? $items['vehicle_gov_number'] : '',
+            ];
+            $handBookService = new HandBookIns();
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
+            $handBookService->setMethod(HandBookIns::METHOD_OSGO_POST_VEHICLE);
+            $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
+
+            $handBookService->setParams($params);
+            $car_number_prefix = _getCarAutoNumberPrefix($items['vehicle_gov_number']);
+            $region_list_info = HandbookFondRegion::_getAllModelsList();
+
+            $_use_territory_id_by_car_number = null;
+            $_region_id = null;
+            $_district_id = null;
+            $_region_name = null;
+            if (!empty($model->region_id) || PolicyOsgo::CALC_TYPE_SECOND) {
+                foreach ($region_list_info as $_key => $region) {
+                    if (in_array($car_number_prefix, explode(',',$region->car_number_prefixes))) {
+                        $_use_territory_id_by_car_number = $region->territory_id;
+                        $_region_id = $region->ins_id;
+                        if (!empty($model->region_id) && PolicyOsgo::CALC_TYPE_SECOND) {
+                            $model->region_id = $region->territory_id; /*Setting region id by car number*/
+                        }
+                        $_region_name = $region->shortName;
+                        $_district_id = !empty($region->handbookFondRegion->ins_id) ? $region->handbookFondRegion->ins_id : null;
+                        break;
+                    }
+                }
+            }
+
+            $data = $handBookService->sendRequestIns();
+            if (!empty($data) && is_array($data) && empty($data['error'])) {
+                $data = array_change_key_case($data,CASE_UPPER);
+                $response['ERROR'] = 0;
+                $modelOsgo = empty($model) ? new PolicyOsgo() : $model;
+                if (!empty($data['VEHICLE_TYPE_ID'])) {
+                    $response['VEHICLE_TYPE_ID'] = $data['VEHICLE_TYPE_ID'];
+                    $modelOsgo->vehicle_type_id = $data['VEHICLE_TYPE_ID'];
+                }
+
+                $gov_number = !empty($items['vehicle_gov_number']) ? $items['vehicle_gov_number'] : '';
+                $response['FY'] = isset($data['FY']) ? $data['FY'] : _getFizYurByGovNumber($gov_number);
+                $response['ORGNAME'] = isset($data['ORGNAME']) ? $data['ORGNAME'] : null;
+                if (empty($response['FY']) && $response['ORGNAME']) {
+                    $full_name_ar = _getSptilFullName($response['ORGNAME']);
+                    $response = array_merge($response,$full_name_ar);
+                }
+
+                $response['REGION_ID'] = !empty($data['OBLAST']) ? $data['OBLAST'] : $_region_id;
+                $response['DISTRICT_ID'] = !empty($data['RAYON']) ? $data['RAYON'] : $_district_id;
+
+                $response['TECH_PASSPORT_ISSUE_DATE'] = date('d.m.Y', strtotime($data['TECH_PASSPORT_ISSUE_DATE']));
+                $response['VEHICLE_TYPE_NAME'] = $modelOsgo->getVehicleTypesListOsgop($response['VEHICLE_TYPE_ID']);
+                $response['VEHICLE_TERRITORY_ID'] = $_use_territory_id_by_car_number;
+                $response['SEATS'] = isset($data['SEATS']) ? $data['SEATS'] : 1;
+                $response['MODEL_NAME'] = isset($data['MODEL_NAME']) ? $data['MODEL_NAME'] : null;
+                $response['ISSUE_YEAR'] = isset($data['ISSUE_YEAR']) ? $data['ISSUE_YEAR'] : null;
+                $response['BODY_NUMBER'] = isset($data['BODY_NUMBER']) ? $data['BODY_NUMBER'] : null;
+                $response['ENGINE_NUMBER'] = isset($data['ENGINE_NUMBER']) ? $data['ENGINE_NUMBER'] : null;
+                $response['PINFL'] = isset($data['PINFL']) ? $data['PINFL'] : null;
+                $response['INN'] = isset($data['INN']) ? $data['INN'] : null;
+                $response['REGION_NAME'] = $_region_name;
+                $response['MODEL_ID'] = $data['MODEL_ID'];
+                $response['MARKA_ID'] = $data['MARKA_ID'];
+                $response['PASSPORT_SERIES'] = null;
+                $response['PASSPORT_NUMBER'] = null;
+                $response['PASSPORT_ISSUED_BY'] = null;
+                $response['PASSPORT_ISSUE_DATE'] = null;
+                $response['BIRTHDAY'] = null;
+                $response['ADDRESS'] = null;
+                $didox_tin = null;
+                if (!empty($response['PINFL'])) {
+                    $didox_tin = trim($response['PINFL']);
+                    $response['BIRTHDAY'] = _getBirthdayFromPinfl(trim($response['PINFL']));
+                } elseif (!empty($response['INN'])) {
+                    $didox_tin = trim($response['INN']);
+                }
+                if (!empty($didox_tin)) {
+                    $didox_data = self::_getDidoxTinData($didox_tin);
+                    if (!empty($didox_data['address'])) {
+                        $response['ADDRESS'] = trim(mb_strtoupper($didox_data['address']));
+                    }
+                    if (!empty($didox_data['oked'])) {
+                        $response['OKED'] = trim(mb_strtoupper($didox_data['oked']));
+                    }
+                    if ( (!is_null($data['FY']) && $data['FY'] == 0) && !empty($didox_data['passSeries']) && !empty($didox_data['passNumber'])) {
+                        $response['PASSPORT_SERIES'] = trim(mb_strtoupper($didox_data['passSeries']));
+                        $response['PASSPORT_NUMBER'] = trim(mb_strtoupper($didox_data['passNumber']));
+                        $response['PASSPORT_ISSUED_BY'] = trim(mb_strtoupper($didox_data['passOrg']));
+                        $response['PASSPORT_ISSUE_DATE'] = trim(mb_strtoupper($didox_data['passIssueDate']));
+                        $response['ADDRESS'] = trim(mb_strtoupper($didox_data['address']));
+                    }
+                }
+                if (!empty($response['PINFL']) && !empty($response['PASSPORT_SERIES']) && !empty($response['PASSPORT_NUMBER'])) {
+                    $items_pinfl = [
+                        'pinfl' => !empty($response['PINFL']) ? trim($response['PINFL']) : '',
+                        'senderPinfl' => !empty($response['PINFL']) ? trim($response['PINFL']) : '',
+                        'pass_series' => !empty($response['PASSPORT_SERIES']) ? trim($response['PASSPORT_SERIES']) : '',
+                        'pass_number' => !empty($response['PASSPORT_NUMBER']) ? trim($response['PASSPORT_NUMBER']) : '',
+                    ];
+                    $pinfl_data = self::_getPassPersonalIDData($items_pinfl);
+                    if ( !empty($pinfl_data['LAST_NAME_LATIN']) && !empty($pinfl_data['FIRST_NAME_LATIN'])) {
+                        $response['REGION_ID'] = !empty($pinfl_data['OBLAST']) ? $pinfl_data['OBLAST'] : $_region_id;
+                        $response['DISTRICT_ID'] = !empty($pinfl_data['RAYON']) ? $pinfl_data['RAYON'] : $_district_id;
+                        $response['BIRTHDAY'] = !empty($pinfl_data['BIRTH_DATE']) ? $pinfl_data['BIRTH_DATE'] : $response['BIRTHDAY'];
+
+                    } else {
+                        $response['ERROR'] = $pinfl_data['ERROR'];
+                        $response['ERROR_MESSAGE'] = $pinfl_data['ERROR_MESSAGE'];
+                    }
+                }
+            } else {
+                $response = $data;
+                $title = Yii::t('policy', 'Хатолик юз берди биз оздан сўнг қайта уриниб кўринг');
+                $response['ERROR'] = isset($data['ERROR']) ? $data['ERROR'] : -1;
+                $response['ERROR_MESSAGE'] = isset($data['ERROR_MESSAGE']) ? $data['ERROR_MESSAGE'] : $title;
+            }
+
+        }
+
+        if (!empty($item)) {
+            return !empty($response[$item]) ? $response[$item] : $item;
+        }
+        return $response;
+    }
+
+    /**
+     * @return bool
+     * @throws BadRequestHttpException
+     */
+    public function saveInsAnketaOsgop()
+    {
+        if (empty($this->ins_anketa_id) && empty($this->policy_number)) {
+            $params = [
+                'regnumber' => $this->vehicle_gov_number,
+                'texpsery' => $this->tech_pass_series,
+                'texpnumber' => $this->tech_pass_number,
+                'marka' => $this->vehicle_marka_id,
+                'model' => $this->vehicle_model_id,
+                'vmodel' => $this->vehicle_model_name,
+                'type' => $this->vehicle_type_id,
+                'texpdate' => date('d.m.Y',strtotime($this->tech_pass_issue_date)),
+                'year' => $this->vehicle_issue_year,
+                'kuzov' => $this->vehicle_body_number,
+                'dvigatel' => $this->vehicle_engine_number,
+                'region_id' => $this->owner_region,
+                'seats' => (string)$this->vehicle_seats_count,
+                'owner_fy' => $this->owner_fy,
+                'owner_pinfl' => $this->owner_pinfl,
+                'owner_birthdate' => date('d.m.Y',strtotime($this->owner_birthday)),
+                'owner_pasp_sery' => $this->owner_pass_sery,
+                'owner_pasp_num' => $this->owner_pass_num,
+                'owner_surname' => $this->owner_last_name,
+                'owner_name' => $this->owner_first_name,
+                'owner_patronym' => $this->owner_middle_name,
+                'owner_oblast' => $this->owner_region,
+                'owner_rayon' => $this->owner_district,
+                'owner_address' => $this->owner_address,
+                'owner_inn' => $this->owner_inn ?? '',
+                'owner_oked' => $this->owner_oked ?? '',
+                'owner_orgname' => $this->owner_orgname,
+                'applicant_isowner' => !empty($this->owner_is_applicant) ? 1 : 0,
+                'owner_phone' => clear_phone_full($this->app_phone),
+                'period' => $this->period,
+                'contract_begin' => date('d.m.Y',strtotime($this->start_date)),
+                'dog_num' => $this->id,
+                'dog_date' => date('d.m.Y',strtotime($this->start_date)),
+            ];
+            $applicant_info = [
+                'appl_fizyur' => 0,
+                'appl_pinfl' => $this->app_pinfl,
+                'appl_birthdate' => date('d.m.Y',strtotime($this->app_birthday)),
+                'appl_pasp_sery' => $this->app_pass_sery,
+                'appl_pasp_num' => $this->app_pass_num,
+                'appl_surname' => $this->app_last_name,
+                'appl_name' => $this->app_first_name,
+                'appl_patronym' => $this->app_middle_name,
+                'appl_oblast' => $this->app_region,
+                'appl_rayon' => $this->app_district,
+                'appl_address' => $this->app_address,
+                'appl_oked' => !empty($this->app_oked) ? $this->app_oked : '',
+                'appl_inn' => !empty($this->app_inn) ? $this->app_inn : '',
+                'appl_orgname' => !empty($this->appl_orgname) ? $this->appl_orgname : '',
+            ];
+            $params = array_merge($params,$applicant_info);
+
+            $handBookService = new HandBookIns();
+            $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+            $handBookService->setLogin(TR_LOGIN);
+            $handBookService->setPassword(TR_PASSWORD);
+            $handBookService->setMethod(HandBookIns::METHOD_OSGOP_POST_CREATE_ANKETA);
+            $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
+
+            if (!empty($params)) {
+                $handBookService->setParams($params);
+                $data = $handBookService->sendRequestIns();
+                if (empty($data['result']) && !empty($data['anketa_id'])) {
+                    $response = $data;
+                    $this->ins_log = json_encode($data);
+                    $this->ins_anketa_id = $response['anketa_id'] ?: null;
+                    $this->uuid_fond = $response['uuid'] ?: null;
+                    if (!$this->save(false)) {
+                        _send_error('Policy Osgo model saqlashda xatolik', json_encode(['error' => $this->errors], JSON_UNESCAPED_UNICODE));
+                        if (LOG_DEBUG_SITE) {
+                            $session = Yii::$app->session;
+                            if (!$session->isActive) $session->open();
+                            $session->addFlash('error', _generate_error($this->errors));
+                        }
+                    }
+                    return true;
+                }  else {
+                    $title = Yii::t('policy', 'Хатолик юз берди биз оздан сўнг қайта уриниб кўринг');
+                    $titleLog = Yii::t('policy', 'sendRequestIns Anketa saqlashda xatolik');
+                    $this->_tmp_message = $title;
+                    _send_error($titleLog, json_encode($data,JSON_UNESCAPED_UNICODE));
+
+                    $session = Yii::$app->session;
+                    if (!$session->isActive) $session->open();
+
+                    if (!empty($data['result_message']) && !empty($data['result'])) {
+                        $session->addFlash('error', $data['result_message']);
+                    } else {
+                        $session->addFlash('error', $title);
+                    }
+                    $this->ins_log = json_encode($data);
+                    if (!$this->save(false)) {
+                        _send_error('Policy Osgo model saqlashda xatolik', json_encode(['error' => $this->errors], JSON_UNESCAPED_UNICODE));
+                        if (LOG_DEBUG_SITE) {
+                            $session = Yii::$app->session;
+                            if (!$session->isActive) $session->open();
+                            $session->addFlash('error', _generate_error($this->errors));
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

@@ -376,6 +376,9 @@ $(function() {
               $('.submitForm').attr('disabled',true)
           }
         });
+        
+        $('.mask-money').mask("# ##0", {reverse: true})
+        
 });
 JS;
 $this->registerJs($JS);

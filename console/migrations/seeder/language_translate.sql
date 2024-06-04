@@ -865,6 +865,7 @@ INSERT INTO "language_translate" ("id", "language", "translation") VALUES
 (2157,	'uz-UZ',	'GZP hajmi'),
 (2164,	'uz-UZ',	'Mamlakatlar'),
 (2165,	'uz-UZ',	'IFUT'),
+(2167,	'uz-UZ',	'OSGOR sug''urta polisini onlayn rasmiylashtirish'),
 (2169,	'ru-RU',	'Название юридического лица'),
 (2169,	'uz-UZ',	'Yuridik tashkilot nomi'),
 (2170,	'ru-RU',	'Область'),
@@ -872,4 +873,5 @@ INSERT INTO "language_translate" ("id", "language", "translation") VALUES
 (2171,	'ru-RU',	'Район/город'),
 (2171,	'uz-UZ',	'Tuman/shahar'),
 (2173,	'uz-UZ',	'bilan tanishdim va shartlariga roziman'),
-(2174,	'uz-UZ',	'Ommaviy oferta');
+(2174,	'uz-UZ',	'Ommaviy oferta'),
+(2190,	'uz-UZ',	'OSGOP sug''urta polisini onlayn rasmiylashtirish');

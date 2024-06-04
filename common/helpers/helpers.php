@@ -1241,3 +1241,15 @@ if (!function_exists('gen_uuid')) {
         );
     }
 }
+
+if (!function_exists('sanitizeVehicleModelID'))
+{
+    function sanitizeVehicleModelID($modelID){
+        if (!empty($modelID) && strpos($modelID,'#'))
+        {
+            $item = explode('#',$modelID);
+            return !empty($item[0]) ? $item[0] : $modelID;
+        }
+        return $modelID;
+    }
+}
