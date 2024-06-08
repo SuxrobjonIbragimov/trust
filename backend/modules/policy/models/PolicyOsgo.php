@@ -2299,7 +2299,7 @@ class PolicyOsgo extends ActiveRecord
             $handBookService->setBaseUrl(EBASE_URL_INS_TR);
             $handBookService->setLogin(TR_LOGIN);
             $handBookService->setPassword(TR_PASSWORD);
-            $handBookService->setMethod(HandBookIns::METHOD_OSGO_POST_VEHICLE);
+            $handBookService->setMethod(HandBookIns::METHOD_OSGOP_POST_VEHICLE);
             $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
 
             $handBookService->setParams($params);

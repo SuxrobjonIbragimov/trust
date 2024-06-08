@@ -115,6 +115,7 @@ class HandBookIns extends Model
 
     const METHOD_OSGOP_POST_CALC_PREM = 'osgop/calculate';
     const METHOD_OSGOP_GET_VEHICLE_TYPES = 'osgop/vehicle-types';
+    const METHOD_OSGOP_POST_VEHICLE = 'provider/vehicle-ersp';
 
     const METHOD_OSGOP_POST_CREATE_ANKETA = 'osgop/contract';
 

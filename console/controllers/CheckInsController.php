@@ -204,9 +204,6 @@ class CheckInsController extends Controller
         return 0;
     }
 
-
-
-
     public function actionHandbookUpdater()
     {
         $date=date('d.m.Y H:i:s');
@@ -525,8 +522,4 @@ class CheckInsController extends Controller
         echo $message_full;
         return 0;
     }
-
-
-
-
 }
