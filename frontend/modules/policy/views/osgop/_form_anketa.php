@@ -202,7 +202,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-md-6 col-12 ">
-                                        <?php $label = $model->getAttributeLabel('vehicle_seats_count'); ?>
+                                        <?php $label = Yii::t('policy','Vehicle Seats Count'); ?>
                                         <?= $form->field($model, 'vehicle_seats_count', ['options' => ['class' => 'form-group']])->textInput([
                                             'maxlength' => true,
                                             'readonly' => false,
@@ -241,7 +241,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                         ])->label($label, ['class' => 'control-label main-form-label my-2']) ?>
                                     </div>
                                     <div class="col-md-6 col-12 ">
-                                        <?php $label = $model->getAttributeLabel('vehicle_engine_number'); ?>
+                                        <?php $label = Yii::t('policy','Vehicle Engine Number'); ?>
                                         <?= $form->field($model, 'vehicle_engine_number', ['options' => ['class' => 'form-group']])->textInput([
                                             'maxlength' => 20,
                                             'readonly' => !empty($model->vehicle_engine_number),
