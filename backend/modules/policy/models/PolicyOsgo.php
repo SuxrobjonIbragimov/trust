@@ -2218,7 +2218,7 @@ class PolicyOsgo extends ActiveRecord
     public function getVehicleTypesListOsgop ($item=null)
     {
         $response = [];
-        if (self::ENABLE_CALCULATE_INS || 1) {
+        if (self::ENABLE_CALCULATE_INS) {
             $handBookService = new HandBookIns();
             $handBookService->setBaseUrl(EBASE_URL_INS_TR);
             $handBookService->setLogin(TR_LOGIN);
