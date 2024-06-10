@@ -854,8 +854,9 @@ if (!function_exists('_send_error')) {
                 $method = Yii::$app->request->method;
             }
             $app_id = Yii::$app->controller->module->id;
+            $applicationName = Yii::$app->name;
 
-            $message_ = "<b>{$title}</b>: in <b>{$app_id}</b> on <b>{$date}</b>\n";
+            $message_ = "<b>{$title}</b>: in <b>{$app_id}</b> on <b>{$date}</b>\n at <b>{$applicationName}</b>\n";
             $message_ .= '<a href="'.$url.'">'.$url.'</a>'."\n";
             $message_ .= "<b>{$message}</b>\n";
             $message_ .= '<code>'.json_encode($exception).'</code>'."\n";

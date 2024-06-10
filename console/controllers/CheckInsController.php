@@ -1,6 +1,7 @@
 <?php
 namespace console\controllers;
 
+use backend\modules\handbook\models\HandbookFondRegion;
 use backend\modules\policy\models\HandbookCountry;
 use backend\modules\policy\models\HandBookIns;
 use backend\modules\policy\models\PolicyOsgo;
@@ -13,6 +14,7 @@ use backend\modules\policy\models\PolicyTravelProgramToRisk;
 use backend\modules\policy\models\PolicyTravelPurpose;
 use backend\modules\policy\models\PolicyTravelRisk;
 use common\library\payment\models\PaymentTransaction;
+use PHPUnit\Util\Log\JSON;
 use Yii;
 use yii\console\Controller;
 use yii\db\Expression;
@@ -521,5 +523,97 @@ class CheckInsController extends Controller
         }
         echo $message_full;
         return 0;
+    }
+
+    public function actionHandbookRegionUpdater()
+    {
+        $regionUpdaterCount = 0;
+        $districtUpdateCount = 0;
+        $handbook = new HandBookIns();
+        $handbook->setBaseUrl(EBASE_URL_INS_TR);
+        $handbook->setLogin(TR_LOGIN);
+        $handbook->setPassword(TR_PASSWORD);
+        $handbook->setMethodRequest(HandBookIns::METHOD_REQUEST_GET);
+        $handbook->setMethod(HandBookIns::METHOD_REFERENCE_REGIONS);
+        $handbook->setLanguage($this->lang);
+        $data = $handbook->sendRequestIns();
+        if (!empty($data) && is_array($data) && empty($data['error'])){
+            foreach ($data as $key_r => $item)
+            {
+                $nameField = 'name_'.$this->lang;
+                $insID = $item['id'];
+                $insName = $item['name'];
+                $condition = ['ins_id' => $insID];
+                $regionModel = HandbookFondRegion::findOne($condition) ?:
+                    new HandbookFondRegion([
+                         $nameField => $insName,
+                         'ins_id' => $insID,
+                         'parent_id' => null
+                    ]);
+                if ($regionModel->isNewRecord){
+                    if (!$regionModel->save())
+                    {
+                        $title = "HandbookFondRegion has not region saved";
+                        _send_error($title,json_encode($regionModel->errors,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+                        echo json_encode($regionModel->errors,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                        exit();
+                    }else{
+                        $regionUpdaterCount++;
+                    }
+                }
+                $regions = HandbookFondRegion::find()->andWhere(['parent_id' => null])->all();
+                foreach ($regions as $region)
+                {
+                    /** @var HandbookFondRegion $region */
+                    $queryParam = '?id='.$region->ins_id;
+                    $handbook->setMethod(HandBookIns::METHOD_REFERENCE_REGIONS);
+                    $districtsData = $handbook->sendRequestIns($queryParam);
+                    if (!empty($districtsData) && is_array($districtsData) && empty($districtsData['error']))
+                    {
+                        foreach ($districtsData as $key_d => $districtItem)
+                        {
+                            $insID = $districtItem['id'];
+                            $insName = $districtItem['name'];
+                            $condition = ['ins_id' => $insID,'parent_id' => $region->id];
+                            $districtModel = HandbookFondRegion::findOne($condition) ?:
+                                new HandbookFondRegion([
+                                    $nameField => $insName,
+                                    'ins_id' => $insID,
+                                    'parent_id' => $region->id
+                                ]);
+                            if ($districtModel->isNewRecord){
+                                if (!$districtModel->save()){
+                                    $title = "HandbookFondRegion has not district saved";
+                                    _send_error($title,json_encode($regionModel->errors,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+                                    echo json_encode($regionModel->errors,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                                    exit();
+                                }else{
+                                    $districtUpdateCount++;
+                                }
+                            }
+                        }
+                    }else{
+                        $message = json_encode($data,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                        echo "District Not Found in ".$region->id."\n";
+                        echo $message;
+                        _send_error('District not found',$message);
+                    }
+                }
+            }
+        }else{
+            $message = json_encode($data,JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+            echo "Regions Not Found \n";
+            echo $message;
+            _send_error('Regions not found',$message);
+        }
+        if ($regionUpdaterCount > 0)
+        {
+            $message = "HandBookRegion updater ".$regionUpdaterCount." region updated";
+            echo $message;
+        }
+        if ($districtUpdateCount > 0){
+            $message = "HandBookRegion updater ".$districtUpdateCount." district updated";
+            echo $message;
+        }
     }
 }

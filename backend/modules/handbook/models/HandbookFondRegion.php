@@ -104,7 +104,7 @@ class HandbookFondRegion extends \yii\db\ActiveRecord
      */
     public function getHandbookFondRegion()
     {
-        return $this->hasOne(HandbookFondRegion::className(), ['parent_id' => 'id'])->orderBy(['id']);
+        return $this->hasOne(HandbookFondRegion::className(), ['parent_id' => 'id'])->orderBy(['id' => SORT_ASC]);
     }
 
 

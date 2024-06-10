@@ -1151,11 +1151,12 @@ class PolicyOsgo extends ActiveRecord
 
                 $response['REGION_ID'] = !empty($data['oblast']) ? $data['oblast'] : $_region_id;
                 $response['DISTRICT_ID'] = !empty($data['rayon']) ? $data['rayon'] : $_district_id;
-
                 $response['TECH_PASSPORT_ISSUE_DATE'] = date('d.m.Y', strtotime($data['tech_passport_issue_date']));
                 $response['VEHICLE_TYPE_NAME'] = $modelOsgo->getVehicleTypesList($data['vehicle_type_id']);
                 $response['VEHICLE_TERRITORY_ID'] = $_use_territory_id_by_car_number;
                 $response['MODEL_NAME'] = $data['model_name'] ?? null;
+                $response['MARKA_ID'] = $data['marka_id'] ?? null;
+                $response['MODEL_ID'] = $data['model_id'] ?? null;
                 $response['ISSUE_YEAR'] = $data['issue_year'] ?? null;
                 $response['BODY_NUMBER'] = $data['body_number'] ?? null;
                 $response['ENGINE_NUMBER'] = $data['engine_number'] ?? null;
@@ -1730,7 +1731,7 @@ class PolicyOsgo extends ActiveRecord
             'texpsery' => $this->tech_pass_series,
             'texpnumber' => $this->tech_pass_number,
             'marka' => $this->vehicle_marka_id,
-            'model' => $this->vehicle_marka_id,
+            'model' => $this->vehicle_model_id,
             'vmodel' => $this->vehicle_model_name,
             'type' => $this->vehicle_type_id,
             'texpdate' => date('d.m.Y', strtotime($this->tech_pass_issue_date)),

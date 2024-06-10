@@ -119,6 +119,11 @@ class HandBookIns extends Model
 
     const METHOD_OSGOP_POST_CREATE_ANKETA = 'osgop/contract';
 
+    // reference
+
+    const METHOD_REFERENCE_REGIONS = 'reference/regions';
+    const METHOD_REFERENCE_DISTRICTS = 'reference/districts';
+
     public function __construct($token = null, $config = [])
     {
         $this->lang = _lang();
