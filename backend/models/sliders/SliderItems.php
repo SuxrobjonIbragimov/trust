@@ -45,7 +45,7 @@ class SliderItems extends ActiveRecord
             TimestampBehavior::className(),
             [
                 'class' => TranslateDatabaseBehavior::className(),
-                'translateAttributes' => ['title', ],
+                'translateAttributes' => ['title', 'subtitle'],
                 'tableName' => static::tableName(),
             ],
         ];
