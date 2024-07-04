@@ -4,6 +4,7 @@ use backend\models\menu\MenuItems;
 use backend\models\menu\Menus;
 use common\models\Settings;
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 
 /* @var $this yii\web\View */
 /* @var $item MenuItems */
@@ -24,7 +25,7 @@ $menu_front_header = Menus::findOne(['key' => 'front_header', 'status' => Menus:
                             <div class="d-flex flex-column row-gap-2">
                                 <h5 class="fs-6 text-primary fw-bolder"><?= $item->label ?></h5>
                                 <?php foreach ($item->menuItemsActive as $item2) : ?>
-                                    <?= Html::a($item2->label, [$item2->url], ['class' => 'w-max-content fs-6 text-secondary']) ?>
+                                    <?= Html::a(StringHelper::truncate($item2->label,25), [$item2->url], ['class' => 'w-max-content fs-6 text-secondary']) ?>
                                 <?php endforeach; ?>
                             </div>
                         </div>
