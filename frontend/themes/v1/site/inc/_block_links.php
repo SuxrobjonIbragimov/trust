@@ -23,7 +23,7 @@ use backend\models\post\PostCategories;
                                 <p class="card-text text-gray fs-6"><?= $post->summary ?></p>
                                 <a href="<?= $post->source_link ?>"
                                    class="fs-7 text-lowercase d-flex align-items-center ms-auto text-secondary fw-bold">
-                                    <?= $post->title; ?>
+                                    <?= $post->source_link; ?>
                                     <i class='bx bx-right-arrow-alt ms-1'></i></a>
                             </div>
                         </div>
