@@ -549,7 +549,13 @@ class Posts extends ActiveRecord
             foreach ($deletedImages as $generate_name) {
                 if (!empty($image = PostFile::findOne(['generate_name' => $generate_name]))) {
                     $basePath = str_replace("backend", "", Yii::$app->basePath);
-                    if ($image->delete()) unlink($basePath . $image->path);
+                    if ($image->delete())
+                    {
+                        $filePath = $basePath . $image->path;
+                        if (is_file($filePath)){
+                            unlink($filePath);
+                        }
+                    }
                 }
             }
         }
