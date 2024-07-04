@@ -431,6 +431,7 @@ class Posts extends ActiveRecord
                 PostCategories::KEY_FILES,
                 ],
             'url' => [
+                PostCategories::KEY_HOME_ABOUT_US,
                 ],
             'source_link' => [
                 PostCategories::KEY_USEFUL_LINKS,
