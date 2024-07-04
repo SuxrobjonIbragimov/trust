@@ -417,6 +417,7 @@ class Posts extends ActiveRecord
                 PostCategories::KEY_VACANCY,
                 PostCategories::KEY_GALLERY,
                 PostCategories::KEY_FAQ,
+                PostCategories::KEY_USEFUL_LINKS,
                 ],
             'body' => [
                 PostCategories::KEY_PRESS_CENTER,
@@ -433,6 +434,7 @@ class Posts extends ActiveRecord
             'url' => [
                 ],
             'source_link' => [
+                PostCategories::KEY_USEFUL_LINKS,
                 ],
             'published_date' => [
                 PostCategories::KEY_FILES,

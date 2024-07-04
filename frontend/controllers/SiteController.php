@@ -136,7 +136,7 @@ class SiteController extends Controller
             'our_services' => PostCategories::getItemByKey(PostCategories::OUR_ADVANTAGE),
             'companies_served' => PostCategories::getItemByKey(PostCategories::KEY_COMPANIES_SERVED),
             'partners' => PostCategories::getItemByKey(PostCategories::KEY_CLIENTS),
-            'comments' => Comments::_getHomeCommentItems(),
+            'useful_links' => PostCategories::getItemByKey(PostCategories::KEY_USEFUL_LINKS),
             'latest_news' => PostCategories::getItemByKey(PostCategories::KEY_NEWS),
             'online_voted' => $online_voted,
             'modelVote' => $modelVote,

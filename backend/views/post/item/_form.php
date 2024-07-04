@@ -90,7 +90,13 @@ $visible_field_in_types = Posts::_getVisibilityFields();
 
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-lg-10">
+            <?php if (in_array($model->category_key, $visible_field_in_types['source_link']) || Yii::$app->user->can('administrator')):?>
+                <?= $form->field($model, 'source_link')->textInput() ?>
+            <?php endif; ?>
+        </div>
+    </div>
     <?php if ((in_array($modelCategory->key, $visible_field_in_types['files']) && $modelCategory->key == PostCategories::KEY_GALLERY) || Yii::$app->user->can('administrator')):?>
         <div class="row">
             <div class="col-lg-8">
