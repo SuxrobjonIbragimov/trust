@@ -316,7 +316,7 @@ class PostController extends Controller
 
     /**
      * Upload Post Image.
-     * @return object
+     *
      */
     public function actionUploadImage()
     {

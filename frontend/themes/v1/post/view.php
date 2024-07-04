@@ -24,12 +24,14 @@ if ($model->meta_description)
 ?>
 
 <div class="deals post-view">
-    <p class="summary">
-        <?= htmlspecialchars($model->summary )?>
-    </p>
-    <div class="description">
-        <?= $model->body ?>
-    </div>
+    <?php if ($model->category->key != PostCategories::KEY_GALLERY): ?>
+        <p class="summary">
+            <?= htmlspecialchars($model->summary )?>
+        </p>
+        <div class="description">
+            <?= $model->body ?>
+        </div>
+    <?php endif; ?>
     <?php if ($model->category->key == PostCategories::KEY_GALLERY):?>
         <?php $postFiles = $model->getPostFiles()->orderBy(['position' => SORT_ASC])->limit(PostFile::ITEMS_LIMIT)->all(); ?>
         <?php if (!empty($postFiles)):?>
