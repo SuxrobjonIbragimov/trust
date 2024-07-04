@@ -273,7 +273,7 @@ class OsgoController extends Controller
                     $transaction->rollBack();
                 }
             } else {
-                $session->addFlash('error', $model->errors);
+                $session->addFlash('error', getFirstErrorMessage($model->errors));
             }
         } elseif ($model->load(Yii::$app->request->post())) {
             $session->addFlash('error', getFirstErrorMessage($model->errors));

@@ -128,7 +128,7 @@ class Posts extends ActiveRecord
      */
     public function rules()
     {
-        $visible_field_in_types = (Yii::$app->user->can('administrator')) ? [] : Posts::_getVisibilityFields();
+        $visible_field_in_types = (Yii::$app->user->can('accessAdministrator')) ? [] : Posts::_getVisibilityFields();
         $this_key = $this->category_key;
 
         return [
