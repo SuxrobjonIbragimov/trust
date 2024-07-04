@@ -94,7 +94,7 @@ if ($footerText !== null)
 <?php if (!empty($useful_links)): ?>
     <!--SECTION COMMENTS-->
     <?= $this->render('inc/_block_links', [
-        'model' => $useful_links,
+        'useful_links' => $useful_links,
     ]) ?>
     <!--SECTION COMMENTS END-->
 <?php endif; ?>
