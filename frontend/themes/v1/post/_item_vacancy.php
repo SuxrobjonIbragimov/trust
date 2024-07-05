@@ -27,7 +27,7 @@ use yii\helpers\Url;
                 <?= mb_substr($summary, 0, 65); ?>...
             </p>
         </div>
-        <div class="position-absolute bottom-minus-20 end-minus-20 w-200px h-200px z-index-0 animation-rotate only-hover-active">
+        <div class="position-absolute bottom-minus-20 end-minus-20 w-200px h-200px z-index-0 animation-rotate only-hover-active d-none">
             <img class="w-100 h-100" src="/themes/v1/images/logo/oriental.png" alt="">
         </div>
     </a>
