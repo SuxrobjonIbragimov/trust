@@ -23,7 +23,10 @@ class Model extends \yii\base\Model
 
         if (! empty($multipleModels)) {
             $keys = array_keys(ArrayHelper::map($multipleModels, 'id', 'id'));
-            $multipleModels = array_combine($keys, $multipleModels);
+            if (count($keys) === count($multipleModels))
+            {
+                $multipleModels = array_combine($keys, $multipleModels);
+            }
         }
 
         if ($post && is_array($post)) {
