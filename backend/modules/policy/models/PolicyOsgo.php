@@ -603,12 +603,23 @@ class PolicyOsgo extends ActiveRecord
      */
     public function setEndDate()
     {
-        if ($this->period_id == self::PERIOD_12_MONTH) {
-            $this->end_date = date('Y-m-d', strtotime("+1 year", strtotime($this->start_date)));
+        if ($this->product_type == self::PRODUCT_TYPE_OSGOP) {
+            if ($this->period == self::PERIOD_3) {
+                $this->end_date = date('Y-m-d', strtotime("+3 month", strtotime($this->start_date)));
+            } elseif ($this->period == self::PERIOD_6) {
+                $this->end_date = date('Y-m-d', strtotime("+6 month", strtotime($this->start_date)));
+            } else {
+                $this->end_date = date('Y-m-d', strtotime("+1 year", strtotime($this->start_date)));
+            }
+            $this->end_date = date('Y-m-d', strtotime("-1 day", strtotime($this->end_date)));
         } else {
-            $this->end_date = date('Y-m-d', strtotime("+6 months", strtotime($this->start_date)));
+            if ($this->period_id == self::PERIOD_12_MONTH) {
+                $this->end_date = date('Y-m-d', strtotime("+1 year", strtotime($this->start_date)));
+            } else {
+                $this->end_date = date('Y-m-d', strtotime("+6 months", strtotime($this->start_date)));
+            }
+            $this->end_date = date('Y-m-d', strtotime("-1 day", strtotime($this->end_date)));
         }
-        $this->end_date = date('Y-m-d', strtotime("-1 day", strtotime($this->end_date)));
     }
 
     /**

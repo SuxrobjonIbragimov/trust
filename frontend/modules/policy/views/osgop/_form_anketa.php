@@ -569,6 +569,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                         <?= $form->field($model, 'start_date', ['options' => ['class' => 'form-group']])
                                             ->textInput(['type' => 'text',
                                                 'maxlength' => 10,
+                                                'readonly' => true,
                                                 'autocomplete' => 'off',
                                                 'class' => 'field__input form-control mask-date get-calc-ajax',
                                                 'min' => date('Y-m-d'),
