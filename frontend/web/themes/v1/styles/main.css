@@ -742,6 +742,10 @@ progress {
     accent-color: var(--bs-primary);
 }
 
+.field__input::placeholder {
+    color: #c7c2c2;
+}
+
 /* Bootstrap Notify */
 [data-notify="progressbar"] {
     margin-bottom: 0px;
