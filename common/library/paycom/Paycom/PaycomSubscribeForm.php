@@ -77,7 +77,7 @@ class PaycomSubscribeForm extends Model
     {
         $result = null;
         $paycom_application = new PaycomApplication();
-        $merchantID = !empty($params['osgo']) ? $paycom_application->merchant->config['osgo']['merchant_id'] : $paycom_application->merchant->config['merchant_id'];
+        $merchantID = isset($params['osgo']) && !empty($params['osgo']) ? $paycom_application->merchant->config['osgo']['merchant_id'] : $paycom_application->merchant->config['merchant_id'];
         $order_id = $params['order_id'];
         $product_name = $params['product_name'];
         $amount = $params['amount'];
