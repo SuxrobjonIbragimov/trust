@@ -353,7 +353,7 @@ class HandBookIns extends Model
         try {
             $response = $request->send();
             if (LOG_DEBUG_SITE) {
-                set_history($request, $response->data,'Handbook_sendRequestIns_try_'.$this->method,['headers' => $this->headers,'params' => $this->params,]);
+                set_history($request, $response->data,'Handbook_sendRequestIns_try_'.$request->method.'_'.$this->method,['headers' => $this->headers,'params' => $this->params,]);
             }
             if ($response->isOk) {
                 $responseReturn = $response->data;

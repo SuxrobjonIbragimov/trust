@@ -234,8 +234,9 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                         <?= $form->field($model, 'start_date', ['options' => ['class' => 'form-group']])
                                             ->textInput(['type' => 'text',
                                                 'maxlength' => 10,
+                                                'readonly' => true,
                                                 'autocomplete' => 'off',
-                                                'class' => 'field__input form-control mask-date get-calc-ajax',
+                                                'class' => 'field__input form-control get-calc-ajax',
                                                 'min' => date('Y-m-d'),
                                                 'placeholder' => Yii::t('policy', 'dd.mm.yyyy')
                                             ])->label($label, ['class' => 'control-label main-form-label my-2']) ?>

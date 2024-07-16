@@ -790,12 +790,13 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
-
-                                <div class="pull-right- page-footer-button">
-                                    <button type="button" class="add-item-driver btn btn-primary btn-xs my-3">
-                                        <?= ($model->driver_limit_id == PolicyOsgo::DRIVER_LIMITED) ? Yii::t('policy', 'Добавить водителя') : Yii::t('policy', 'Добавить родственник') ?>
-                                    </button>
-                                </div>
+                                <?php if(!($model->owner_fy == PolicyOsgo::LEGAL_TYPE_YUR && $model->driver_limit_id == PolicyOsgo::DRIVER_UNLIMITED)): ?>
+                                    <div class="pull-right- page-footer-button">
+                                        <button type="button" class="add-item-driver btn btn-primary btn-xs my-3">
+                                            <?= ($model->driver_limit_id == PolicyOsgo::DRIVER_LIMITED || $model->owner_fy == PolicyOsgo::LEGAL_TYPE_YUR) ? Yii::t('policy', 'Добавить водителя') : Yii::t('policy', 'Добавить родственник') ?>
+                                        </button>
+                                    </div>
+                                <?php endif; ?>
                                 <?php DynamicFormWidget::end(); ?>
                             </div>
                         </div>

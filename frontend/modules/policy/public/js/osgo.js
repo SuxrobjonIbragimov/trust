@@ -635,7 +635,7 @@ $(function() {
                             $('#policyosgo-app_pass_sery').attr('readonly', true);
                             $('#policyosgo-app_pass_num').attr('readonly', true);
 
-                            $("#check-applicant").removeClass('check').addClass('clear').addClass('bg-danger');
+                            $("#check-applicant").removeClass('check').addClass('clear').addClass('bg-danger').removeClass('bg-primary');
 
                             $('#policyosgo-app_last_name').val(data.LAST_NAME).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');
                             $('#policyosgo-app_first_name').val(data.FIRST_NAME).attr('readonly', true).parent('div').removeClass('has-error').find('.help-block').html('');

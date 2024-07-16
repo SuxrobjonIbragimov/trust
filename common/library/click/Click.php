@@ -346,7 +346,7 @@ CODE;
         $serviceID = !empty($params['osgo']) ? $config['click-osgo']['service_id'] : $config['click']['service_id'];
         $transID = self::generateTransactionId($transID);
         $transAmount = number_format($transAmount, 0, '.', '');
-        $returnURL = Url::to(['/policy/check/status', 'hash' => $params['hash']], true);
+        $returnURL = Url::to(['/policy/check/status', 'hash' => $params['hash'] ?? null], true);
 //        $returnURL = urlencode($returnURL);
         $cardType = 'uzcard';
         $result = $this->configs['endpoint'].'?'.http_build_query([
