@@ -6,7 +6,7 @@ if ($(".headerIntro").length) {
             pauseOnMouseEnter: true,
             delay: 2600,
         },
-        speed: 4000,
+        speed: 1000,
         grabCursor: true,
         loop: true,
         pagination: {

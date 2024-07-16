@@ -41,7 +41,7 @@ use yii\helpers\Url;
                                     </p>
                                     <a href="<?= $sliderItem->link ?>"
                                        target=""
-                                       class="btn btn-outline-secondary rounded-2 d-inline-block rounded-0 text-uppercase fs-5 fw-bold px-4 py-2 mt-2">
+                                       class="btn btn-primary rounded-2 d-inline-block rounded-0 text-uppercase fs-5 fw-bold px-4 py-2 mt-2">
                                         <?= Yii::t('frontend', 'Подробнее') ?>
                                     </a>
                                 </div>
