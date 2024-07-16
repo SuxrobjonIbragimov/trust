@@ -173,7 +173,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <tr>
                                 <th>
-                                    <?= $model->getAttributeLabel('vehicle_seats_count')?>
+                                    <?= Yii::t('policy','Vehicle Seats Count'); ?>
                                 </th>
                                 <td>
                                     <?= $model->vehicle_seats_count; ?>
