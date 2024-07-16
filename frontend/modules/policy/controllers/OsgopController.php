@@ -476,8 +476,8 @@ class OsgopController extends Controller
                 'pinfl' => $post['pinfl'],
                 'pass_series' => mb_strtoupper($post['pass_series']),
                 'pass_number' => mb_strtoupper($post['pass_number']),
-                'driver_id' => (!isset($post['driver_id']) && !is_null($post['driver_id']) && $post['driver_id'] != '') ? $post['driver_id'] : null,
-                'senderPinfl' => (!isset($post['sender_pinfl']) && !is_null($post['sender_pinfl']) && $post['sender_pinfl'] != '') ? $post['sender_pinfl'] : $post['pinfl'],
+                'driver_id' => (isset($post['driver_id']) && !is_null($post['driver_id']) && $post['driver_id'] != '') ? $post['driver_id'] : null,
+                'senderPinfl' => (isset($post['sender_pinfl']) && !is_null($post['sender_pinfl']) && $post['sender_pinfl'] != '') ? $post['sender_pinfl'] : $post['pinfl'],
             ];
             $out = PolicyOsgo::_getPassPersonalIDData($items);
 
