@@ -1151,8 +1151,8 @@ class PolicyOsgo extends ActiveRecord
 
                 $response['REGION_ID'] = !empty($data['oblast']) ? $data['oblast'] : $_region_id;
                 $response['DISTRICT_ID'] = !empty($data['rayon']) ? $data['rayon'] : $_district_id;
-                $response['TECH_PASSPORT_ISSUE_DATE'] = date('d.m.Y', strtotime($data['tech_passport_issue_date']));
-                $response['VEHICLE_TYPE_NAME'] = $modelOsgo->getVehicleTypesList($data['vehicle_type_id']);
+                $response['TECH_PASSPORT_ISSUE_DATE'] = !empty($data['tech_passport_issue_date']) ? date('d.m.Y', strtotime($data['tech_passport_issue_date'])) : null;
+                $response['VEHICLE_TYPE_NAME'] = !empty($data['vehicle_type_id']) ? $modelOsgo->getVehicleTypesList($data['vehicle_type_id']) : null;
                 $response['VEHICLE_TERRITORY_ID'] = $_use_territory_id_by_car_number;
                 $response['MODEL_NAME'] = $data['model_name'] ?? null;
                 $response['MARKA_ID'] = $data['marka_id'] ?? null;
@@ -1411,7 +1411,7 @@ class PolicyOsgo extends ActiveRecord
                     $items['pinfl'] = trim($response['PINFL']);
                 }
 
-                if (!empty($response['PINFL']) && (!is_null($items['driver_id']) && $items['driver_id'] != '')) {
+                if (!empty($response['PINFL']) && (isset($items['driver_id']) && !is_null($items['driver_id']) && $items['driver_id'] != '')) {
                     $driver_data = self::_getDriverLicenseData($items);
                     if (empty($driver_data['ERROR']) && $driver_data['ERROR'] == 0) {
 
