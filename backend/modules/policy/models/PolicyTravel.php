@@ -835,8 +835,8 @@ class PolicyTravel extends \yii\db\ActiveRecord
                 $data = $handBookService->sendRequestIns();
                 if (!empty($data['anketa_id']) && !empty($this->policyOrder)) {
                     $response = $data;
-                    $this->ins_anketa_id = $response['anketa_id'] ?: null;
-                    $this->uuid_ins = $response['uuid'] ?: null;
+                    $this->ins_anketa_id = !empty($response['anketa_id']) ? $response['anketa_id'] : null;
+                    $this->uuid_ins = !empty($response['uuid']) ? $response['uuid'] : null;
                     $this->amount_usd = !empty($response['premium_usd']) ? floatval($response['premium_usd']) : 0;
                     $this->amount_uzs = !empty($response['premium_uzs']) ? floatval($response['premium_uzs']) : 0;
                     $this->policyOrder->total_amount = $this->amount_uzs;
