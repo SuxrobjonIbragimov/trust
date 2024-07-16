@@ -2495,8 +2495,8 @@ class PolicyOsgo extends ActiveRecord
                 if (empty($data['result']) && !empty($data['anketa_id'])) {
                     $response = $data;
                     $this->ins_log = json_encode($data);
-                    $this->ins_anketa_id = $response['anketa_id'] ?: null;
-                    $this->uuid_fond = $response['uuid'] ?: null;
+                    $this->ins_anketa_id = !empty($response['anketa_id']) ? $response['anketa_id'] : null;
+                    $this->uuid_fond = !empty($response['uuid']) ? $response['uuid'] : null;
                     if (!$this->save(false)) {
                         _send_error('Policy Osgo model saqlashda xatolik', json_encode(['error' => $this->errors], JSON_UNESCAPED_UNICODE));
                         if (LOG_DEBUG_SITE) {
