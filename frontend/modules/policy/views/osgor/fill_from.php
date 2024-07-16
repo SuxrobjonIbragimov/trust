@@ -21,9 +21,9 @@ if (!empty($modelPage->image)) {
 } else {
     $this->params['meta_image'] = $logo;
 }
-if ($modelPage->meta_keywords)
+if (!empty($modelPage->meta_keywords))
     $this->params['meta_keywords'] = $modelPage->meta_keywords;
-if ($modelPage->meta_description)
+if (!empty($modelPage->meta_description))
     $this->params['meta_description'] = $modelPage->meta_description;
 
 ?>
