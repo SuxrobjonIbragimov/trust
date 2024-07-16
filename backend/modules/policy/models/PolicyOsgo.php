@@ -270,8 +270,8 @@ class PolicyOsgo extends ActiveRecord
     {
         $start_day_min = self::START_DAY_MIN;
         $start_day_max = self::START_DAY_MAX;
-        $begin_Date = ($this->isNewRecord) ? date('d.m.Y', strtotime("+{$start_day_min} day", time())) : $this->start_date;
-        $end_Date = ($this->isNewRecord) ? date('d.m.Y', strtotime("+{$start_day_max} days", time())) : $this->end_date;
+        $begin_Date =  date('d.m.Y', strtotime("+{$start_day_min} day", time()));
+        $end_Date = date('d.m.Y', strtotime("+{$start_day_max} days", time()));
 
         return [
             [['vehicle_type_id', '_use_territory_id', 'region_id', 'period_id', 'driver_limit_id', 'start_date', 'end_date',], 'required', 'on' => self::SCENARIO_SITE_STEP_CALC, 'message' => Yii::t('validation', 'Необходимо заполнить')],
@@ -2089,8 +2089,8 @@ class PolicyOsgo extends ActiveRecord
                 if (!empty($data['anketa_id'])) {
                     $response = $data;
                     $this->ins_log = json_encode($data);
-                    $this->ins_anketa_id = $response['anketa_id'] ?: null;
-                    $this->uuid_fond = $response['uuid'] ?: null;
+                    $this->ins_anketa_id = !empty($response['anketa_id']) ? $response['anketa_id'] : null;
+                    $this->uuid_fond = !empty($response['uuid']) ?: null;
                     if (!$this->save(false)) {
                         _send_error('Policy Osgo model saqlashda xatolik', json_encode(['error' => $this->errors], JSON_UNESCAPED_UNICODE));
                         if (LOG_DEBUG_SITE) {
