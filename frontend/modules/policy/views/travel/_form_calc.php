@@ -390,7 +390,7 @@ HTML;
                                                                 'maxlength' => 10,
                                                                 'autocomplete' => 'off',
                                                                 'data-param' => 'travelparent',
-                                                                'class' => 'field__input form-control mask-birthday traveller-birthday on-change-parent on-change-traveller-info dd-with',
+                                                                'class' => 'field__input on-change form-control mask-birthday traveller-birthday on-change-parent on-change-traveller-info dd-with',
                                                                 'placeholder' => Yii::t('policy', 'dd.mm.yyyy')
                                                             ])->label($label, ['class' => 'control-label main-form-label']) ?>
                                                     </div>
@@ -545,7 +545,7 @@ HTML;
                                                                 'maxlength' => 10,
                                                                 'autocomplete' => 'off',
                                                                 'data-param' => 'travel',
-                                                                'class' => 'field__input form-control mask-birthday traveller-birthday on-change-traveller-info dd-with',
+                                                                'class' => 'field__input form-control on-change mask-birthday traveller-birthday on-change-traveller-info dd-with',
                                                                 'placeholder' => Yii::t('policy', 'dd.mm.yyyy')
                                                             ])->label($label, ['class' => 'control-label main-form-label']) ?>
                                                     </div>
@@ -718,7 +718,7 @@ HTML;
                                                                 'maxlength' => 10,
                                                                 'autocomplete' => 'off',
                                                                 'data-param' => 'travel',
-                                                                'class' => 'field__input form-control mask-birthday traveller-birthday on-change-traveller-info dd-with',
+                                                                'class' => 'field__input form-control on-change mask-birthday traveller-birthday on-change-traveller-info dd-with',
                                                                 'placeholder' => Yii::t('policy', 'dd.mm.yyyy')
                                                             ])->label($label, ['class' => 'control-label main-form-label']) ?>
                                                     </div>
@@ -948,7 +948,8 @@ $jsPjax = <<<JS
                     $.pjax.reload({
                         container: '#pjax_policy_travel_calc',
                         type: 'POST',
-                        data: $('form[data-pjax]').serialize() + '&button=1'
+                        data: $('form[data-pjax]').serialize() + '&button=1',
+                        skipOuterContainers: true
                     });
                     
                 }
