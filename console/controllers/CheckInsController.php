@@ -376,7 +376,7 @@ class CheckInsController extends Controller
                         $program_risks['ACCIDENT'] = intval($dataItem['ACCIDENT']);
                     }
                     if (!empty($dataItem['TICKET'])) {
-                        $program_risks['TICKET'] = intval($dataItem['TICKET']);
+                        $program_risks['TICKET'] = intval($dataItem['OTV']) - ($program_risks['MEDEX'] + $program_risks['ACCIDENT']);
                     }
                     $model = PolicyTravelProgram::findOne($condition) ?:
                         new PolicyTravelProgram([
@@ -386,7 +386,7 @@ class CheckInsController extends Controller
                             'status' => PolicyTravelProgram::STATUS_ACTIVE,
                         ]);
 
-                    $model->$name_field = $ins_name;
+                    $model->{$name_field} = $ins_name;
                     if ($model->isNewRecord || $model->isAttributeChanged($name_field) || 1) {
                         if ($model->save()) {
                             $changed = false;
