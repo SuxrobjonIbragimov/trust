@@ -147,6 +147,16 @@ button.check-button.clear svg.clear-icon{
     height: 38px;
 }
 
+.remove-item-parent {
+    width: 38px;
+    height: 38px;
+}
+
+.remove-item-child {
+    width: 38px;
+    height: 38px;
+}
+
 /* custom style */
 .series-number-row-without-btn {
     justify-content: space-between;

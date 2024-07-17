@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
  *
  * @property int $id
  * @property int $policy_travel_id
+ * @property string $is_parent
  * @property string $first_name
  * @property string $surname
  * @property string $birthday
@@ -57,6 +58,9 @@ class PolicyTravelParentTraveller extends ActiveRecord
         return [
             [['birthday', 'first_name', 'surname', 'pass_sery', 'pass_num',], 'required', 'on' => self::SCENARIO_SITE_STEP_CALC, 'message' => Yii::t('policy', 'Необходимо заполнить')],
             [['birthday', ], 'date', 'format' => 'dd.MM.yyyy', 'max' => $maxBirthdayDateParent, 'tooBig' => Yii::t('policy', 'The traveller must be 18 years ago')],
+            [['address','pinfl','id'],'safe'],
+            ['is_parent','default','value' => true],
+            ['is_parent','boolean'],
         ];
     }
 

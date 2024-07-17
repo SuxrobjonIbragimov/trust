@@ -14,7 +14,7 @@ class Model extends \yii\base\Model
      * @param array $multipleModels
      * @return array
      */
-    public static function createMultiple($modelClass, $multipleModels = [])
+    public static function createMultiple($modelClass, $multipleModels = [],$scenario = null)
     {
         $model    = new $modelClass;
         $formName = $model->formName();
@@ -34,7 +34,7 @@ class Model extends \yii\base\Model
                 if (isset($item['id']) && !empty($item['id']) && isset($multipleModels[$item['id']])) {
                     $models[] = $multipleModels[$item['id']];
                 } else {
-                    $models[] = new $modelClass;
+                    $models[] = !empty($scenario) ? new $modelClass(['scenario' => $scenario]) : new $modelClass;
                 }
             }
         }
