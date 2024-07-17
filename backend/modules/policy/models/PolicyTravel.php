@@ -627,9 +627,9 @@ class PolicyTravel extends \yii\db\ActiveRecord
             ]);
 
             $data = $handBookService->sendRequestIns();
-            if (!empty($data['COST_USD'])) {
-                $this->_policy_price_uzs = floatval($data['COST_UZS']);
-                $this->_policy_price_usd = floatval($data['COST_USD']);
+            if (!empty($data['cost_usd'])) {
+                $this->_policy_price_uzs = floatval($data['cost_uzs']);
+                $this->_policy_price_usd = floatval($data['cost_usd']);
             } else {
                 $this->_policy_price_usd = 0;
                 $this->_policy_price_uzs = 0;
