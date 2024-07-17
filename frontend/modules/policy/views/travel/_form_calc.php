@@ -854,12 +854,12 @@ HTML;
                                   class="text-bold"><?= number_format($model->_policy_price_uzs, 2, '.', ' ') ?></span>
                             <span class="currency text-bold"><?= Yii::t('policy', 'UZS'); ?></span>
                         </div>
-                        <div class="calculator-card__value small">
-                            <span id="policy_price"
-                                  class="text-bold"><small><?= number_format($model->_policy_price_usd, 2, '.', ' ') ?></small></span>
-                            <span class="currency text-bold"><small><?= Yii::t('policy', 'USD'); ?></small></span>
-
-                        </div>
+<!--                        <div class="calculator-card__value small">-->
+<!--                            <span id="policy_price"-->
+<!--                                  class="text-bold"><small>--><?php //= number_format($model->_policy_price_usd, 2, '.', ' ') ?><!--</small></span>-->
+<!--                            <span class="currency text-bold"><small>--><?php //= Yii::t('policy', 'USD'); ?><!--</small></span>-->
+<!---->
+<!--                        </div>-->
                     </div>
 
                     <div class="calculator-card__item policy_price-block">
