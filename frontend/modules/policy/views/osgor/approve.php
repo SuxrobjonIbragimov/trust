@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <main class="middle">
     <div class="policy-page">
-        <div class="container">
+        <div class="container px-0">
 
             <div class="flex-center-block mb-3">
 

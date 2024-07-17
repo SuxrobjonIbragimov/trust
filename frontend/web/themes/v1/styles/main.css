@@ -837,6 +837,7 @@ progress {
     .scrollup {
         right: 1.2rem;
     }
+
     .check-button, .remove-item-drive {
         width: 100% !important;
     }
@@ -866,13 +867,14 @@ progress {
     width: 100% !important;
 }
 
-.has-error .help-block
-{
+.has-error .help-block {
     color: red;
 }
+
 .p-relative {
     position: relative;
 }
+
 .bx-custom-sm {
     font-size: 1rem !important;
 }

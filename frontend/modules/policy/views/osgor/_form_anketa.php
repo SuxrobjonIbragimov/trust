@@ -31,7 +31,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
         'class' => 'v-form',
     ]
 ]); ?>
-    <div class="row <?= is_mobile_app() ? 'mb-0' : 'mb-3' ?>">
+    <div class="row row-gap-4 <?= is_mobile_app() ? 'mb-0' : 'mb-3' ?>">
         <div class="col-lg-8 col-12">
 
             <div class="calculator-group">
@@ -325,7 +325,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                             <div class="page-footer-button">
                                 <div class="form-group">
                                     <?php $btn_class = is_mobile_app() ? 'mb-0' : 'mb-5' ?>
-                                    <?= Html::submitButton(Yii::t('policy', 'Перейти к просмотру'), ['class' => 'btn btn-success btn-sm-fluid btn-xs s-custom-btn s-custom-primary s-custom-btn--icon mt-2 btn btn-success submitForm ' . $btn_class, 'data-pjax' => false, 'disabled' => true]) ?>
+                                    <?= Html::submitButton(Yii::t('policy', 'Перейти к просмотру'), ['class' => 'btn btn-success btn-sm-fluid btn-xs border-0 s-custom-btn s-custom-primary s-custom-btn--icon mt-2 btn btn-success submitForm ' . $btn_class, 'data-pjax' => false, 'disabled' => true]) ?>
                                 </div>
                             </div>
                         </div>
