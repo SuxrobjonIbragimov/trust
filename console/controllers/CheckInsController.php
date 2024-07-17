@@ -375,7 +375,7 @@ class CheckInsController extends Controller
                     if (!empty($dataItem['ACCIDENT'])) {
                         $program_risks['ACCIDENT'] = intval($dataItem['ACCIDENT']);
                     }
-                    if (!empty($dataItem['TICKET'])) {
+                    if (!empty($dataItem['OTV'])) {
                         $program_risks['TICKET'] = intval($dataItem['OTV']) - ($program_risks['MEDEX'] + $program_risks['ACCIDENT']);
                     }
                     $model = PolicyTravelProgram::findOne($condition) ?:
