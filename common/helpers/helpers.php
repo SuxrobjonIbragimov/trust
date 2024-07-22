@@ -15,7 +15,6 @@ define("BOT_TOKENT_SALE", "5200097983:AAHMt6jSaVdWarnKMHKieLF2XUCOx9_MJ5k");
 //define("CHAT_ID_ME", "-4161745862");
 define("CHAT_ID_ME", "5204219901");
 define("CHAT_ID_GROUP_SALE", "-887395551");
-define("FEEDBACK_GROUP_CHAT_ID", "-4287142565");
 define("EBASE_URL_INS_KS_V2", "https://openapi.ksc.uz/api/");
 define("EBASE_URL_INS_TR", "https://api.online-trust.uz/api/");
 define("KS_LOGIN", "EPOLIS");

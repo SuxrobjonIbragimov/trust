@@ -313,7 +313,7 @@ class Contact extends \yii\db\ActiveRecord
      */
     public function sendNewContactMessage()
     {
-        $groupID = FEEDBACK_GROUP_CHAT_ID !== null ? FEEDBACK_GROUP_CHAT_ID : CHAT_ID_ME;
+        $groupID = isset(Yii::$app->params['tg.feedback_group_chat_id']) ? Yii::$app->params['tg.feedback_group_chat_id'] : CHAT_ID_ME;
         $text = Yii::t('frontend',"📩 {type} qoldirildi\n🆔 {id}\n👤 {full_name}\n📞 {phone}",[
             'id' => $this->id,
             'type' => $this->getContactTypeName(),
