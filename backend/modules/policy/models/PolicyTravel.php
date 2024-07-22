@@ -696,9 +696,9 @@ class PolicyTravel extends \yii\db\ActiveRecord
     public function sendNewPolicyInfoMessage()
     {
         $policy_number = !empty($this->fullPolicyNumber) ? $this->fullPolicyNumber : '<b>'.Yii::t('policy', 'Polis nomer topilmadi.').'</b>';
-        $base_url = EBASE_URL_INS;
-        $policy_link = !empty($this->ins_policy_id) ? '<a href="https://api.ksc.uz/p/'.$this->ins_policy_id.'/'.$this->ins_anketa_id.'">'.$policy_number.'</a>' : '<b>'.Yii::t('policy', 'Xatolik!!! Polis uuid berilmadi.').'</b>';
-        $text = Yii::t('policy',"✈️ E-TRAVEL sotib olindi\n📞 {phone}\n💰 {amount_uzs} UZS\n💳 {payment_type}\n🆔 {id}\n📃 {policy}\n🕓 {time}",[
+        $policy_link = !empty($this->ins_policy_id) ? '<a href="https://api.online-trust.uz/p/'.$this->ins_policy_id.'/'.$this->ins_anketa_id.'">'.$policy_number.'</a>' : '<b>'.Yii::t('policy', 'Xatolik!!! Polis uuid berilmadi.').'</b>';
+        $text = Yii::t('policy',"🌐 {website}\n✈️ E-TRAVEL sotib olindi\n📞 {phone}\n💰 {amount_uzs} UZS\n💳 {payment_type}\n🆔 {id}\n📃 {policy}\n🕓 {time}",[
+            'website' => Yii::$app->name,
             'phone' => mask_to_phone_format($this->app_phone),
             'amount_uzs' => number_format($this->amount_uzs,'0','.',' '),
             'payment_type' => !empty($this->policyOrder->payment_type) ? mb_strtoupper($this->policyOrder->payment_type) : '<b> topilmadi!!!</b>',

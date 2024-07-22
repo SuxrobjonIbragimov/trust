@@ -1669,7 +1669,8 @@ class PolicyOsgo extends ActiveRecord
 
         $policy_number = !empty($this->fullPolicyNumber) ? $this->fullPolicyNumber : '<b>' . Yii::t('policy', 'Polis nomer topilmadi.') . '</b>';
         $policy_link = !empty($this->uuid_fond) ? '<a href="' . $policy_download_url . '?id=' . $this->uuid_fond . '">' . $policy_number . '</a>' : '<b>' . Yii::t('policy', 'Xatolik!!! Polis uuid berilmadi.') . '</b>';
-        $text = Yii::t('policy', 'E-Polis sotib olindi. Telefon: {phone}. Summasi: {amount_uzs} UZS. To`lov turi: {payment_type}. Polis: {policy}. Vaqti: {time}', [
+        $text = Yii::t('policy', "🌐 {website}.\n E-Polis sotib olindi.\n Telefon: {phone}.\n Summasi: {amount_uzs} UZS.\n To`lov turi: {payment_type}.\n Polis: {policy}.\n Vaqti: {time}\n", [
+            'website' => Yii::$app->name,
             'phone' => '+' . clear_phone_full($this->app_phone),
             'amount_uzs' => number_format($this->amount_uzs, '0', '.', ' '),
             'payment_type' => !empty($this->policyOrder->payment_type) ? mb_strtoupper($this->policyOrder->payment_type) : '<b> topilmadi!!!</b>',
