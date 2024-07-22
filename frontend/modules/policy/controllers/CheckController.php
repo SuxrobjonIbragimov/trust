@@ -133,6 +133,7 @@ class CheckController extends Controller
                             if (!empty($data['POLICY_SERY']) && !empty($data['POLICY_NUMBER'])) {
                                 $model->policy_series = trim($data['POLICY_SERY']);
                                 $model->policy_number = trim($data['POLICY_NUMBER']);
+                                $model->ins_policy_id = isset($data['POLICY_ID']) && !empty($data['POLICY_ID']) ? trim($data['POLICY_ID']) : null;
                             } elseif(!empty($data['STATUS_PAYMENT']) && $data['STATUS_PAYMENT'] == PaymentTransaction::STATUS_PAYMENT_PAID && empty($data['POLICY_SERY'])) {
                                 $title = "CheckController actionCheckPayment policy number is EMPTY";
                                 Yii::warning("\n\n\n{$title}");
