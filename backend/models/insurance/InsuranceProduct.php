@@ -78,7 +78,7 @@ class InsuranceProduct extends \yii\db\ActiveRecord
             ],
             [
                 'class' => TranslateDatabaseBehavior::className(),
-                'translateAttributes' => ['title', 'description', 'meta_title', 'meta_keywords', 'meta_description'],
+                'translateAttributes' => ['title', 'description', 'summary','meta_title', 'meta_keywords', 'meta_description'],
                 'tableName' => static::tableName(),
             ],
             'sitemap' => [
