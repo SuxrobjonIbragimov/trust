@@ -57,9 +57,9 @@ $this->title = Yii::t('title', 'Все виды страхования');
                                                     <img class="card-custom--icon w-100 h-100 object-fit-cover"
                                                          src="<?= '/themes/v1/img/product_background.png' ?>" alt="">
                                                 </div>
-                                                <div class="card-body d-flex flex-column justify-content-between align-items-center h-100 z-index-1 px-1">
-                                                    <h4 class="position-relative text-primary z-index-2 text-start fw-bold "><?= $item->title; ?></h4>
-                                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                                <div class="card-body d-flex flex-column align-items-center h-100 z-index-1 p-0 pt-2">
+                                                    <h4 class="position-relative text-primary z-index-2 text-center fw-bold mb-2"><?= $item->title; ?></h4>
+                                                    <div class="d-flex justify-content-between align-items-center w-100 mt-auto">
                                                         <a href="<?= !empty($item->calc_link) ? $item->calc_link : '#'?>"
                                                            class="btn btn-primary text-center d-block mt-auto <?= (empty($item->calc_link) || $item->calc_link == '#') ? 'disabled' : ''?> "><?= Yii::t('frontend', 'Купить') ?></a>
                                                         <a href="<?= Url::to(['product/view', 'slug' => $item->slug]) ?>"
