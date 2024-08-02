@@ -2,14 +2,11 @@
 
 namespace backend\modules\policy\models;
 
+use Yii;
 use backend\models\page\SourceCounter;
-use backend\modules\handbook\models\InsAgent;
 use backend\modules\telegram\models\BotUser;
 use common\components\behaviors\AuthorBehavior;
-use common\library\payment\models\PaymentTransaction;
-use common\models\Settings;
 use common\models\User;
-use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\web\BadRequestHttpException;
 
@@ -78,6 +75,8 @@ use yii\web\BadRequestHttpException;
  * @property User $updatedBy
  * @property PolicyTravelToCountry[] $policyTravelToCountries
  * @property PolicyTravelTraveller[] $policyTravelTravellers
+ * @property PolicyTravelTraveller[] $childPolicyTravelTravellers
+ * @property PolicyTravelParentTraveller[] $parentPolicyTravelTravellers
  */
 class PolicyTravel extends \yii\db\ActiveRecord
 {
@@ -147,11 +146,24 @@ class PolicyTravel extends \yii\db\ActiveRecord
         $begin_Date = ($this->isNewRecord) ? date('d.m.Y') : date('d.m.Y', strtotime($this->start_date));
         return [
             [['_travelCountries', 'start_date', 'end_date', 'days',  'purpose_id', 'program_id', ], 'required', 'on' => self::SCENARIO_SITE_STEP_CALC,'message' => Yii::t('policy', 'Необходимо заполнить') ],
-            [['app_name', 'app_surname', 'app_pass_sery', 'app_pass_num', 'app_birthday', 'app_phone', 'app_address', ], 'required', 'on' => self::SCENARIO_SITE_STEP_CALC, 'message' => Yii::t('policy', 'Необходимо заполнить')],
+            [
+                ['app_name', 'app_surname', 'app_pass_sery', 'app_pass_num', 'app_birthday', 'app_phone', 'app_address', ],
+                'required', 'on' => self::SCENARIO_SITE_STEP_CALC,
+                'when' => function (PolicyTravel $model) {
+                    return $model->is_family == 0;
+                 },
+                'message' => Yii::t('policy', 'Необходимо заполнить')
+            ],
             [['start_date', 'end_date', 'app_birthday', 'uuid_ins'], 'safe'],
             [['start_date', ], 'date', 'format' => 'dd.MM.yyyy', 'min' => $begin_Date, 'tooSmall' => Yii::t('policy', 'Дата начала страхования не соответствует требованиям')],
             [['end_date', ], 'date', 'format' => 'dd.MM.yyyy', 'min' => date('d.m.Y',strtotime($this->start_date)), 'tooSmall' => Yii::t('policy', 'Дата окончания страхования должна быть равна или позже даты начала страхования')],
-            [['app_birthday', ], 'date', 'format' => 'dd.MM.yyyy', 'max' => $max, 'tooBig' => Yii::t('policy', 'The insurer must be at least 18 years old')],
+            [
+                ['app_birthday', ],
+                'date', 'format' => 'dd.MM.yyyy', 'max' => $max,
+                'when' => function (PolicyTravel $model) {
+                    return $model->is_family == 0;
+                },
+                'tooBig' => Yii::t('policy', 'The insurer must be at least 18 years old')],
             [['days', 'purpose_id', 'program_id', 'abroad_group', 'abroad_type_id', 'multi_days_id', 'ins_anketa_id', 'ins_policy_id', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'default', 'value' => null],
             [['days', 'purpose_id', 'program_id', 'abroad_group', 'abroad_type_id', 'multi_days_id', 'ins_anketa_id', 'ins_policy_id', 'status', 'created_by', 'updated_by', 'created_at', 'updated_at'], 'integer'],
             [['amount_uzs', 'amount_usd'], 'number'],
@@ -460,6 +472,26 @@ class PolicyTravel extends \yii\db\ActiveRecord
         return $this->hasMany(PolicyTravelTraveller::className(), ['policy_travel_id' => 'id'])->orderBy(['id' => SORT_ASC]);
     }
 
+    /**
+     * Gets query for [[PolicyTravelTravellers]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getChildPolicyTravelTravellers()
+    {
+        return $this->getPolicyTravelTravellers()->andWhere(['is_parent' => 0]);
+    }
+
+    /**
+     * Gets query for [[PolicyTravelTravellers]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParentPolicyTravelTravellers()
+    {
+        return $this->hasMany(PolicyTravelParentTraveller::class, ['policy_travel_id' => 'id'])->orderBy(['id' => SORT_ASC])->andWhere(['is_parent' => 1]);
+    }
+
 
     public function setEndDate()
     {
@@ -627,9 +659,9 @@ class PolicyTravel extends \yii\db\ActiveRecord
             ]);
 
             $data = $handBookService->sendRequestIns();
-            if (!empty($data['COST_USD'])) {
-                $this->_policy_price_uzs = floatval($data['COST_UZS']);
-                $this->_policy_price_usd = floatval($data['COST_USD']);
+            if (!empty($data['cost_usd'])) {
+                $this->_policy_price_uzs = floatval($data['cost_uzs']);
+                $this->_policy_price_usd = floatval($data['cost_usd']);
             } else {
                 $this->_policy_price_usd = 0;
                 $this->_policy_price_uzs = 0;
@@ -664,9 +696,9 @@ class PolicyTravel extends \yii\db\ActiveRecord
     public function sendNewPolicyInfoMessage()
     {
         $policy_number = !empty($this->fullPolicyNumber) ? $this->fullPolicyNumber : '<b>'.Yii::t('policy', 'Polis nomer topilmadi.').'</b>';
-        $base_url = EBASE_URL_INS;
-        $policy_link = !empty($this->ins_policy_id) ? '<a href="https://api.ksc.uz/p/'.$this->ins_policy_id.'/'.$this->ins_anketa_id.'">'.$policy_number.'</a>' : '<b>'.Yii::t('policy', 'Xatolik!!! Polis uuid berilmadi.').'</b>';
-        $text = Yii::t('policy',"✈️ E-TRAVEL sotib olindi\n📞 {phone}\n💰 {amount_uzs} UZS\n💳 {payment_type}\n🆔 {id}\n📃 {policy}\n🕓 {time}",[
+        $policy_link = !empty($this->ins_policy_id) ? '<a href="https://api.online-trust.uz/p/'.$this->ins_policy_id.'/'.$this->ins_anketa_id.'">'.$policy_number.'</a>' : '<b>'.Yii::t('policy', 'Xatolik!!! Polis uuid berilmadi.').'</b>';
+        $text = Yii::t('policy',"🌐 {website}\n✈️ E-TRAVEL sotib olindi\n📞 {phone}\n💰 {amount_uzs} UZS\n💳 {payment_type}\n🆔 {id}\n📃 {policy}\n🕓 {time}",[
+            'website' => Yii::$app->name,
             'phone' => mask_to_phone_format($this->app_phone),
             'amount_uzs' => number_format($this->amount_uzs,'0','.',' '),
             'payment_type' => !empty($this->policyOrder->payment_type) ? mb_strtoupper($this->policyOrder->payment_type) : '<b> topilmadi!!!</b>',
@@ -835,8 +867,8 @@ class PolicyTravel extends \yii\db\ActiveRecord
                 $data = $handBookService->sendRequestIns();
                 if (!empty($data['anketa_id']) && !empty($this->policyOrder)) {
                     $response = $data;
-                    $this->ins_anketa_id = $response['anketa_id'] ?: null;
-                    $this->uuid_ins = $response['uuid'] ?: null;
+                    $this->ins_anketa_id = !empty($response['anketa_id']) ? $response['anketa_id'] : null;
+                    $this->uuid_ins = !empty($response['uuid']) ? $response['uuid'] : null;
                     $this->amount_usd = !empty($response['premium_usd']) ? floatval($response['premium_usd']) : 0;
                     $this->amount_uzs = !empty($response['premium_uzs']) ? floatval($response['premium_uzs']) : 0;
                     $this->policyOrder->total_amount = $this->amount_uzs;
@@ -862,6 +894,10 @@ class PolicyTravel extends \yii\db\ActiveRecord
                     return true;
                 } else {
                     $title = Yii::t('policy','Хатолик юз берди биз оздан сўнг қайта уриниб кўринг');
+                    if (!empty($data['result']) && !empty($data['result_message']))
+                    {
+                        $title = $data['result_message'];
+                    }
                     $titleLog = 'sendRequestIns Anketa saqlashda xatolik';
                     $this->_tmp_message = $title;
                     _send_error($titleLog, json_encode($data,JSON_UNESCAPED_UNICODE));
@@ -1017,5 +1053,17 @@ class PolicyTravel extends \yii\db\ActiveRecord
     public function isReadOnly(): bool
     {
         return !empty($this->app_birthday) && !empty($this->app_pass_sery) && !empty($this->app_pass_num);
+    }
+
+    public function getTravelCountriesID(): array
+    {
+        $items = $this->policyTravelToCountries;
+        $countries = [];
+        if (!empty($items)) {
+            foreach ($items as $trcountrymodel) {
+                $countries[] = $trcountrymodel->country_id;
+            }
+        }
+        return $countries;
     }
 }

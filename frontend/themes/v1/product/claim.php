@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\captcha\Captcha;
 use yii\bootstrap\ActiveForm;
+use yii\web\View;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -63,7 +64,10 @@ $this->registerCssFile("@web/themes/v1/{$path}", [
                 </div>
 
                 <div class="col-sm-6">
-                    <?= $form->field($modelForm, 'phone') ?>
+                    <?= $form->field($modelForm, 'phone')->textInput([
+                            'class' => 'form-control mask-phone',
+                            'placeholder' => Yii::t('policy', '+998XX-XXX-XX-XX'),
+                    ]) ?>
                 </div>
                 <div class="col-sm-6">
                     <?= $form->field($modelForm, 'email') ?>
@@ -97,3 +101,11 @@ $this->registerCssFile("@web/themes/v1/{$path}", [
         </div>
     </div>
 </div>
+<?php
+$js = <<<JS
+ $(document).ready(function() {
+     $('.mask-phone').mask('+000 (00) 000-00-00');
+ })
+JS;
+$this->registerJs($js, View::POS_END);
+?>

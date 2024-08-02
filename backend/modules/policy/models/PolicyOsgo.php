@@ -270,8 +270,8 @@ class PolicyOsgo extends ActiveRecord
     {
         $start_day_min = self::START_DAY_MIN;
         $start_day_max = self::START_DAY_MAX;
-        $begin_Date = ($this->isNewRecord) ? date('d.m.Y', strtotime("+{$start_day_min} day", time())) : $this->start_date;
-        $end_Date = ($this->isNewRecord) ? date('d.m.Y', strtotime("+{$start_day_max} days", time())) : $this->end_date;
+        $begin_Date =  date('d.m.Y', strtotime("+{$start_day_min} day", time()));
+        $end_Date = date('d.m.Y', strtotime("+{$start_day_max} days", time()));
 
         return [
             [['vehicle_type_id', '_use_territory_id', 'region_id', 'period_id', 'driver_limit_id', 'start_date', 'end_date',], 'required', 'on' => self::SCENARIO_SITE_STEP_CALC, 'message' => Yii::t('validation', 'Необходимо заполнить')],
@@ -603,12 +603,23 @@ class PolicyOsgo extends ActiveRecord
      */
     public function setEndDate()
     {
-        if ($this->period_id == self::PERIOD_12_MONTH) {
-            $this->end_date = date('Y-m-d', strtotime("+1 year", strtotime($this->start_date)));
+        if ($this->product_type == self::PRODUCT_TYPE_OSGOP) {
+            if ($this->period == self::PERIOD_3) {
+                $this->end_date = date('Y-m-d', strtotime("+3 month", strtotime($this->start_date)));
+            } elseif ($this->period == self::PERIOD_6) {
+                $this->end_date = date('Y-m-d', strtotime("+6 month", strtotime($this->start_date)));
+            } else {
+                $this->end_date = date('Y-m-d', strtotime("+1 year", strtotime($this->start_date)));
+            }
+            $this->end_date = date('Y-m-d', strtotime("-1 day", strtotime($this->end_date)));
         } else {
-            $this->end_date = date('Y-m-d', strtotime("+6 months", strtotime($this->start_date)));
+            if ($this->period_id == self::PERIOD_12_MONTH) {
+                $this->end_date = date('Y-m-d', strtotime("+1 year", strtotime($this->start_date)));
+            } else {
+                $this->end_date = date('Y-m-d', strtotime("+6 months", strtotime($this->start_date)));
+            }
+            $this->end_date = date('Y-m-d', strtotime("-1 day", strtotime($this->end_date)));
         }
-        $this->end_date = date('Y-m-d', strtotime("-1 day", strtotime($this->end_date)));
     }
 
     /**
@@ -1151,8 +1162,8 @@ class PolicyOsgo extends ActiveRecord
 
                 $response['REGION_ID'] = !empty($data['oblast']) ? $data['oblast'] : $_region_id;
                 $response['DISTRICT_ID'] = !empty($data['rayon']) ? $data['rayon'] : $_district_id;
-                $response['TECH_PASSPORT_ISSUE_DATE'] = date('d.m.Y', strtotime($data['tech_passport_issue_date']));
-                $response['VEHICLE_TYPE_NAME'] = $modelOsgo->getVehicleTypesList($data['vehicle_type_id']);
+                $response['TECH_PASSPORT_ISSUE_DATE'] = !empty($data['tech_passport_issue_date']) ? date('d.m.Y', strtotime($data['tech_passport_issue_date'])) : null;
+                $response['VEHICLE_TYPE_NAME'] = !empty($data['vehicle_type_id']) ? $modelOsgo->getVehicleTypesList($data['vehicle_type_id']) : null;
                 $response['VEHICLE_TERRITORY_ID'] = $_use_territory_id_by_car_number;
                 $response['MODEL_NAME'] = $data['model_name'] ?? null;
                 $response['MARKA_ID'] = $data['marka_id'] ?? null;
@@ -1411,7 +1422,7 @@ class PolicyOsgo extends ActiveRecord
                     $items['pinfl'] = trim($response['PINFL']);
                 }
 
-                if (!empty($response['PINFL']) && (!is_null($items['driver_id']) && $items['driver_id'] != '')) {
+                if (!empty($response['PINFL']) && (isset($items['driver_id']) && !is_null($items['driver_id']) && $items['driver_id'] != '')) {
                     $driver_data = self::_getDriverLicenseData($items);
                     if (empty($driver_data['ERROR']) && $driver_data['ERROR'] == 0) {
 
@@ -1658,7 +1669,8 @@ class PolicyOsgo extends ActiveRecord
 
         $policy_number = !empty($this->fullPolicyNumber) ? $this->fullPolicyNumber : '<b>' . Yii::t('policy', 'Polis nomer topilmadi.') . '</b>';
         $policy_link = !empty($this->uuid_fond) ? '<a href="' . $policy_download_url . '?id=' . $this->uuid_fond . '">' . $policy_number . '</a>' : '<b>' . Yii::t('policy', 'Xatolik!!! Polis uuid berilmadi.') . '</b>';
-        $text = Yii::t('policy', 'E-Polis sotib olindi. Telefon: {phone}. Summasi: {amount_uzs} UZS. To`lov turi: {payment_type}. Polis: {policy}. Vaqti: {time}', [
+        $text = Yii::t('policy', "🌐 {website}.\n E-Polis sotib olindi.\n Telefon: {phone}.\n Summasi: {amount_uzs} UZS.\n To`lov turi: {payment_type}.\n Polis: {policy}.\n Vaqti: {time}\n", [
+            'website' => Yii::$app->name,
             'phone' => '+' . clear_phone_full($this->app_phone),
             'amount_uzs' => number_format($this->amount_uzs, '0', '.', ' '),
             'payment_type' => !empty($this->policyOrder->payment_type) ? mb_strtoupper($this->policyOrder->payment_type) : '<b> topilmadi!!!</b>',
@@ -2089,8 +2101,8 @@ class PolicyOsgo extends ActiveRecord
                 if (!empty($data['anketa_id'])) {
                     $response = $data;
                     $this->ins_log = json_encode($data);
-                    $this->ins_anketa_id = $response['anketa_id'] ?: null;
-                    $this->uuid_fond = $response['uuid'] ?: null;
+                    $this->ins_anketa_id = !empty($response['anketa_id']) ? $response['anketa_id'] : null;
+                    $this->uuid_fond = !empty($response['uuid']) ?: null;
                     if (!$this->save(false)) {
                         _send_error('Policy Osgo model saqlashda xatolik', json_encode(['error' => $this->errors], JSON_UNESCAPED_UNICODE));
                         if (LOG_DEBUG_SITE) {
@@ -2495,8 +2507,8 @@ class PolicyOsgo extends ActiveRecord
                 if (empty($data['result']) && !empty($data['anketa_id'])) {
                     $response = $data;
                     $this->ins_log = json_encode($data);
-                    $this->ins_anketa_id = $response['anketa_id'] ?: null;
-                    $this->uuid_fond = $response['uuid'] ?: null;
+                    $this->ins_anketa_id = !empty($response['anketa_id']) ? $response['anketa_id'] : null;
+                    $this->uuid_fond = !empty($response['uuid']) ? $response['uuid'] : null;
                     if (!$this->save(false)) {
                         _send_error('Policy Osgo model saqlashda xatolik', json_encode(['error' => $this->errors], JSON_UNESCAPED_UNICODE));
                         if (LOG_DEBUG_SITE) {

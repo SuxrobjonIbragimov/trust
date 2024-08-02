@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <main class="middle">
     <div class="policy-page">
-        <div class="container">
+        <div class="container px-0">
 
             <div class="flex-center-block mb-3">
 
@@ -173,7 +173,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             <tr>
                                 <th>
-                                    <?= $model->getAttributeLabel('vehicle_seats_count')?>
+                                    <?= Yii::t('policy','Vehicle Seats Count'); ?>
                                 </th>
                                 <td>
                                     <?= $model->vehicle_seats_count; ?>
@@ -184,7 +184,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     </div>
 
-                    <div class="row align-items-center mx-0 modal__container mt-5 w-100 "><!--modal__mid-->
+                    <div class="row align-items-center mx-0 modal__container row-gap-3 mt-5 w-100 "><!--modal__mid-->
                         <div class="col-xl-5 col-lg-5 col-md-5 col-12 field  modal__field d-flex justify-content-center me-auto p-0"><!--modal__field-col-->
                             <?= Html::a(Yii::t('policy', 'Изменить данные'), ['/policy/osgop/form', 'h' => _model_encrypt($model)], ['class' => 'btn btn-default w-100 border border-1']) ?><!--s-custom-btn s-custom-link cursor-pointer btn-default-->
                         </div>

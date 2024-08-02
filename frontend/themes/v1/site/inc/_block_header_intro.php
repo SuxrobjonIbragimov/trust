@@ -36,12 +36,12 @@ use yii\helpers\Url;
                                     <h5 class="card-title display-3 fw-bold">
                                         <?= strip_tags($sliderItem->title); ?>
                                     </h5>
-                                    <p class="card-text h3 fw-light">
+                                    <p class="card-text h3 fw-normal">
                                         <?= strip_tags($sliderItem->subtitle); ?>
                                     </p>
                                     <a href="<?= $sliderItem->link ?>"
-                                       target="_blank"
-                                       class="btn btn-outline-primary rounded-2 d-inline-block rounded-0 text-uppercase fs-5 fw-bold px-4 py-2 mt-2">
+                                       target=""
+                                       class="btn btn-primary rounded-2 d-inline-block rounded-0 text-uppercase fs-5 fw-bold px-4 py-2 mt-2">
                                         <?= Yii::t('frontend', 'Подробнее') ?>
                                     </a>
                                 </div>

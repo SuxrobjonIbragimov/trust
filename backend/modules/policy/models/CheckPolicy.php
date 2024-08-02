@@ -89,14 +89,19 @@ class CheckPolicy extends Model
         $handBookService = new HandBookIns();
         $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
         $handBookService->setMethod(HandBookIns::METHOD_GET_POLICY_INFO);
-        $handBookService->setBaseUrl(EBASE_URL_INS);
+        $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+        $handBookService->setLogin(TR_LOGIN);
+        $handBookService->setPassword(TR_PASSWORD);
 
         $handBookService->setParams([
             'sery' => $this->policy_series,
             'number' => intval($this->policy_number),
         ]);
         $responseReturn = $handBookService->sendRequestIns();
-        if (empty($responseReturn)) {
+        if (!empty($responseReturn))
+        {
+            $responseReturn = array_change_key_case($responseReturn, CASE_UPPER);
+        }else {
             $title = Yii::t('policy','Хатолик юз берди биз оздан сўнг қайта уриниб кўринг');
             _send_error($title, json_encode([$responseReturn],JSON_UNESCAPED_UNICODE));
             throw new BadRequestHttpException($title);

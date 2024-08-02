@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property int|null $policy_travel_id
+ * @property string|null $is_parent
  * @property string|null $first_name
  * @property string|null $surname
  * @property string|null $birthday
@@ -54,7 +55,9 @@ class PolicyTravelTraveller extends \yii\db\ActiveRecord
             [['policy_travel_id', 'created_at', 'updated_at'], 'default', 'value' => null],
             [['policy_travel_id', 'created_at', 'updated_at'], 'integer'],
             [['birthday', 'first_name', 'surname', 'pass_sery', 'pass_num',], 'required', 'on' => self::SCENARIO_SITE_STEP_CALC, 'message' => Yii::t('policy', 'Необходимо заполнить')],
-            [['birthday'], 'safe'],
+            [['birthday','id'], 'safe'],
+            ['is_parent','default','value' => false],
+            ['is_parent','boolean'],
             [['first_name', 'surname', 'pass_sery', 'pass_num', 'pinfl', 'phone', 'email', 'address'], 'string', 'max' => 255],
             [['policy_travel_id'], 'exist', 'skipOnError' => true, 'targetClass' => PolicyTravel::className(), 'targetAttribute' => ['policy_travel_id' => 'id']],
         ];

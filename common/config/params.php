@@ -8,4 +8,5 @@ return [
     'user.passwordResetTokenExpire' => 3600,
     'user.passwordMinLength' => 8,
     'multiLanguages' => true,
+    'tg.feedback_group_chat_id' => '-1002172351030',
 ];

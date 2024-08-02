@@ -9,6 +9,7 @@ use backend\modules\policy\models\HandBookIns;
 use Yii;
 use yii\helpers\Html;
 use yii\web\Controller;
+use yii\web\Response;
 
 /**
  * Default controller for the `policy` module
@@ -52,7 +53,7 @@ class CheckController extends Controller
         $response = null;
         if (($model->load(Yii::$app->request->post()) || ( !empty($model->policy_series) && !empty($model->policy_number) )) && $model->validate()) {
             $response = $model->getPolicyInfo();
-            if (isset($response['status']) && empty($response['status'])) {
+            if (isset($response['RESULT']) && $response['RESULT'] > 0) {
                 Yii::$app->session->addFlash('error',Yii::t('policy','Policy not found'));
             }
         }
@@ -95,7 +96,7 @@ class CheckController extends Controller
 
     public function actionCheckPayment($h=null)
     {
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = Response::FORMAT_JSON;
 
         $response = [
             'status' => false,
@@ -114,21 +115,25 @@ class CheckController extends Controller
                 $model = $modelClassName::findOne($id_model['id']);
                 /* @var $model PolicyOsgo */
                 if (!empty($model->policyOrder)) {
-                    if ($id_model['formName'] == "PolicyOsgo") {
+                    if ($id_model['formName'] == "PolicyOsgo" || $id_model['formName'] == "PolicyTravel") {
                         $handBookService = new HandBookIns();
-                        $handBookService->setBaseUrl(EBASE_URL_INS);
+                        $handBookService->setBaseUrl(EBASE_URL_INS_TR);
+                        $handBookService->setLogin(TR_LOGIN);
+                        $handBookService->setPassword(TR_PASSWORD);
                         $handBookService->setMethodRequest(HandBookIns::METHOD_REQUEST_POST);
-                        $handBookService->setMethod(HandBookIns::METHOD_OSGO_POST_CHECK_ANKETA_STATUS);
+                        $handBookService->setMethod(HandBookIns::METHOD_CHECK_ANKETA_STATUS);
 
                         $handBookService->setParams([
                             'anketa_id' => !empty($model->ins_anketa_id) ? $model->ins_anketa_id : null,
                         ]);
 
                         $data = $handBookService->sendRequestIns();
-                        if (!empty($data) && is_array($data) && empty($data['ERROR'])) {
+                        if (!empty($data) && is_array($data) && empty($data['result'])) {
+                            $data = array_change_key_case($data, CASE_UPPER);
                             if (!empty($data['POLICY_SERY']) && !empty($data['POLICY_NUMBER'])) {
                                 $model->policy_series = trim($data['POLICY_SERY']);
                                 $model->policy_number = trim($data['POLICY_NUMBER']);
+                                $model->ins_policy_id = isset($data['POLICY_ID']) && !empty($data['POLICY_ID']) ? trim($data['POLICY_ID']) : null;
                             } elseif(!empty($data['STATUS_PAYMENT']) && $data['STATUS_PAYMENT'] == PaymentTransaction::STATUS_PAYMENT_PAID && empty($data['POLICY_SERY'])) {
                                 $title = "CheckController actionCheckPayment policy number is EMPTY";
                                 Yii::warning("\n\n\n{$title}");
@@ -158,9 +163,9 @@ class CheckController extends Controller
                                 $response['status'] = true;
                                 $response['message'] = Yii::t('frontend','Transaction success');
                             }
-                        } elseif (!empty($data['ERROR'])) {
-                            $response['ERROR'] = $data['ERROR'];
-                            $response['ERROR_MESSAGE'] = !empty($data['ERROR_MESSAGE']) ? $data['ERROR_MESSAGE'] : Yii::t('policy','Data not found by pinfl');
+                        } elseif (!empty($data['result'])) {
+                            $response['ERROR'] = $data['result'];
+                            $response['ERROR_MESSAGE'] = !empty($data['result_message']) ? $data['result_message'] : Yii::t('policy','Data not found by pinfl');
                         } else {
                             $title = Yii::t('policy','Хатолик юз берди биз оздан сўнг қайта уриниб кўринг');
                             _send_error("CheckController actionCheckPayment - ".$title, json_encode($data,JSON_UNESCAPED_UNICODE));

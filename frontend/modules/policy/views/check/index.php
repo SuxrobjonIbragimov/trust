@@ -32,10 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                             <td><?= $response['P_SERY'] ?> <?= $response['P_NUMBER'] ?></td>
                                         </tr>
                                     <?php endif;?>
-                                    <?php if (!empty($response['country'])):?>
+                                    <?php if (isset($response['COUNTRY']) && !empty($response['COUNTRY'])):?>
                                         <tr>
                                             <th  class="text-left pe-3"><?= Yii::t('policy','Country')?></th>
-                                            <td><?= $response['country'] ?></td>
+                                            <td><?= $response['COUNTRY'] ?></td>
                                         </tr>
                                     <?php endif;?>
                                     <?php if (!empty($response['BEGIN_DATE'])):?>
@@ -77,41 +77,41 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </tr>
                                     <?php endif;?>
 
-                                    <?php if (!empty($response['insurer']) && !is_array($response['insurer'])):?>
+                                    <?php if (!empty($response['INSURER']) && !is_array($response['INSURER'])):?>
                                         <tr>
                                             <th  class="text-left pe-3"><?= Yii::t('policy','Insurer')?></th>
-                                            <td><?= $response['insurer'] ?></td>
+                                            <td><?= $response['INSURER'] ?></td>
                                         </tr>
                                     <?php endif;?>
 
-                                    <?php if (!empty($response['owner']) && !is_array($response['owner'])):?>
+                                    <?php if (!empty($response['OWNER']) && !is_array($response['OWNER'])):?>
                                         <tr>
                                             <th  class="text-left pe-3"><?= Yii::t('policy','Insurer')?></th>
-                                            <td><?= $response['owner'] ?></td>
+                                            <td><?= $response['OWNER'] ?></td>
                                         </tr>
                                     <?php endif;?>
 
                                     <?php if (Yii::$app->user->can('accessPolicyFullInfo')):?>
                                         <!--POLICY FULL INFO-->
-                                        <?php if (!empty($response['program'])):?>
+                                        <?php if (!empty($response['PROGRAM'])):?>
                                             <tr>
                                                 <th  class="text-left pe-3"><?= Yii::t('policy','Program')?></th>
-                                                <td><?= $response['program'] ?></td>
+                                                <td><?= $response['PROGRAM'] ?></td>
                                             </tr>
                                         <?php endif;?>
-                                        <?php if (!empty($response['address'])):?>
+                                        <?php if (!empty($response['ADDRESS'])):?>
                                             <tr>
                                                 <th  class="text-left pe-3"><?= Yii::t('policy','Address')?></th>
-                                                <td><?= $response['address'] ?></td>
+                                                <td><?= $response['ADDRESS'] ?></td>
                                             </tr>
                                         <?php endif;?>
-                                        <?php if (!empty($response['date_control'])):?>
+                                        <?php if (!empty($response['DATE_CONTROL'])):?>
                                             <tr>
                                                 <th  class="text-left pe-3"><?= Yii::t('policy','Date control')?></th>
-                                                <td><?= $response['date_control'] ?></td>
+                                                <td><?= $response['DATE_CONTROL'] ?></td>
                                             </tr>
                                         <?php endif;?>
-                                        <?php if (!empty($response['insured'])):?>
+                                        <?php if (!empty($response['INSURED'])):?>
                                             <tr class="border-bottom-none">
                                                 <td colspan="2">
                                                     <h3 class="text-center"><?= Yii::t('policy','Travellers')?></h3>
@@ -127,14 +127,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <?php foreach ($response['insured'] as $key => $item):?>
+                                                        <?php foreach ($response['INSURED'] as $key => $item):?>
                                                             <tr>
                                                                 <td><?= ($key+1) ?></td>
-                                                                <td><?= isset($item['first_name']) ? $item['first_name'] :'' ?></td>
-                                                                <td><?= isset($item['surname']) ? $item['surname'] : '' ?></td>
-                                                                <td><?= isset($item['patronym']) ? $item['patronym'] : '' ?></td>
-                                                                <td><?= isset($item['date_birth']) ? $item['date_birth'] : '' ?></td>
-                                                                <td><?= isset($item['passport']) ? $item['passport'] : '' ?></td>
+                                                                <td><?= isset($item['FIRST_NAME']) ? $item['FIRST_NAME'] :'' ?></td>
+                                                                <td><?= isset($item['SURNAME']) ? $item['SURNAME'] : '' ?></td>
+                                                                <td><?= isset($item['PATRONYM']) ? $item['PATRONYM'] : '' ?></td>
+                                                                <td><?= isset($item['DATE_BIRTH']) ? $item['DATE_BIRTH'] : '' ?></td>
+                                                                <td><?= isset($item['PASSPORT']) ? $item['PASSPORT'] : '' ?></td>
                                                             </tr>
                                                         <?php endforeach;?>
                                                         </tbody>

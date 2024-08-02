@@ -21,12 +21,11 @@ $this->params['body_class'] = 'static-page';
 $this->params['container_class'] = 'about-page';
 
 ?>
-
 <?php if (!empty($model->image)):?>
     <div class="sp-image">
         <?= Html::img($model->image, ['alt' => $model->name, 'class' => 'img'])?>
     </div>
 <?php endif;?>
-<div class="sp-text">
+<div class="sp-text mt-3">
     <?= $model->body ?>
 </div>

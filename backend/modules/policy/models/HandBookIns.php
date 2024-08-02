@@ -47,7 +47,7 @@ class HandBookIns extends Model
     public $headers = null;
 
     // TRAVEL METHODS
-    const METHOD_GET_POLICY_INFO = 'check/polis';
+    const METHOD_GET_POLICY_INFO = 'v1/policy/check-sery-number';
     const METHOD_GET_TRAVEL_MULTI_DAYS = 'reference/multi-days';
     const METHOD_GET_TRAVEL_ABROAD_TYPE = 'reference/abroad-type';
     const METHOD_GET_TRAVEL_ABROAD_ACTIVITY = 'reference/abroad-activity';
@@ -84,6 +84,7 @@ class HandBookIns extends Model
     const METHOD_OSGO_POST_CREATE_ANKETA = 'osgo/create/create';
 
     const METHOD_OSGO_POST_CHECK_ANKETA_STATUS = 'osgo/check/payment';
+    const METHOD_CHECK_ANKETA_STATUS = 'payments/check';
 
     // GNK PINFL/INN
     const METHOD_DIDOX_GET_PROFILE = 'v1/profile/';
@@ -353,7 +354,7 @@ class HandBookIns extends Model
         try {
             $response = $request->send();
             if (LOG_DEBUG_SITE) {
-                set_history($request, $response->data,'Handbook_sendRequestIns_try_'.$this->method,['headers' => $this->headers,'params' => $this->params,]);
+                set_history($request, $response->data,'Handbook_sendRequestIns_try_'.$request->method.'_'.$this->method,['headers' => $this->headers,'params' => $this->params,]);
             }
             if ($response->isOk) {
                 $responseReturn = $response->data;

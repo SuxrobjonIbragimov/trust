@@ -91,6 +91,9 @@ class PostCategories extends ActiveRecord
     const KEY_TEXT_BLOCK = 'text_block';
 
     const KEY_ONLINE_VOTING = 'online_voting';
+    const KEY_USEFUL_LINKS = 'useful_links';
+
+    const KEY_HOME_ABOUT_US = 'home_about_us';
 
     const ACTIVE_CHILD_LIMIT = 6;
     const ACTIVE_CHILD_LIMIT_FAQ = 5;

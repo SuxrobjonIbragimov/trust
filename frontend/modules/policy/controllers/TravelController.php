@@ -50,7 +50,7 @@ class TravelController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -103,10 +103,27 @@ class TravelController extends Controller
                 $model->start_date = date('d.m.Y', strtotime($model->start_date));
                 $model->end_date = date('d.m.Y', strtotime($model->end_date));
                 $model->country_ids = json_decode($model->country_ids);
-                $modelTravellers_ = $model->policyTravelTravellers;
-                if (!empty($modelTravellers_)) {
+                $model->_travelCountries = $model->getTravelCountriesID();
+                $_modelChildTravellers = $model->childPolicyTravelTravellers;
+                $_modelParentTravellers = $model->parentPolicyTravelTravellers;
+                $model->_policy_price_uzs = $model->amount_uzs;
+                if (!empty($model->program_id)) {
+                    $programModel = PolicyTravelProgram::findOne($model->program_id);
+                    if (!empty($programModel)) {
+                        $model->_ins_amount = $programModel->totalRiskAmount;
+                    }
+                }
+                if (!empty($_modelParentTravellers)) {
+                    $modelParentTravellers = null;
+                    foreach ($_modelParentTravellers as $traveller) {
+                        $traveller->scenario = PolicyTravelParentTraveller::SCENARIO_SITE_STEP_CALC;
+                        $traveller->birthday = date('d.m.Y', strtotime($traveller->birthday));
+                        $modelParentTravellers[] = $traveller;
+                    }
+                }
+                if (!empty($_modelChildTravellers)) {
                     $modelTravellers = null;
-                    foreach ($modelTravellers_ as $traveller) {
+                    foreach ($_modelChildTravellers as $traveller) {
                         $traveller->scenario = PolicyTravelTraveller::SCENARIO_SITE_STEP_CALC;
                         $traveller->birthday = date('d.m.Y', strtotime($traveller->birthday));
                         $modelTravellers[] = $traveller;
@@ -158,8 +175,8 @@ class TravelController extends Controller
                 $model->setEndDate();
             }
 
-            $modelParentTravellers = Model::createMultiple(PolicyTravelParentTraveller::classname());
-            $modelTravellers = Model::createMultiple(PolicyTravelTraveller::classname());
+            $modelParentTravellers = Model::createMultiple(PolicyTravelParentTraveller::class,[],PolicyTravelParentTraveller::SCENARIO_SITE_STEP_CALC);
+            $modelTravellers = Model::createMultiple(PolicyTravelTraveller::class);
             Model::loadMultiple($modelParentTravellers, Yii::$app->request->post());
             Model::loadMultiple($modelTravellers, Yii::$app->request->post());
 
@@ -205,13 +222,31 @@ class TravelController extends Controller
 
                     if (!$model->isNewRecord) {
                         $oldIDs = ArrayHelper::map($modelTravellers, 'id', 'id');
-                        $modelTravellers = Model::createMultiple(PolicyTravelTraveller::classname(), $modelTravellers);
+                        $parentOldIDs = ArrayHelper::map($modelParentTravellers, 'id', 'id');
+                        $modelTravellers = Model::createMultiple(PolicyTravelTraveller::class, $modelTravellers);
+                        $modelParentTravellers = Model::createMultiple(PolicyTravelParentTraveller::class,[],PolicyTravelParentTraveller::SCENARIO_SITE_STEP_CALC);
                         Model::loadMultiple($modelTravellers, Yii::$app->request->post());
+                        Model::loadMultiple($modelParentTravellers, Yii::$app->request->post());
+                        if (!empty($modelParentTravellers) && count($modelParentTravellers) > 0)
+                        {
+                            $modelTravellers = array_merge($modelParentTravellers, $modelTravellers);
+                        }
+                        $parentDiffIDs = array_diff($parentOldIDs, array_filter(ArrayHelper::map($modelParentTravellers, 'id', 'id')));
                         $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($modelTravellers, 'id', 'id')));
+                        if (!empty($parentDiffIDs))
+                        {
+                           $deletedIDs = array_merge($deletedIDs, $parentDiffIDs);
+                        }
                     } else {
                         $oldIDs = null;
-                        $modelTravellers = Model::createMultiple(PolicyTravelTraveller::classname());
+                        $modelTravellers = Model::createMultiple(PolicyTravelTraveller::class);
+                        $modelParentTravellers = Model::createMultiple(PolicyTravelParentTraveller::class,[],PolicyTravelParentTraveller::SCENARIO_SITE_STEP_CALC);
                         Model::loadMultiple($modelTravellers, Yii::$app->request->post());
+                        Model::loadMultiple($modelParentTravellers, Yii::$app->request->post());
+                        if (!empty($modelParentTravellers) && count($modelParentTravellers) > 0)
+                        {
+                            $modelTravellers = array_merge($modelParentTravellers, $modelTravellers);
+                        }
                         $deletedIDs = null;
                     }
 
@@ -232,6 +267,7 @@ class TravelController extends Controller
                                 $model->app_surname = !empty($modelTravellers[0]->surname) ? $modelTravellers[0]->surname : $model->app_surname;
                                 $model->app_pass_sery = !empty($modelTravellers[0]->pass_sery) ? $modelTravellers[0]->pass_sery : $model->app_pass_sery;
                                 $model->app_pass_num = !empty($modelTravellers[0]->pass_num) ? $modelTravellers[0]->pass_num : $model->app_pass_num;
+                                $model->app_address = !empty($modelTravellers[0]->address) ? $modelTravellers[0]->address : $model->app_address;
                                 $model->app_pinfl = !empty($modelTravellers[0]->pinfl) ? $modelTravellers[0]->pinfl : $model->app_pinfl;
                                 $model->app_birthday = !empty($modelTravellers[0]->birthday) ? date('Y-m-d', strtotime($modelTravellers[0]->birthday)) : $model->app_birthday;
                             }
@@ -250,12 +286,17 @@ class TravelController extends Controller
                                 $count_traveller = 0;
                                 if ($flag) {
                                     foreach ($modelTravellers as $index => $modelItem) {
-                                        if ($count_traveller==6) {
+                                        /** @var $modelItem PolicyTravelTraveller */
+                                        if ($count_traveller == 6) {
                                             break;
                                         }
                                         $modelItem->policy_travel_id = $model->id;
                                         $modelItem->pass_sery = mb_strtoupper($modelItem->pass_sery);
                                         $modelItem->birthday = date('Y-m-d', strtotime($modelItem->birthday));
+                                        if (!empty($modelItem->id))
+                                        {
+                                            $modelItem->isNewRecord = false;
+                                        }
                                         if (!($flag = $modelItem->save(false))) {
                                             $transaction->rollBack();
                                             break;
@@ -267,6 +308,10 @@ class TravelController extends Controller
                                 }
                                 if ($flag && !empty($session_calc_countries)) {
                                     if(is_array($session_calc_countries)) {
+                                        if (!$model->isNewRecord)
+                                        {
+                                            PolicyTravelToCountry::deleteAll(['policy_travel_id' => $model->id]);
+                                        }
                                         foreach ($session_calc_countries as $key => $country_id) {
                                             $attributes = [
                                                 'policy_travel_id' => $model->id,
@@ -319,10 +364,18 @@ class TravelController extends Controller
                     } else {
                         $session->addFlash('error', $model->errors);
                     }
+                }else{
+                    Yii::warning($model->errors);
                 }
             }
             if (is_null($model->program_id)) {
                 $model->_ins_amount = 0;
+            }
+            if (!empty($model->start_date)) {
+                $model->start_date = date('d.m.Y', strtotime($model->start_date));
+            }
+            if (!empty($model->end_date)) {
+                $model->end_date = date('d.m.Y', strtotime($model->end_date));
             }
             return $this->renderAjax('calculate', [
                 'model' => $model,
@@ -343,8 +396,8 @@ class TravelController extends Controller
             $model->amount_uzs = $model->_policy_price_uzs;
             $model->amount_usd = $model->_policy_price_usd;
 
-            $modelParentTravellers = Model::createMultiple(PolicyTravelParentTraveller::classname());
-            $modelTravellers = Model::createMultiple(PolicyTravelTraveller::classname());
+            $modelParentTravellers = Model::createMultiple(PolicyTravelParentTraveller::class);
+            $modelTravellers = Model::createMultiple(PolicyTravelTraveller::class);
             Model::loadMultiple($modelParentTravellers, Yii::$app->request->post());
             Model::loadMultiple($modelTravellers, Yii::$app->request->post());
 
@@ -399,7 +452,7 @@ class TravelController extends Controller
             'modelPage' => $modelPage,
             'logo' => Yii::$app->request->hostInfo . Settings::getLogoValue(),
             'modelParentTravellers' => (empty($modelParentTravellers)) ? [new PolicyTravelParentTraveller(['isFamily' => $model->is_family])] : $modelParentTravellers,
-            'modelTravellers' => (empty($modelTravellers)) ? [new PolicyTravelTraveller(['isFamily' => $model->isFamily])] : $modelTravellers
+            'modelTravellers' => (empty($modelTravellers)) ? [new PolicyTravelTraveller(['isFamily' => $model->is_family])] : $modelTravellers
         ]);
     }
 
@@ -450,6 +503,7 @@ class TravelController extends Controller
 
             return $this->redirect(['/payment/payment/index', 'h' => _model_encrypt($model)], 301);
         } else {
+            Yii::$app->session->setFlash('error',$model->_tmp_message);
             return $this->redirect(['travel/approve', 'h' => _model_encrypt($model)], 301);
         }
     }

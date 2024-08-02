@@ -31,7 +31,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
         'class' => 'v-form',
     ]
 ]); ?>
-    <div class="row custom-row--lg <?= is_mobile_app() ? 'mb-0' : 'mb-3' ?>">
+    <div class="row row-gap-4 <?= is_mobile_app() ? 'mb-0' : 'mb-3' ?>">
         <div class="col-lg-8 col-12">
 
             <div class="calculator-group">
@@ -95,7 +95,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                                  xmlns="http://www.w3.org/2000/svg" class="check-icon">
                                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                                       d="M3.33366 9.16675C3.33366 5.94509 5.94533 3.33341 9.16699 3.33341C12.3887 3.33341 15.0003 5.94509 15.0003 9.16675C15.0003 10.7384 14.3788 12.1648 13.3682 13.2137C13.3396 13.2357 13.3122 13.2597 13.2861 13.2858C13.2599 13.312 13.2359 13.3394 13.214 13.3679C12.1651 14.3786 10.7386 15.0001 9.16699 15.0001C5.94533 15.0001 3.33366 12.3884 3.33366 9.16675ZM13.8484 15.0267C12.5653 16.053 10.9378 16.6667 9.16699 16.6667C5.02486 16.6667 1.66699 13.3089 1.66699 9.16675C1.66699 5.02461 5.02486 1.66675 9.16699 1.66675C13.3091 1.66675 16.667 5.02461 16.667 9.16675C16.667 10.9376 16.0533 12.5651 15.0269 13.8482L18.0896 16.9108C18.415 17.2363 18.415 17.7639 18.0896 18.0893C17.7641 18.4148 17.2365 18.4148 16.9111 18.0893L13.8484 15.0267Z"
-                                                      fill="#1E2134"/>
+                                                      fill="white"/>
                                             </svg>
                                             <svg width="20" height="20" version="1.1" class="clear-icon "
                                                  xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +103,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                                  viewBox="0 0 460.775 460.775"
                                                  style="enable-background:new 0 0 460.775 460.775;"
                                                  xml:space="preserve">
-                                                <path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55
+                                                <path fill="white" d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55
                                                 c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55
                                                 c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505
                                                 c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55
@@ -453,12 +453,12 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                                 <div class="col-3 "> <!--col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2 series-two-things-right-last-btn-->
                                                     <label class="invisible main-form-label my-2">label</label>
                                                     <button type="button" id="check-applicant"
-                                                            class="anketa__check s-custom-btn s-custom-primary ms-auto btn--md s-custom-btn--icon text-capitalize check-button btn btn d-flex align-items-center justify-content-center fill-white <?= ($model->isNewRecord) ? 'check btn-success padding-for-button' : 'clear btn-danger padding-for-button' ?>">
+                                                            class="anketa__check s-custom-btn s-custom-primary ms-auto btn--md border-0 s-custom-btn--icon text-capitalize check-button btn btn d-flex align-items-center justify-content-center fill-white <?= ($model->isNewRecord) ? 'check btn-success padding-for-button' : 'clear btn-danger padding-for-button' ?>">
                                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                                              xmlns="http://www.w3.org/2000/svg" class="check-icon">
                                                             <path fill-rule="evenodd" clip-rule="evenodd"
                                                                   d="M3.33366 9.16675C3.33366 5.94509 5.94533 3.33341 9.16699 3.33341C12.3887 3.33341 15.0003 5.94509 15.0003 9.16675C15.0003 10.7384 14.3788 12.1648 13.3682 13.2137C13.3396 13.2357 13.3122 13.2597 13.2861 13.2858C13.2599 13.312 13.2359 13.3394 13.214 13.3679C12.1651 14.3786 10.7386 15.0001 9.16699 15.0001C5.94533 15.0001 3.33366 12.3884 3.33366 9.16675ZM13.8484 15.0267C12.5653 16.053 10.9378 16.6667 9.16699 16.6667C5.02486 16.6667 1.66699 13.3089 1.66699 9.16675C1.66699 5.02461 5.02486 1.66675 9.16699 1.66675C13.3091 1.66675 16.667 5.02461 16.667 9.16675C16.667 10.9376 16.0533 12.5651 15.0269 13.8482L18.0896 16.9108C18.415 17.2363 18.415 17.7639 18.0896 18.0893C17.7641 18.4148 17.2365 18.4148 16.9111 18.0893L13.8484 15.0267Z"
-                                                                  fill="#1E2134"/>
+                                                                  fill="white"/>
                                                         </svg>
                                                         <svg width="20" height="20" version="1.1" class="clear-icon"
                                                              xmlns="http://www.w3.org/2000/svg"
@@ -466,7 +466,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                                              viewBox="0 0 460.775 460.775"
                                                              style="enable-background:new 0 0 460.775 460.775;"
                                                              xml:space="preserve">
-    <path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55
+    <path fill="white" d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55
         c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55
         c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505
         c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55
@@ -564,18 +564,19 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                             <div id="driver-info" class=" <?= ($model->isNewRecord) ? 'd-none' : ''; ?>">
 
                                 <div class="row">
-                                    <div class="col-md-4 col-4">
+                                    <div class="col-sm-4 col-12">
                                         <?php $label = $model->getAttributeLabel('start_date'); ?>
                                         <?= $form->field($model, 'start_date', ['options' => ['class' => 'form-group']])
                                             ->textInput(['type' => 'text',
                                                 'maxlength' => 10,
+                                                'readonly' => true,
                                                 'autocomplete' => 'off',
                                                 'class' => 'field__input form-control mask-date get-calc-ajax',
                                                 'min' => date('Y-m-d'),
                                                 'placeholder' => Yii::t('policy', 'dd.mm.yyyy')
                                             ])->label($label, ['class' => 'control-label main-form-label my-2']) ?>
                                     </div>
-                                    <div class="col-md-4 col-4">
+                                    <div class="col-sm-4 col-6">
                                         <?php $label = $model->getAttributeLabel('period'); ?>
                                         <?= $form->field($model, "period", ['options' => ['class' => 'form-group']])->dropDownList($model->getPeriodArray(), [
                                             'multiple' => false,
@@ -583,7 +584,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                                             'class' => 'field__input form-control get-calc-ajax',
                                         ])->label($label, ['class' => 'control-label main-form-label my-2']) ?>
                                     </div>
-                                    <div class="col-md-4 col-4">
+                                    <div class="col-sm-4 col-6">
                                         <?php $label = $model->getAttributeLabel('end_date'); ?>
                                         <?= $form->field($model, 'end_date', ['options' => ['class' => 'form-group']])
                                             ->textInput(['type' => 'text',
@@ -698,7 +699,7 @@ $model->_ins_amount = PolicyOsgo::INSURANCE_SUM;
                             <div class="page-footer-button">
                                 <div class="form-group">
                                     <?php $btn_class = is_mobile_app() ? 'mb-0' : 'mb-5' ?>
-                                    <?= Html::submitButton(Yii::t('policy', 'Перейти к просмотру'), ['class' => 'btn btn-success btn-sm-fluid btn-xs s-custom-btn s-custom-primary s-custom-btn--icon mt-2 btn btn-success submitForm ' . $btn_class, 'data-pjax' => false, 'disabled' => true]) ?>
+                                    <?= Html::submitButton(Yii::t('policy', 'Перейти к просмотру'), ['class' => 'btn btn-success btn-sm-fluid border-0 btn-xs s-custom-btn s-custom-primary s-custom-btn--icon mt-2 btn btn-success submitForm ' . $btn_class, 'data-pjax' => false, 'disabled' => true]) ?>
                                 </div>
                             </div>
                         </div>

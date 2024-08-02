@@ -415,8 +415,8 @@ class Posts extends ActiveRecord
                 PostCategories::KEY_COMPANIES_SERVED,
                 PostCategories::KEY_PRESS_CENTER,
                 PostCategories::KEY_VACANCY,
-                PostCategories::KEY_GALLERY,
                 PostCategories::KEY_FAQ,
+                PostCategories::KEY_USEFUL_LINKS,
                 ],
             'body' => [
                 PostCategories::KEY_PRESS_CENTER,
@@ -431,8 +431,10 @@ class Posts extends ActiveRecord
                 PostCategories::KEY_FILES,
                 ],
             'url' => [
+                PostCategories::KEY_HOME_ABOUT_US,
                 ],
             'source_link' => [
+                PostCategories::KEY_USEFUL_LINKS,
                 ],
             'published_date' => [
                 PostCategories::KEY_FILES,
@@ -548,7 +550,13 @@ class Posts extends ActiveRecord
             foreach ($deletedImages as $generate_name) {
                 if (!empty($image = PostFile::findOne(['generate_name' => $generate_name]))) {
                     $basePath = str_replace("backend", "", Yii::$app->basePath);
-                    if ($image->delete()) unlink($basePath . $image->path);
+                    if ($image->delete())
+                    {
+                        $filePath = $basePath . $image->path;
+                        if (is_file($filePath)){
+                            unlink($filePath);
+                        }
+                    }
                 }
             }
         }

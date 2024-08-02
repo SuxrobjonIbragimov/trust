@@ -313,6 +313,7 @@ class Contact extends \yii\db\ActiveRecord
      */
     public function sendNewContactMessage()
     {
+        $groupID = isset(Yii::$app->params['tg.feedback_group_chat_id']) ? Yii::$app->params['tg.feedback_group_chat_id'] : CHAT_ID_ME;
         $text = Yii::t('frontend',"📩 {type} qoldirildi\n🆔 {id}\n👤 {full_name}\n📞 {phone}",[
             'id' => $this->id,
             'type' => $this->getContactTypeName(),
@@ -339,7 +340,7 @@ class Contact extends \yii\db\ActiveRecord
         Yii::warning("\n\n$text\n");
 
         $res = sendTelegramData('sendMessage', [
-            'chat_id' => $this->bot_group_chat_id,
+            'chat_id' => $groupID,
             'text' => $text,
             'parse_mode' => 'HTML'
         ],BOT_TOKENT_SALE,'contact_'.$this->type);

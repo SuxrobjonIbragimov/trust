@@ -23,6 +23,7 @@ use backend\models\sliders\Sliders;
 /* @var $partners PostCategories */
 /* @var $comments Comments */
 /* @var $latest_news PostCategories */
+/* @var $useful_links PostCategories */
 /* @var $online_voting PostCategories */
 /* @var $modelVote Posts */
 /* @var $online_voted boolean */
@@ -90,10 +91,10 @@ if ($footerText !== null)
 <?php endif; ?>
 
 
-<?php if (!empty($comments)): ?>
+<?php if (!empty($useful_links)): ?>
     <!--SECTION COMMENTS-->
     <?= $this->render('inc/_block_links', [
-        'model' => $comments,
+        'useful_links' => $useful_links,
     ]) ?>
     <!--SECTION COMMENTS END-->
 <?php endif; ?>
