@@ -95,4 +95,12 @@ $this->registerCssFile("@web/themes/v1/{$path}", [
             </ul>
         </div>
     <?php endif;?>
+
+    <?php if (!empty($model->calc_link) && ($model->calc_link != '#')) : ?>
+        <div class="d-flex justify-content-center align-items-center">
+            <a href="<?= !empty($model->calc_link) ? $model->calc_link : '#' ?>"
+               class="btn btn-primary rounded-2 d-inline-block rounded-0 text-uppercase fs-5 fw-bold px-4 py-2 mt-2"><?= Yii::t('frontend', 'Купить') ?></a>
+        </div>
+    <?php endif; ?>
+
 </div>
