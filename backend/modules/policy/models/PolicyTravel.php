@@ -520,6 +520,8 @@ class PolicyTravel extends \yii\db\ActiveRecord
             $title = Yii::t('error', 'Хатолик юз берди биз оздан сўнг қайта уриниб кўринг');
             _send_error($title, json_encode($response,JSON_UNESCAPED_UNICODE));
             throw new BadRequestHttpException($title);
+        }else{
+            $response = array_filter($response);
         }
 
         return $response;

@@ -175,10 +175,18 @@ class TravelController extends Controller
                 $model->setEndDate();
             }
 
-            $modelParentTravellers = Model::createMultiple(PolicyTravelParentTraveller::class,[],PolicyTravelParentTraveller::SCENARIO_SITE_STEP_CALC);
-            $modelTravellers = Model::createMultiple(PolicyTravelTraveller::class);
-            Model::loadMultiple($modelParentTravellers, Yii::$app->request->post());
+            if (!$model->isNewRecord)
+            {
+                $oldIDs = ArrayHelper::map($modelTravellers, 'id', 'id');
+                $parentOldIDs = ArrayHelper::map($modelParentTravellers, 'id', 'id');
+                $modelTravellers = Model::createMultiple(PolicyTravelTraveller::class,$modelTravellers,PolicyTravelTraveller::SCENARIO_SITE_STEP_CALC);
+                $modelParentTravellers = Model::createMultiple(PolicyTravelParentTraveller::class,$modelParentTravellers,PolicyTravelParentTraveller::SCENARIO_SITE_STEP_CALC);
+            }else{
+                $modelParentTravellers = Model::createMultiple(PolicyTravelParentTraveller::class,[],PolicyTravelParentTraveller::SCENARIO_SITE_STEP_CALC);
+                $modelTravellers = Model::createMultiple(PolicyTravelTraveller::class,[],PolicyTravelTraveller::SCENARIO_SITE_STEP_CALC);
+            }
             Model::loadMultiple($modelTravellers, Yii::$app->request->post());
+            Model::loadMultiple($modelParentTravellers, Yii::$app->request->post());
 
             $tmp_array =[];
             if (!empty($modelParentTravellers)) {
@@ -221,9 +229,15 @@ class TravelController extends Controller
                     ];
 
                     if (!$model->isNewRecord) {
-                        $oldIDs = ArrayHelper::map($modelTravellers, 'id', 'id');
-                        $parentOldIDs = ArrayHelper::map($modelParentTravellers, 'id', 'id');
-                        $modelTravellers = Model::createMultiple(PolicyTravelTraveller::class, $modelTravellers);
+                        if (empty($parentOldIDs))
+                        {
+                            $parentOldIDs = [];
+                        }
+                        if (empty($oldIDs))
+                        {
+                            $oldIDs = [];
+                        }
+                        $modelTravellers = Model::createMultiple(PolicyTravelTraveller::class, $modelTravellers,PolicyTravelParentTraveller::SCENARIO_SITE_STEP_CALC);
                         $modelParentTravellers = Model::createMultiple(PolicyTravelParentTraveller::class,[],PolicyTravelParentTraveller::SCENARIO_SITE_STEP_CALC);
                         Model::loadMultiple($modelTravellers, Yii::$app->request->post());
                         Model::loadMultiple($modelParentTravellers, Yii::$app->request->post());

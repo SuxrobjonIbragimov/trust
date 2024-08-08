@@ -77,12 +77,12 @@ class InsuranceProduct extends \yii\db\ActiveRecord
                 'attribute' => 'title'
             ],
             [
-                'class' => TranslateDatabaseBehavior::className(),
+                'class' => TranslateDatabaseBehavior::class,
                 'translateAttributes' => ['title', 'description', 'summary','meta_title', 'meta_keywords', 'meta_description'],
                 'tableName' => static::tableName(),
             ],
             'sitemap' => [
-                'class' => SitemapBehavior::className(),
+                'class' => SitemapBehavior::class,
                 'scope' => function ($model) {
                     /** @var \yii\db\ActiveQuery $model */
                     $model->select(['slug', 'status', 'updated_at']);
@@ -118,7 +118,7 @@ class InsuranceProduct extends \yii\db\ActiveRecord
             [['weight', ], 'default', 'value' => 0],
             [['status', ], 'default', 'value' => self::STATUS_INACTIVE],
             [['title', 'image', 'icon', 'meta_title', 'meta_keywords'], 'string', 'max' => 255],
-            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => InsuranceProduct::className(), 'targetAttribute' => ['parent_id' => 'id']],
+            [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => InsuranceProduct::class, 'targetAttribute' => ['parent_id' => 'id']],
         ];
     }
 
@@ -159,7 +159,7 @@ class InsuranceProduct extends \yii\db\ActiveRecord
      */
     public function getParent()
     {
-        return $this->hasOne(InsuranceProduct::className(), ['id' => 'parent_id']);
+        return $this->hasOne(InsuranceProduct::class, ['id' => 'parent_id']);
     }
 
     /**
@@ -169,7 +169,7 @@ class InsuranceProduct extends \yii\db\ActiveRecord
      */
     public function getInsuranceProducts()
     {
-        return $this->hasMany(InsuranceProduct::className(), ['parent_id' => 'id']);
+        return $this->hasMany(InsuranceProduct::class, ['parent_id' => 'id']);
     }
 
     /**
