@@ -55,7 +55,7 @@ $this->title = Yii::t('title', 'Все виды страхования');
                                                 <!--<img class="card-custom--icon" src="<? /*= $item->image; */ ?>" alt="">-->
                                                 <div class="d-inline-block h-150px z-index-1">
                                                     <img class="card-custom--icon w-100 h-100 object-fit-cover"
-                                                         src="<?= '/themes/v1/img/product_background.png' ?>" alt="">
+                                                         src="<?= !empty($item->image) ? $item->image : '/themes/v1/img/product_background.png' ?>" alt="">
                                                 </div>
                                                 <div class="card-body d-flex flex-column align-items-center h-100 z-index-1 p-0 pt-2">
                                                     <h4 class="position-relative text-primary z-index-2 text-center fw-bold mb-2"><?= $item->title; ?></h4>
