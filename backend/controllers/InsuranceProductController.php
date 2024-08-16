@@ -47,6 +47,21 @@ class InsuranceProductController extends Controller
     }
 
     /**
+     * Lists all InsuranceProduct models.
+     * @return mixed
+     */
+    public function actionLegalType($type = 1)
+    {
+        $searchModel = new InsuranceProductSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$type);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
      * Displays a single InsuranceProduct model.
      * @param integer $id
      * @return mixed
