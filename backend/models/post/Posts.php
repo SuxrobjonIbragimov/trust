@@ -402,6 +402,7 @@ class Posts extends ActiveRecord
                 PostCategories::KEY_VACANCY,
                 PostCategories::KEY_CLIENTS,
                 PostCategories::KEY_PARTNERS,
+                PostCategories::KEY_COMPANY_CHARTER,
                 ],
             'slug' => [
                 PostCategories::KEY_PRESS_CENTER,
@@ -417,6 +418,7 @@ class Posts extends ActiveRecord
                 PostCategories::KEY_VACANCY,
                 PostCategories::KEY_FAQ,
                 PostCategories::KEY_USEFUL_LINKS,
+                PostCategories::KEY_COMPANY_CHARTER,
                 ],
             'body' => [
                 PostCategories::KEY_PRESS_CENTER,
@@ -429,6 +431,7 @@ class Posts extends ActiveRecord
                 ],
             'file' => [
                 PostCategories::KEY_FILES,
+                PostCategories::KEY_ANTI_CORRUPTION_PROGRAM,
                 ],
             'url' => [
                 PostCategories::KEY_HOME_ABOUT_US,

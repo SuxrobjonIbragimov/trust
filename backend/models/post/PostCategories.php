@@ -76,6 +76,7 @@ class PostCategories extends ActiveRecord
     const KEY_VALUABLE_PAPERS = 'valuable_papers';
     const KEY_PAID_DIVIDENDS = 'paid_dividends';
     const KEY_FILES = 'files';
+    const KEY_ANTI_CORRUPTION_PROGRAM = 'anti-corruption-program';
     const KEY_FAQ = 'faq';
     const KEY_STRATEGY = 'strategy';
     const KEY_RESULTS_VOTING = 'results_voting';
