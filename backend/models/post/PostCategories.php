@@ -95,6 +95,7 @@ class PostCategories extends ActiveRecord
     const KEY_USEFUL_LINKS = 'useful_links';
 
     const KEY_HOME_ABOUT_US = 'home_about_us';
+    const KEY_COMPANY_SHARE_HOLDERS = 'company_share_holders';
 
     const ACTIVE_CHILD_LIMIT = 6;
     const ACTIVE_CHILD_LIMIT_FAQ = 5;

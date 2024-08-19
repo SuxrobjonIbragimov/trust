@@ -403,6 +403,7 @@ class Posts extends ActiveRecord
                 PostCategories::KEY_CLIENTS,
                 PostCategories::KEY_PARTNERS,
                 PostCategories::KEY_COMPANY_CHARTER,
+                PostCategories::KEY_COMPANY_SHARE_HOLDERS,
                 ],
             'slug' => [
                 PostCategories::KEY_PRESS_CENTER,
@@ -418,12 +419,14 @@ class Posts extends ActiveRecord
                 PostCategories::KEY_VACANCY,
                 PostCategories::KEY_FAQ,
                 PostCategories::KEY_USEFUL_LINKS,
+                PostCategories::KEY_COMPANY_SHARE_HOLDERS,
                 ],
             'body' => [
                 PostCategories::KEY_PRESS_CENTER,
                 PostCategories::KEY_COMPANIES_SERVED,
                 PostCategories::KEY_VACANCY,
                 PostCategories::KEY_COMPANY_CHARTER,
+                PostCategories::KEY_COMPANY_SHARE_HOLDERS,
                 ],
             'icon' => [
                 ],
@@ -432,6 +435,7 @@ class Posts extends ActiveRecord
             'file' => [
                 PostCategories::KEY_FILES,
                 PostCategories::KEY_ANTI_CORRUPTION_PROGRAM,
+                PostCategories::KEY_COMPANY_SHARE_HOLDERS,
                 ],
             'url' => [
                 PostCategories::KEY_HOME_ABOUT_US,
