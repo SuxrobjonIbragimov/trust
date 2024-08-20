@@ -48,7 +48,7 @@ $visible_field_in_types = Posts::_getVisibilityFields();
                 ]) ?>
             <?php endif; ?>
         </div>
-        <div class="col-lg-12 col-md-10">
+        <div class="col-lg-6 col-md-10">
             <?php if (in_array($model->category_key, $visible_field_in_types['file']) || Yii::$app->user->can('administrator')):?>
 
                 <?= $form->field($model, 'file')->widget(InputFile::className(), [
@@ -60,6 +60,8 @@ $visible_field_in_types = Posts::_getVisibilityFields();
                     'buttonName' => '<i class="fas fa-camera"></i>',
                 ]) ?>
             <?php endif; ?>
+        </div>
+        <div class="col-lg-6">
         </div>
     </div>
 
