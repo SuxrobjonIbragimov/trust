@@ -453,6 +453,9 @@ class PostCategories extends ActiveRecord
             self::KEY_ONLINE_VOTING => [
                 self::KEY_ONLINE_VOTING,
             ],
+            self::KEY_COMPANY_CHARTER => [
+                self::KEY_COMPANY_CHARTER,
+            ],
         ];
 
         $response = $key;
