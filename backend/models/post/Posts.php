@@ -436,6 +436,7 @@ class Posts extends ActiveRecord
                 PostCategories::KEY_FILES,
                 PostCategories::KEY_ANTI_CORRUPTION_PROGRAM,
                 PostCategories::KEY_COMPANY_SHARE_HOLDERS,
+                PostCategories::KEY_COMPANY_CHARTER,
                 ],
             'url' => [
                 PostCategories::KEY_HOME_ABOUT_US,

@@ -423,7 +423,7 @@ class PostCategories extends ActiveRecord
             self::KEY_VACANCY => [self::KEY_VACANCY],
             self::KEY_LICENSE => [self::KEY_LICENSE],
             self::KEY_FILES => [
-                self::KEY_COMPANY_CHARTER => self::KEY_COMPANY_CHARTER,
+//                self::KEY_COMPANY_CHARTER => self::KEY_COMPANY_CHARTER,
                 self::KEY_MATERIAL_FACTS => self::KEY_MATERIAL_FACTS,
                 self::KEY_FINANCE => self::KEY_FINANCE,
                 self::KEY_LAWS => self::KEY_LAWS,
