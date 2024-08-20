@@ -420,12 +420,12 @@ class Posts extends ActiveRecord
                 PostCategories::KEY_FAQ,
                 PostCategories::KEY_USEFUL_LINKS,
                 PostCategories::KEY_COMPANY_SHARE_HOLDERS,
+                PostCategories::KEY_COMPANY_CHARTER,
                 ],
             'body' => [
                 PostCategories::KEY_PRESS_CENTER,
                 PostCategories::KEY_COMPANIES_SERVED,
                 PostCategories::KEY_VACANCY,
-                PostCategories::KEY_COMPANY_CHARTER,
                 PostCategories::KEY_COMPANY_SHARE_HOLDERS,
                 ],
             'icon' => [
