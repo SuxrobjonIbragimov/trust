@@ -471,10 +471,10 @@ class Posts extends ActiveRecord
 //                PostCategories::KEY_BRANCHES,
                 ],
             'latitude' => [
-//                PostCategories::KEY_BRANCHES,
+                PostCategories::KEY_BRANCHES,
                 ],
             'longitude' => [
-//                PostCategories::KEY_BRANCHES,
+                PostCategories::KEY_BRANCHES,
                 ],
             'type' => [
                 PostCategories::KEY_TENDERS,
