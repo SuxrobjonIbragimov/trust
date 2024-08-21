@@ -137,7 +137,7 @@ $map_data = [];
                             myClusterer.add(myGeoObjects);
 
                             var myMap = new ymaps.Map("big_map", {
-                                center: [40.156028, 65.343243],
+                                center: [41.286824, 69.272685],
                                 zoom: 6,
                             });
                             myMap.geoObjects.add(myClusterer);
