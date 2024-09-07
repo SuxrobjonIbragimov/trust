@@ -12,9 +12,6 @@ use backend\models\review\Contact;
 use backend\models\review\Subscribe;
 use backend\models\sliders\Sliders;
 use backend\modules\handbook\models\HandbookLegalType;
-use backend\modules\news\models\News;
-use backend\modules\news\models\NewsCategory;
-use backend\modules\news\models\NewsSearch;
 use common\components\AuthHandler;
 use common\models\Settings;
 use frontend\models\ResendVerificationEmailForm;
@@ -488,20 +485,6 @@ class SiteController extends Controller
     protected function getSettingValue($key)
     {
         return Settings::getValueByKey($key);
-    }
-
-    /**
-     * Find Categories model.
-     * @param string $slug
-     * @return NewsCategory the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModelCategory($slug)
-    {
-        if (($model = NewsCategory::findOne(['slug' => $slug, 'status' => NewsCategory::STATUS_ACTIVE])) !== null)
-            return $model;
-        else
-            throw new NotFoundHttpException(Yii::t('frontend', 'The requested page does not exist.'));
     }
 
 }

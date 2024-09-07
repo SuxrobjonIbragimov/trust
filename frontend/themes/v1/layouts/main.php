@@ -41,6 +41,9 @@ use yii\helpers\Url;
     <!--========== CDN FANCYBOX ANIMATION INTRO EFECT ==========-->
     <link href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css" rel="stylesheet">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=62d172fb-2ba3-49d0-a2ce-41862be1e390&lang=ru_RU"
+            type="text/javascript">
+    </script>
 
     <?php $this->head() ?>
 </head>

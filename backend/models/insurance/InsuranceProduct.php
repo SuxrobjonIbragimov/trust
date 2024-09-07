@@ -116,7 +116,7 @@ class InsuranceProduct extends \yii\db\ActiveRecord
             [['legal_type_ids'], 'each', 'rule' => ['integer']],
             [['legal_type_id', ], 'integer'],
             [['weight', ], 'default', 'value' => 0],
-            [['status', ], 'default', 'value' => self::STATUS_INACTIVE],
+            [['status', ], 'default', 'value' => self::STATUS_ACTIVE],
             [['title', 'image', 'icon', 'meta_title', 'meta_keywords'], 'string', 'max' => 255],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => InsuranceProduct::class, 'targetAttribute' => ['parent_id' => 'id']],
         ];
