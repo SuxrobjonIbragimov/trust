@@ -61,6 +61,8 @@ $visible_field_in_types = Posts::_getVisibilityFields();
                 ]) ?>
             <?php endif; ?>
         </div>
+        <div class="col-lg-6">
+        </div>
     </div>
 
     <div class="row">

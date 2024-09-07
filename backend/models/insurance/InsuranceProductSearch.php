@@ -38,10 +38,13 @@ class InsuranceProductSearch extends InsuranceProduct
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$type = null)
     {
         $query = InsuranceProduct::find();
-
+        if (!empty($type))
+        {
+            $query->joinWith(['insuranceProductToLegalTypes'])->andWhere(['insurance_product_to_legal_type.legal_type_id' => $type]);
+        }
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

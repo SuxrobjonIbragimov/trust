@@ -76,6 +76,7 @@ class PostCategories extends ActiveRecord
     const KEY_VALUABLE_PAPERS = 'valuable_papers';
     const KEY_PAID_DIVIDENDS = 'paid_dividends';
     const KEY_FILES = 'files';
+    const KEY_ANTI_CORRUPTION_PROGRAM = 'anti-corruption-program';
     const KEY_FAQ = 'faq';
     const KEY_STRATEGY = 'strategy';
     const KEY_RESULTS_VOTING = 'results_voting';
@@ -94,6 +95,7 @@ class PostCategories extends ActiveRecord
     const KEY_USEFUL_LINKS = 'useful_links';
 
     const KEY_HOME_ABOUT_US = 'home_about_us';
+    const KEY_COMPANY_SHARE_HOLDERS = 'company_share_holders';
 
     const ACTIVE_CHILD_LIMIT = 6;
     const ACTIVE_CHILD_LIMIT_FAQ = 5;
@@ -421,7 +423,7 @@ class PostCategories extends ActiveRecord
             self::KEY_VACANCY => [self::KEY_VACANCY],
             self::KEY_LICENSE => [self::KEY_LICENSE],
             self::KEY_FILES => [
-                self::KEY_COMPANY_CHARTER => self::KEY_COMPANY_CHARTER,
+//                self::KEY_COMPANY_CHARTER => self::KEY_COMPANY_CHARTER,
                 self::KEY_MATERIAL_FACTS => self::KEY_MATERIAL_FACTS,
                 self::KEY_FINANCE => self::KEY_FINANCE,
                 self::KEY_LAWS => self::KEY_LAWS,
@@ -450,6 +452,9 @@ class PostCategories extends ActiveRecord
             ],
             self::KEY_ONLINE_VOTING => [
                 self::KEY_ONLINE_VOTING,
+            ],
+            self::KEY_COMPANY_CHARTER => [
+                self::KEY_COMPANY_CHARTER,
             ],
         ];
 
