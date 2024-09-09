@@ -31,7 +31,7 @@ $col_class_list = [
             <div class="<?php echo !empty($col_class_list[$key]) ? $col_class_list[$key] : $col_default; ?>">
                 <div class="staff justify-content-center">
                     <div class="staff__image staff__wid">
-                        <img src="<?= $model->image; ?>" alt="<?= $model->title ?>" class="">
+                        <img src="<?= $model->image; ?>" alt="<?= $model->title ?>" class="w-100 img-responsive">
                     </div>
                     <div class="staff__name text-bold"><?= $model->title ?></div>
                     <div class="staff__position"><?= $model->work_position; ?></div>
