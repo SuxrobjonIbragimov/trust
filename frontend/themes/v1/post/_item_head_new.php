@@ -10,11 +10,11 @@ use yii\helpers\Url;
 
 $col_default = 'col-lg-6 col-sm-6';
 $col_class_list = [
-    'col-lg-6 col-sm-6',
-    'col-lg-6 col-sm-6',
-    'col-lg-6 col-sm-6',
-    'col-lg-6 col-sm-6',
-    'col-lg-6 col-sm-6',
+    'col-lg-4 col-sm-4',
+    'col-lg-4 col-sm-4',
+    'col-lg-4 col-sm-4',
+    'col-lg-4 col-sm-4',
+    'col-lg-4 col-sm-4',
 ];
 ?>
 
