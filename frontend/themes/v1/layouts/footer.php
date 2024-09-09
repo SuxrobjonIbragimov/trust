@@ -64,7 +64,7 @@ $location = HtmlParts::getItemByKey(HtmlParts::KEY_MAIN_LOCATION);
                     <a href="http://triger.uz/"
                        class="primary-hover transition fs-7 fw-bold text-white"
                        rel="nofollow"
-                       target="_blank"><?= Yii::t('footer', 'Developed by {companyName}', ['companyName' => 'TRIGGER']) ?></a>
+                       target="_blank"><?= Yii::t('frontend', 'Developed by {companyName}', ['companyName' => 'TRIGGER']) ?></a>
                 </div>
             </div>
         </div>
