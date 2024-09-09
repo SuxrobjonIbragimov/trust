@@ -72,6 +72,8 @@ use mihaildev\elfinder\InputFile;
         ),
     ]) ?>
 
+    <?php echo $form->field($model, 'is_main')->checkbox() ?>
+
     <?php if (Yii::$app->user->can('administrator')):?>
 
         <?php echo $form->field($model, 'meta_title')->textInput(['maxlength' => true]) ?>

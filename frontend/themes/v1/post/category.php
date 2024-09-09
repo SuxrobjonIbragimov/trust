@@ -151,39 +151,48 @@ $map_data = [];
             <?php endif; ?>
         </div>
     </div>
-    <?= ListView::widget([
-        'dataProvider' => $dataProvider,
-        'options' => [
-            'class' => 'row align-items-stretch justify-content-lg-between justify-content-center g-3',
-        ],
-        'layout' => "{items}\n<div align='center'>{pager}</div>",
-        'itemView' => $render_item,
-        'itemOptions' => ['class' => $render_item_class],
-        'pager' => [
-            'class' => LinkPager::className(),
-            'maxButtonCount' => 7,
+
+    <?php if ($model->key == PostCategories::KEY_HEAD):?>
+        <!--SECTION HEAD-->
+        <?= $this->render('_item_head_new',[
+            'models' => $dataProvider->models
+        ]) ?>
+
+    <?php else:?>
+        <?= ListView::widget([
+            'dataProvider' => $dataProvider,
             'options' => [
-                'tag' => 'ul',
-                'class' => 'pagination justify-content-center my-3 pt-3',
-                'id' => 'pager-container',
+                'class' => 'row align-items-stretch justify-content-lg-between justify-content-center g-3',
             ],
-            'disabledListItemSubTagOptions' => [
-                'class' => 'page-link',
-            ],
-            //Current Active option value
-            'activePageCssClass' => 'page-active',
+            'layout' => "{items}\n<div align='center'>{pager}</div>",
+            'itemView' => $render_item,
+            'itemOptions' => ['class' => $render_item_class],
+            'pager' => [
+                'class' => LinkPager::className(),
+                'maxButtonCount' => 7,
+                'options' => [
+                    'tag' => 'ul',
+                    'class' => 'pagination justify-content-center my-3 pt-3',
+                    'id' => 'pager-container',
+                ],
+                'disabledListItemSubTagOptions' => [
+                    'class' => 'page-link',
+                ],
+                //Current Active option value
+                'activePageCssClass' => 'page-active',
 
-            // Css for each options. Links
-            'linkOptions' => ['class' => 'page-link'],
-            'disabledPageCssClass' => 'page-item disabled',
+                // Css for each options. Links
+                'linkOptions' => ['class' => 'page-link'],
+                'disabledPageCssClass' => 'page-item disabled',
 
-            // Customzing CSS class for navigating link
-            'pageCssClass' => ['class' => 'page-item'],
-            'prevPageCssClass' => 'page-item page-back',
-            'nextPageCssClass' => 'page-item page-next',
-            'firstPageCssClass' => 'page-item page-first',
-            'lastPageCssClass' => 'page-item page-last',
-        ]
-    ]) ?>
+                // Customzing CSS class for navigating link
+                'pageCssClass' => ['class' => 'page-item'],
+                'prevPageCssClass' => 'page-item page-back',
+                'nextPageCssClass' => 'page-item page-next',
+                'firstPageCssClass' => 'page-item page-first',
+                'lastPageCssClass' => 'page-item page-last',
+            ]
+        ]) ?>
+    <?php endif;?>
 
 </div>

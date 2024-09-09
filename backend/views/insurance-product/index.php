@@ -51,6 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'status',
                     'visible' => (Yii::$app->user->can('administrator')),
                 ],
+                'is_main:boolean',
                 'created_at:datetime',
                 [
                     'class' => 'yii\grid\ActionColumn',

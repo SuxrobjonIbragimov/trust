@@ -18,7 +18,7 @@ class InsuranceProductSearch extends InsuranceProduct
     {
         return [
             [['id', 'parent_id', 'views', 'weight', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'subtitle', 'slug', 'summary', 'description', 'image', 'icon', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
+            [['title', 'subtitle', 'slug', 'summary', 'description', 'image', 'icon', 'is_main', 'meta_title', 'meta_keywords', 'meta_description'], 'safe'],
         ];
     }
 
@@ -67,6 +67,7 @@ class InsuranceProductSearch extends InsuranceProduct
             'views' => $this->views,
             'weight' => $this->weight,
             'status' => $this->status,
+            'is_main' => $this->is_main,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);

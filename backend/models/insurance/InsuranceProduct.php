@@ -137,7 +137,7 @@ class InsuranceProduct extends \yii\db\ActiveRecord
             'parent_id' => Yii::t('model', 'Parent ID'),
             'image' => Yii::t('model', 'Image'),
             'icon' => Yii::t('model', 'Icon'),
-            'is_main' => Yii::t('model', 'Is main'),
+            'is_main' => Yii::t('model', 'На главный'),
             'is_popular' => Yii::t('model', 'Is popular'),
             'legal_type_ids' => Yii::t('model', 'Legal Types'),
             'legal_type_id' => Yii::t('model', 'Legal Type'),
