@@ -10,11 +10,11 @@ use yii\helpers\Url;
 
 $col_default = 'col-lg-6 col-sm-6';
 $col_class_list = [
-    'col-lg-4 col-sm-4',
-    'col-lg-4 col-sm-4',
-    'col-lg-4 col-sm-4',
-    'col-lg-4 col-sm-4',
-    'col-lg-4 col-sm-4',
+    'col-lg-6 col-sm-6',
+    'col-lg-6 col-sm-6',
+    'col-lg-6 col-sm-6',
+    'col-lg-6 col-sm-6',
+    'col-lg-6 col-sm-6',
 ];
 ?>
 
@@ -28,10 +28,10 @@ $col_class_list = [
             $work_telegram = !empty($model->work_telegram) ? $model->work_telegram : Settings::getValueByKey(Settings::KEY_MAIN_TELEGRAM);
 
             ?>
-            <div class="<?php echo !empty($col_class_list[$key]) ? $col_class_list[$key] : $col_default; ?>">
-                <div class="staff justify-content-center">
+            <div class="<?php echo !empty($col_class_list[$key]) ? $col_class_list[$key] : $col_default; ?> mb-3">
+                <div class="staff justify-content-center text-center">
                     <div class="staff__image staff__wid">
-                        <img src="<?= $model->image; ?>" alt="<?= $model->title ?>" class="w-100 img-responsive">
+                        <img src="<?= $model->image; ?>" alt="<?= $model->title ?>" class="w-50 img-responsive">
                     </div>
                     <div class="staff__name text-bold"><?= $model->title ?></div>
                     <div class="staff__position"><?= $model->work_position; ?></div>
