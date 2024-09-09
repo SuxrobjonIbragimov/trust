@@ -537,6 +537,7 @@ class PostCategories extends ActiveRecord
             self::KEY_LICENSE => 12,
             self::KEY_COMPANY_CHARTER => 12,
             self::KEY_MATERIAL_FACTS => 12,
+            self::KEY_BUSINESS_PLAN => 12,
             self::KEY_FINANCE => 12,
             self::KEY_LAWS => 12,
             self::KEY_CODEX => 12,
