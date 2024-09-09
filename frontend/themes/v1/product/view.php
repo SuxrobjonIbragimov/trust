@@ -48,54 +48,6 @@ $this->registerCssFile("@web/themes/v1/{$path}", [
         <?= $model->description ?>
     </div>
 
-    <?php if (!empty($what_included)):?>
-        <div class="product-items-block mt-3">
-            <h4><?=Yii::t('product','Что входит в страховой случай')?></h4>
-            <ul>
-                <?php /** @var InsuranceProductItem $item */
-                foreach ($what_included as $item):?>
-                    <li>
-                        <?= $item->title ?>
-                        <?php if (!empty($item->insuranceProductItems)):?>
-                            <ul>
-                                <?php /** @var InsuranceProductItem $insuranceProductItem */
-                                foreach ($item->insuranceProductItems as $insuranceProductItem):?>
-                                    <li>
-                                        <?= $insuranceProductItem->title ?>
-                                    </li>
-                                <?php endforeach;?>
-                            </ul>
-                        <?php endif;?>
-                    </li>
-                <?php endforeach;?>
-            </ul>
-        </div>
-    <?php endif;?>
-    <?php if (!empty($what_to_do)):?>
-        <div class="product-items-block mt-3">
-            <h4><?=Yii::t('product','Что делать при страховом случае?')?></h4>
-            <ul>
-                <?php /** @var InsuranceProductItem $item */
-                foreach ($what_to_do as $item):?>
-                    <li>
-                        <?= $item->title ?>
-                        <?php if (!empty($item->insuranceProductItems)):?>
-                            <ul>
-                                <?php /** @var InsuranceProductItem $insuranceProductItem */
-                                foreach ($item->insuranceProductItems as $insuranceProductItem):?>
-                                    <li>
-                                        <?= $insuranceProductItem->title ?>
-                                    </li>
-                                <?php endforeach;?>
-                            </ul>
-                        <?php endif;?>
-
-                    </li>
-                <?php endforeach;?>
-            </ul>
-        </div>
-    <?php endif;?>
-
     <?php if (!empty($model->calc_link) && ($model->calc_link != '#')) : ?>
         <div class="d-flex justify-content-center align-items-center">
             <a href="<?= !empty($model->calc_link) ? $model->calc_link : '#' ?>"
