@@ -33,7 +33,7 @@ $col_class_list = [
                     <div class="staff__image staff__wid">
                         <img src="<?= $model->image; ?>" alt="<?= $model->title ?>" class="w-50 img-responsive">
                     </div>
-                    <div class="staff__name text-bold"><?= $model->title ?></div>
+                    <h6 class="staff__name text-bold mt-2"><?= $model->title ?></h6>
                     <div class="staff__position"><?= $model->work_position; ?></div>
                     <div class="staff__position"><small><?= $model->work_days; ?></small></div>
                 </div>
