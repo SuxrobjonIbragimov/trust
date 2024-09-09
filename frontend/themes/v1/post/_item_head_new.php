@@ -35,7 +35,6 @@ $col_class_list = [
                     </div>
                     <h6 class="staff__name text-bold mt-2"><?= $model->title ?></h6>
                     <div class="staff__position"><?= $model->work_position; ?></div>
-                    <div class="staff__position"><small><?= $model->work_days; ?></small></div>
                 </div>
             </div>
             <?php if ($key == 0):?>
