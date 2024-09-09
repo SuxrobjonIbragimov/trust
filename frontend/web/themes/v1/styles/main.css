@@ -878,3 +878,6 @@ progress {
 .bx-custom-sm {
     font-size: 1rem !important;
 }
+.page-view img {
+    width: 100%;
+}
