@@ -96,6 +96,7 @@ class PostCategories extends ActiveRecord
 
     const KEY_HOME_ABOUT_US = 'home_about_us';
     const KEY_COMPANY_SHARE_HOLDERS = 'company_share_holders';
+    const KEY_ANNOUNCEMENTS = 'announcements';
 
     const ACTIVE_CHILD_LIMIT = 6;
     const ACTIVE_CHILD_LIMIT_FAQ = 5;
@@ -393,6 +394,8 @@ class PostCategories extends ActiveRecord
             self::KEY_AUDIT_REPORT => self::KEY_AUDIT_REPORT,
             self::KEY_ONLINE_VOTING => self::KEY_ONLINE_VOTING,
             self::KEY_TEXT_BLOCK => self::KEY_TEXT_BLOCK,
+
+            self::KEY_ANNOUNCEMENTS => self::KEY_ANNOUNCEMENTS,
         ];
 
         return $key === null ? $array : $array[$key];
@@ -444,6 +447,7 @@ class PostCategories extends ActiveRecord
                 self::KEY_BUSINESS_PLAN => self::KEY_BUSINESS_PLAN,
                 self::KEY_PROGRESS_REPORT => self::KEY_PROGRESS_REPORT,
                 self::KEY_AUDIT_REPORT => self::KEY_AUDIT_REPORT,
+                self::KEY_ANNOUNCEMENTS => self::KEY_ANNOUNCEMENTS,
             ],
             self::KEY_BRANCHES => [self::KEY_BRANCHES],
             self::KEY_FAQ => [self::KEY_FAQ],
