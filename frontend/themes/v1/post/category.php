@@ -50,6 +50,14 @@ $map_data = [];
 
 <div class="deals posts-category category-<?= $model->key ?> mt-3 py-3">
 
+    <?php if (!empty($model->description)):?>
+        <div class="row">
+            <div class="col-12 category-info my-3">
+                <?= $model->description; ?>
+            </div>
+        </div>
+    <?php endif;?>
+
     <?php if ($key_type == PostCategories::KEY_FILES):?>
         <?php if (!empty($filterData)):?>
             <div class="d-flex flex-wrap align-items-center file-link-block year gap-2 col-md-12 col-sm-12">
