@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 /* @var $response array */
 /* @var $statistics array */
 
-$this->title = $model->meta_title;
+$this->title = $model->name;
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['meta_type'] = 'page';
