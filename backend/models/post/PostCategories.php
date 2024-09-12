@@ -410,7 +410,6 @@ class PostCategories extends ActiveRecord
     {
         $array = [
             self::KEY_WHY_CHOOSE_US => [self::KEY_WHY_CHOOSE_US],
-            self::KEY_COMPANIES_SERVED => [self::KEY_COMPANIES_SERVED],
             self::KEY_PARTNERS => [
                 self::KEY_PARTNERS => self::KEY_PARTNERS,
                 self::KEY_CLIENTS => self::KEY_CLIENTS,
@@ -448,6 +447,8 @@ class PostCategories extends ActiveRecord
                 self::KEY_PROGRESS_REPORT => self::KEY_PROGRESS_REPORT,
                 self::KEY_AUDIT_REPORT => self::KEY_AUDIT_REPORT,
                 self::KEY_ANNOUNCEMENTS => self::KEY_ANNOUNCEMENTS,
+
+                self::KEY_COMPANIES_SERVED => self::KEY_COMPANIES_SERVED,
             ],
             self::KEY_BRANCHES => [self::KEY_BRANCHES],
             self::KEY_FAQ => [self::KEY_FAQ],
@@ -483,7 +484,6 @@ class PostCategories extends ActiveRecord
     {
         $array = [
             self::KEY_WHY_CHOOSE_US => 'col-sm-3 col-md-3 col-lg-3',
-            self::KEY_COMPANIES_SERVED => 'col-sm-3 col-md-3 col-lg-3',
             self::KEY_PARTNERS => 'col-8 col-sm-4 col-md-3 col-lg-2',
             self::KEY_PRESS_CENTER => 'col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4 col-xxl-4 my-4',
             self::KEY_LICENSE => 'col-12 col-md-12 col-lg-4',

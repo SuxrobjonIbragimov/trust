@@ -397,7 +397,6 @@ class Posts extends ActiveRecord
             'image' => [
                 PostCategories::KEY_HEAD,
                 PostCategories::KEY_LICENSE,
-                PostCategories::KEY_COMPANIES_SERVED,
                 PostCategories::KEY_PRESS_CENTER,
                 PostCategories::KEY_VACANCY,
                 PostCategories::KEY_CLIENTS,
@@ -414,7 +413,6 @@ class Posts extends ActiveRecord
             'summary' => [
                 PostCategories::KEY_HEAD,
                 PostCategories::KEY_WHY_CHOOSE_US,
-                PostCategories::KEY_COMPANIES_SERVED,
                 PostCategories::KEY_PRESS_CENTER,
                 PostCategories::KEY_VACANCY,
                 PostCategories::KEY_FAQ,
@@ -424,7 +422,6 @@ class Posts extends ActiveRecord
                 ],
             'body' => [
                 PostCategories::KEY_PRESS_CENTER,
-                PostCategories::KEY_COMPANIES_SERVED,
                 PostCategories::KEY_VACANCY,
                 PostCategories::KEY_COMPANY_SHARE_HOLDERS,
                 ],

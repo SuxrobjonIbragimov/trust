@@ -131,7 +131,6 @@ class SiteController extends Controller
             'home_about_us_part' => PostCategories::getItemByKey(PostCategories::KEY_HOME_ABOUT_US),
             'why_choose_us' => PostCategories::getItemByKey(PostCategories::KEY_WHY_CHOOSE_US),
             'our_services' => PostCategories::getItemByKey(PostCategories::OUR_ADVANTAGE),
-            'companies_served' => PostCategories::getItemByKey(PostCategories::KEY_COMPANIES_SERVED),
             'partners' => PostCategories::getItemByKey(PostCategories::KEY_CLIENTS),
             'useful_links' => PostCategories::getItemByKey(PostCategories::KEY_USEFUL_LINKS),
             'latest_news' => PostCategories::getItemByKey(PostCategories::KEY_NEWS),
