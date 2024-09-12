@@ -33,7 +33,7 @@ use yii\helpers\Url;
                                      data-rellax-tablet-speed="3"
                                      data-rellax-desktop-speed="4"
                                      data-rellax-percentage="0.7">
-                                    <h5 class="card-title display-3 fw-bold">
+                                    <h5 class="card-title display-6 fw-bold">
                                         <?= strip_tags($sliderItem->title); ?>
                                     </h5>
                                     <p class="card-text h3 fw-normal">
