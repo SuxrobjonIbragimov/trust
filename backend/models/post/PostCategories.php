@@ -97,6 +97,7 @@ class PostCategories extends ActiveRecord
     const KEY_HOME_ABOUT_US = 'home_about_us';
     const KEY_COMPANY_SHARE_HOLDERS = 'company_share_holders';
     const KEY_ANNOUNCEMENTS = 'announcements';
+    const KEY_INTERNAL_DOCUMENTS = 'internal_documents';
 
     const ACTIVE_CHILD_LIMIT = 6;
     const ACTIVE_CHILD_LIMIT_FAQ = 5;
@@ -394,6 +395,7 @@ class PostCategories extends ActiveRecord
             self::KEY_AUDIT_REPORT => self::KEY_AUDIT_REPORT,
             self::KEY_ONLINE_VOTING => self::KEY_ONLINE_VOTING,
             self::KEY_TEXT_BLOCK => self::KEY_TEXT_BLOCK,
+            self::KEY_INTERNAL_DOCUMENTS => self::KEY_INTERNAL_DOCUMENTS,
 
             self::KEY_ANNOUNCEMENTS => self::KEY_ANNOUNCEMENTS,
         ];
@@ -447,6 +449,7 @@ class PostCategories extends ActiveRecord
                 self::KEY_PROGRESS_REPORT => self::KEY_PROGRESS_REPORT,
                 self::KEY_AUDIT_REPORT => self::KEY_AUDIT_REPORT,
                 self::KEY_ANNOUNCEMENTS => self::KEY_ANNOUNCEMENTS,
+                self::KEY_INTERNAL_DOCUMENTS => self::KEY_INTERNAL_DOCUMENTS,
 
                 self::KEY_COMPANIES_SERVED => self::KEY_COMPANIES_SERVED,
             ],
