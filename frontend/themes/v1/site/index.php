@@ -28,6 +28,8 @@ use backend\models\sliders\Sliders;
 /* @var $modelVote Posts */
 /* @var $online_voted boolean */
 /* @var $modelFeedback Contact */
+/* @var $model \frontend\models\InsuranceForm */
+
 
 $this->title = $title;
 
@@ -99,6 +101,11 @@ if ($footerText !== null)
     <!--SECTION COMMENTS END-->
 <?php endif; ?>
 
+<?php if (!empty($model)): ?>
+<?= $this->render('inc/_block_form', [
+    'model' => $model,
+]) ?>
+<?php endif; ?>
 
 
 

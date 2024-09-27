@@ -14,6 +14,7 @@ use backend\models\sliders\Sliders;
 use backend\modules\handbook\models\HandbookLegalType;
 use common\components\AuthHandler;
 use common\models\Settings;
+use frontend\models\InsuranceForm;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use frontend\widgets\SubscribeWidget;
@@ -119,6 +120,14 @@ class SiteController extends Controller
             }
         }
 
+        $model = new InsuranceForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            Yii::$app->session->setFlash('success', 'Form submitted successfully.');
+            return $this->refresh();
+        }
+
+
         return $this->render('index', [
             'title' => Settings::getSettingValue(Settings::KEY_SITE_NAME),
             'logo' => Yii::$app->request->hostInfo . Settings::getLogoValue(),
@@ -138,6 +147,7 @@ class SiteController extends Controller
             'modelVote' => $modelVote,
             'online_voting' => PostCategories::getItemByKey(PostCategories::KEY_ONLINE_VOTING),
             'modelFeedback' => $modelContact,
+            'model' => $model,
         ]);
     }
 
