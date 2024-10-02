@@ -101,11 +101,11 @@ if ($footerText !== null)
     <!--SECTION COMMENTS END-->
 <?php endif; ?>
 
-<?php if (!empty($model)): ?>
-<?= $this->render('inc/_block_form', [
-    'model' => $model,
-]) ?>
-<?php endif; ?>
+<?php //if (!empty($model)): ?>
+<?php //= $this->render('inc/_block_form', [
+//    'model' => $model,
+//]) ?>
+<?php //endif; ?>
 
 
 

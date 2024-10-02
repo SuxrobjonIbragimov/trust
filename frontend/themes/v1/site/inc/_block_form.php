@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
 
 ?>
 
-<div class="container" style="max-width: 80%; margin: 0 auto; padding: 20px;">
+<div class="container">
     <div class="insurance-form">
 
         <?php $form = ActiveForm::begin(['options' => ['class' => 'form-horizontal']]); ?>

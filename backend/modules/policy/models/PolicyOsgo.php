@@ -37,6 +37,7 @@ use yii\web\BadRequestHttpException;
  * @property string $owner_birthday
  * @property string $owner_pinfl
  * @property string $owner_inn
+ * @property string $organization_inn
  * @property string $owner_pass_sery
  * @property string $owner_pass_num
  * @property string $owner_pass_issued_by
@@ -155,6 +156,8 @@ class PolicyOsgo extends ActiveRecord
     const SCENARIO_SITE_STEP_OSGOP_FORM = 'site_step_osgop_form';
     const SCENARIO_SITE_STEP_OSGOR_FORM = 'site_step_osgor_form';
 
+    const SCENARIO_SITE_STEP_OPO_FORM = 'site_step_opo_form';
+
     const ENABLE_CALCULATE_INS = false;
     const CALC_TYPE_SECOND = true;
 
@@ -227,6 +230,7 @@ class PolicyOsgo extends ActiveRecord
     const DISCOUNT_TYPE_PARTICIPANTS_AFGHAN_WAR = 9; // УЧАСТНИКИ АФГАНСКОЙ ВОЙНЫ
     const PRODUCT_TYPE_OSGOP = 'osgop'; // DEFAULT PRODUCT_TYPE
     const PRODUCT_TYPE_OSGOR = 'osgor'; // DEFAULT PRODUCT_TYPE
+    const PRODUCT_TYPE_OPO = 'opo'; // DEFAULT PRODUCT_TYPE
 
     const POLICY_DOWNLOAD_URL_OSGO = 'http://polis.e-osgo.uz/site/export-to-pdf';
     const POLICY_DOWNLOAD_URL_OSGOP = 'https://ersp.e-osgo.uz/site/export-to-pdf';
@@ -277,6 +281,7 @@ class PolicyOsgo extends ActiveRecord
             [['vehicle_type_id', '_use_territory_id', 'region_id', 'period_id', 'driver_limit_id', 'start_date', 'end_date',], 'required', 'on' => self::SCENARIO_SITE_STEP_CALC, 'message' => Yii::t('validation', 'Необходимо заполнить')],
             [['vehicle_type_id', 'region_id', 'period_id', 'driver_limit_id', 'start_date', 'end_date',], 'safe', 'on' => self::SCENARIO_SITE_STEP_FORM],
             [['owner_inn', 'owner_orgname', 'owner_address', 'owner_region', 'owner_district', 'owner_oked', 'org_okonx', 'org_annual_salary', 'start_date', 'end_date',], 'required', 'on' => self::SCENARIO_SITE_STEP_OSGOR_FORM, 'message' => Yii::t('validation', 'Необходимо заполнить')],
+            [['owner_inn', 'owner_orgname', 'owner_oked', 'appl_orgname','region_id',  'owner_first_name', 'owner_address', 'checking_account'], 'required', 'on' => self::SCENARIO_SITE_STEP_OPO_FORM, 'message' => Yii::t('validation', 'Необходимо заполнить')],
             [['vehicle_gov_number', 'tech_pass_series', 'tech_pass_number', 'vehicle_model_name', 'vehicle_type_id', 'owner_orgname', 'region_id', 'vehicle_issue_year', 'app_phone',], 'required', 'on' => self::SCENARIO_SITE_STEP_FORM, 'message' => Yii::t('validation', 'Необходимо заполнить')],
             [['vehicle_gov_number', 'tech_pass_series', 'tech_pass_number', 'vehicle_model_name', 'vehicle_type_id', 'region_id', 'vehicle_issue_year', 'app_phone', 'period', 'owner_address', 'owner_orgname', 'vehicle_seats_count', 'start_date', 'end_date',], 'required', 'on' => self::SCENARIO_SITE_STEP_OSGOP_FORM, 'message' => Yii::t('validation', 'Необходимо заполнить')],
             [['start_date', 'end_date', 'owner_is_applicant', 'owner_birthday', 'owner_region', 'owner_district', 'owner_is_driver', 'owner_is_pensioner', 'owner_pass_issued_by', 'owner_pass_issue_date', 'owner_pass_expiration_date', 'app_birthday', 'app_pass_issued_by', 'app_pass_issue_date', 'app_pass_expiration_date', 'app_inn', 'app_orgname', 'tech_pass_issue_date', 'vehicle_type_id', 'owner_fy', 'app_region', 'app_district', 'owner_mfo', 'owner_settlement_account',], 'safe'],
@@ -318,6 +323,9 @@ class PolicyOsgo extends ActiveRecord
             ],
             [['app_phone'], 'match', 'pattern' => '/^\+998 \((\d{2})\) (\d{3})-(\d{2})-(\d{2})$/',
                 'on' => self::SCENARIO_SITE_STEP_OSGOR_FORM, 'message' => Yii::t('validation', 'Неверный формат телефона')
+            ],
+            [['app_phone'], 'match', 'pattern' => '/^\+998 \((\d{2})\) (\d{3})-(\d{2})-(\d{2})$/',
+                'on' => self::SCENARIO_SITE_STEP_OPO_FORM, 'message' => Yii::t('validation', 'Неверный формат телефона')
             ],
             [['owner_is_pensioner',], 'default', 'value' => self::DEFAULT_OWNER_IS_PENSIONER],
             [['amount_uzs', 'amount_usd'], 'number'],
